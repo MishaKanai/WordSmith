@@ -8,8 +8,7 @@ class TextEditor extends React.Component {
         this.state = {
             modalShown: false,
             word: null,
-            text: 'Right click on any word to extract it, and see options.\n'+
-                '-'.repeat(25) +'\n'+ loremipsum
+            text: loremipsum
         };
     }
     closeModal() {
