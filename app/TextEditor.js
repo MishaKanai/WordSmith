@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { loremipsum } from './LoremIpsum';
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class TextEditor extends React.Component {
         this.state = {
             modalShown: false,
             word: null,
-            defaultText: 'Right click on any word to extract it, and see options.'
+            text: 'Right click on any word to extract it, and see options.\n'+
+                '-'.repeat(25) +'\n'+ loremipsum
         };
     }
     closeModal() {
@@ -19,6 +21,7 @@ class TextEditor extends React.Component {
     rightClick(e) {
         const start = e.target.selectionStart;
         const end = e.target.selectionEnd;
+        //default behavior for single character selections
         if (end - start < 2)
             return;
 
@@ -29,9 +32,17 @@ class TextEditor extends React.Component {
             modalShown: true
         });
     }
+    handleChange(event) {
+        this.setState({text: event.target.value});
+    }
     render() {
-        return (<div>
-                <textarea value={this.state.defaultText} onContextMenu={(e) => this.rightClick(e)}>
+        return (<div className="texteditor-inner-wrapper">
+                <textarea
+                className="texteditor-textarea"
+                value={this.state.text}
+                onContextMenu={(e) => this.rightClick(e)}
+                onChange={(e)=>this.handleChange(e)}
+                >
 	        </textarea>
 
                 <Modal show={this.state.modalShown} onHide={() => this.closeModal()}>
@@ -40,7 +51,12 @@ class TextEditor extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                 <ul>
-                <li>Rhymes</li>
+                <li><Button onClick={
+                    ()=>{
+                        this.props.getRhymes(this.state.word);
+                        this.closeModal()
+                    }
+                }>Rhymes</Button></li>
                 <li>Dictionary</li>
                 <li>Thesaurus</li>
                 <li>Urban Dictionary</li>

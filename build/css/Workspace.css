@@ -1,0 +1,20 @@
+html,body, #app {
+    height:100%;
+    width:100%;
+}
+.texteditor-inner-wrapper {
+    height: 50%;
+    width:100%;
+}
+.texteditor-textarea {
+    height:100%;
+    width:100%;
+}
+.results-box {
+    height: 50%;
+    width:100%;
+}
+.workspace-inner-wrapper {
+    height: 100%;
+    width: 50%;
+}
