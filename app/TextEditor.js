@@ -16,16 +16,17 @@ class TextEditor extends React.Component {
         });
     }
     rightClick(e) {
-  	e.preventDefault();
-
         const start = e.target.selectionStart;
         const end = e.target.selectionEnd;
-        const word = e.target.value.slice(start,end);
+        if (end - start < 2)
+            return;
 
+        e.preventDefault();
+        const word = e.target.value.slice(start,end);
+        this.state.word = word;
         this.setState({
             modalShown: true
         });
-        this.state.word = word;
     }
     render() {
         return (<div>
