@@ -7,6 +7,7 @@ class TextEditor extends React.Component {
         this.state = {
             modalShown: false,
             word: null,
+            defaultText: 'Right click on any word to extract it, and see options.'
         };
     }
     closeModal() {
@@ -30,8 +31,7 @@ class TextEditor extends React.Component {
     }
     render() {
         return (<div>
-                <textarea onContextMenu={(e) => this.rightClick(e)}>
-	        Right click on any word to extract it, and see options.
+                <textarea value={this.state.defaultText} onContextMenu={(e) => this.rightClick(e)}>
 	        </textarea>
 
                 <Modal show={this.state.modalShown} onHide={() => this.closeModal()}>
