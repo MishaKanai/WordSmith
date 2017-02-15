@@ -1,25 +1,56 @@
 import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 class TextEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalShown: false,
+            word: null,
+        };
+    }
+    closeModal() {
+        this.setState({
+            modalShown: false,
+            word: null,
+        });
+    }
     rightClick(e) {
   	e.preventDefault();
+
         const start = e.target.selectionStart;
         const end = e.target.selectionEnd;
         const word = e.target.value.slice(start,end);
-        //replace alert with modal for html
-        alert(
-            'You have selected the word "'+word+'"\n'+
-                '[link]Thesaurus for "'+word+'"\n'+
-                '[link]Rhymes for "'+word+'"\n'+
-                '[link]Definition of "'+word+'"\n\n'+
-                'Clicking any of these ^ links will initialize an ajax call, and on success render data on a panel on the right side of the page.\n'
-        );
 
+        this.setState({
+            modalShown: true
+        });
+        this.state.word = word;
     }
     render() {
-        return (<textarea onContextMenu={this.rightClick}>
+        return (<div>
+                <textarea onContextMenu={(e) => this.rightClick(e)}>
 	        Right click on any word to extract it, and see options.
-	        </textarea>);
+	        </textarea>
+
+                <Modal show={this.state.modalShown} onHide={() => this.closeModal()}>
+                <Modal.Header closeButton>
+                <Modal.Title>"{this.state.word}"</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <ul>
+                <li>Rhymes</li>
+                <li>Dictionary</li>
+                <li>Thesaurus</li>
+                <li>Urban Dictionary</li>
+                </ul>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button onClick={(e) => this.closeModal()}>Close</Button>
+                </Modal.Footer>
+                </Modal>
+                </div>
+               );
     }
 }
 
