@@ -1,7 +1,29 @@
-.header-row {
-    border-bottom: 2px solid black;
+.delete-btn {
+    width: 100%;
 }
 
-.underline-row {
-    border-bottom: 1px solid black;
+.right-element {
+    width: 240px;
+}
+
+li.list-group-item {
+    vertical-align: middle;
+}
+
+select {
+    height: 34px;
+    padding: 6px 12px;
+}
+
+.display-name {
+    width: 200px;
+}
+
+.bottom-border-only {
+    border-left: none;
+    border-right: none;
+}
+
+.bottom-border-only:first-child {
+    border-top: none;
 }
