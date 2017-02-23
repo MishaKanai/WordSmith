@@ -1,13 +1,35 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #553555;
+}
+
+.container {
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.white-box {
+  margin-bottom: -9999px;
+  padding-bottom: 9999px;
+  background-color: white;
+}
+
+.left-hand-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .delete-btn {
     width: 100%;
 }
 
 .right-element {
     width: 240px;
-}
-
-li.list-group-item {
-    vertical-align: middle;
 }
 
 select {
@@ -22,6 +44,7 @@ select {
 .bottom-border-only {
     border-left: none;
     border-right: none;
+    position: relative;
 }
 
 .bottom-border-only:first-child {
