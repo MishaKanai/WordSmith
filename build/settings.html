@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Settings</title>
+
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS goes here -->
+<link href="css/settings.css" rel="stylesheet">
+</head>
+<body>
+<!-- Custom HTML goes here -->
+<div class="container">
+    <div class="row-fluid">
+      <div class="col-md-10 col-md-offset-1 white-box">
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <ul class="list-group">
+                <li class="list-group-item bottom-border-only">
+                <h1 class="text-center">Settings</h1>
+                </li>
+                <li class="list-group-item bottom-border-only">
+                <h3 class="text-center">Wordsmith editor default settings</h3>
+                </li>
+                <li class="list-group-item bottom-border-only clearfix">
+                  <span class="left-hand-text">Theme</span>
+                <select class="pull-right" id="sel1">
+                    <option>Light</option>
+                    <option>Dark</option>
+                </select>
+                </li>
+                <li class="list-group-item bottom-border-only clearfix">
+                  <span class="left-hand-text">Font</span>
+                <select class="pull-right" id="sel1">
+                    <option>Arial</option>
+                    <option>Times New Roman</option>
+                </select>
+                </li>
+                <li class="list-group-item bottom-border-only clearfix">
+                  <span class="left-hand-text">Font size</span>
+                <select class="pull-right" id="sel1">
+                    <option>10</option>
+                    <option>12</option>
+                    <option>14</option>
+                    <option>16</option>
+                    <option>18</option>
+                </select>
+                </li>
+                <li class="list-group-item bottom-border-only">
+                <h3 class="text-center">Account settings</h3>
+                </li>
+                <li class="list-group-item bottom-border-only clearfix">
+                  <span class="left-hand-text">Display name</span>
+                <div class="right-element pull-right">
+                    <input type="text" class="form-control display-name pull-left" value="Kendrick Lamar" disabled>
+                    <button type="button" class="btn btn-default display-name-btn pull-right">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </div>
+                </li> 
+                <li class="list-group-item bottom-border-only clearfix">
+                  <span class="left-hand-text">Email</span>
+                <div class="right-element pull-right">
+                    <input type="text" class="form-control display-name pull-left" value="klamar@tde.us" disabled>
+                    <button type="button" class="btn btn-default display-name-btn pull-right">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </div>
+                </li>
+                <li class="list-group-item bottom-border-only clearfix">
+                  <span class="left-hand-text">Update password</span>
+                <button type="button" class="btn btn-default right-element pull-right">
+                    Update
+                </button>
+                </li>
+                <li class="list-group-item bottom-border-only clearfix">
+                <button type="button" class="btn btn-danger delete-btn">
+                    Delete account
+                </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
