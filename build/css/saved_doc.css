@@ -78,10 +78,17 @@ margin-top: 5em;
 
 .item.list-group-item img
 {
-	
-	width:20px;
-	height:20px;
-    float: left;
+	display: none;
+}
+
+.list-group-item .glyphicon 
+{
+	display:" ";
+}
+
+.grid-group-item .glyphicon
+{
+	display: none;
 }
 .item.list-group-item:after
 {
