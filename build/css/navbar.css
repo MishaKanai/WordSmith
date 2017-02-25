@@ -1,12 +1,12 @@
 .navbar {
-    background-color: white;
+    background-color: #E8EDDF;
 }
 
 .navbar .divider-vertical {
     height: 44px;
     margin: 3px 0px 3px 0px;
-    border-left: 1px solid #e9e9e9;
-    border-right: 1px solid #ffffff;
+    border-right: 1px solid #F0F3EA;
+    border-left: 1px solid #D0CEC8;
     
 }
 @media (max-width: 767px) {
@@ -14,7 +14,20 @@
         display: none;
     }
 }
-.navbar-brand , .navbar-nav * , .navbar-form button{
-    color: #553555 !important;
+.navbar-brand , .navbar-nav * {
+    color: #553555;
 }
-
+.navbar-form button {
+    /*color: #553555;*/
+    background-color: #E8EDDF;
+}
+.navbar-form button:hover {
+    color:white;
+    background-color: #63D2FF;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    /*
+color
+background-color
+     */
+}
