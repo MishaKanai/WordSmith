@@ -13,24 +13,36 @@
 9 verbose lifecycle team-project-client@0.0.1~serve: PATH: C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\Alan\Documents\CS326\WordSmith\node_modules\.bin;C:\Users\Alan\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\Python27\;C:\Python27\Scripts;C:\Program Files\Java\jdk1.7.0_79\bin\java.exe;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Windows\System32;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\Alan\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Java\jdk1.7.0_79\bin;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Users\Alan\AppData\Roaming\Dashlane\4.6.4.21286\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\Alan\AppData\Roaming\Dashlane\4.6.5.21982\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Windows\System32\notepad.exe;C:\Users\Alan\AppData\Roaming\Dashlane\4.6.6.23032\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\Alan\AppData\Local\atom\bin;C:\Users\Alan\AppData\Roaming\npm;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;%DASHLANE_DLL_DIR%
 10 verbose lifecycle team-project-client@0.0.1~serve: CWD: C:\Users\Alan\Documents\CS326\WordSmith
 11 silly lifecycle team-project-client@0.0.1~serve: Args: [ '/d /s /c', 'webpack-dev-server --content-base build' ]
-12 verbose stack Error: kill ENOSYS
-12 verbose stack     at exports._errnoException (util.js:1022:11)
-12 verbose stack     at process.kill (internal/process.js:173:13)
-12 verbose stack     at process.listener (C:\Program Files\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:86:15)
-12 verbose stack     at emitNone (events.js:91:20)
-12 verbose stack     at process.emit (events.js:185:7)
-12 verbose stack     at processEmit (C:\Program Files\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
-12 verbose stack     at processEmit (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
-12 verbose stack     at Signal.wrap.onsignal (internal/process.js:200:44)
-13 verbose cwd C:\Users\Alan\Documents\CS326\WordSmith
-14 error Windows_NT 10.0.14393
-15 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "serve"
-16 error node v7.4.0
-17 error npm  v4.0.5
-18 error code ENOSYS
-19 error errno ENOSYS
-20 error syscall kill
-21 error kill ENOSYS
-22 error If you need help, you may report this error at:
-22 error     <https://github.com/npm/npm/issues>
-23 verbose exit [ 1, true ]
+12 silly lifecycle team-project-client@0.0.1~serve: Returned: code: 3221225786  signal: null
+13 info lifecycle team-project-client@0.0.1~serve: Failed to exec serve script
+14 verbose stack Error: team-project-client@0.0.1 serve: `webpack-dev-server --content-base build`
+14 verbose stack Exit status 3221225786
+14 verbose stack     at EventEmitter.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\lifecycle.js:279:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:885:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid team-project-client@0.0.1
+16 verbose cwd C:\Users\Alan\Documents\CS326\WordSmith
+17 error Windows_NT 10.0.14393
+18 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "serve"
+19 error node v7.4.0
+20 error npm  v4.0.5
+21 error code ELIFECYCLE
+22 error team-project-client@0.0.1 serve: `webpack-dev-server --content-base build`
+22 error Exit status 3221225786
+23 error Failed at the team-project-client@0.0.1 serve script 'webpack-dev-server --content-base build'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the team-project-client package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     webpack-dev-server --content-base build
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs team-project-client
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls team-project-client
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

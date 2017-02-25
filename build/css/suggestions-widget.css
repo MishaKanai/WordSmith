@@ -1,0 +1,141 @@
+body, html {
+    height: 100%;
+    background-color: #553555;
+}
+/*<<<<<<< HEAD*/
+#results-box {
+    height: 43em;
+    width: 100%;
+    background-color: rgba(255, 255, 250, 0.2);
+}
+/*=======
+>>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/
+
+#doc-title {
+    margin-top:0;
+    padding-top:.5em;
+    margin-left: 1em;
+    margin-bottom:.5em;
+    color:#666;
+}
+
+.ql-editor {
+    background-color: white;
+    border-radius:2px 2px 0px 0px;
+    border:none;
+}
+
+.quill-contents {
+    border-radius:0px 0px 2px 2px;
+}
+
+.ql-toolbar {
+    background-color: white;
+}
+
+.texteditor-textarea {
+    height: 40em;
+}
+#results-box {
+    height:43.5em;
+}
+#results-options {
+    background-color: #E8EDDF;
+}
+.results-panel {
+    border-radius: 2px;
+}
+#results-options a {
+    color: #777;
+}
+
+#results-options > li.active > a > span {
+    color: #fcf1a1;
+
+    border-radius:0;
+    margin-bottom:1px;
+}
+
+#results-options > li > a {
+    border-radius:0px 0px 0px 0px;
+}
+/*
+#results-options > .leftMost-li > a {
+    border-radius:1px 0px 0px 0px !important;
+}
+#results-options > .rightMost-li > a{
+    border-radius:0px 1px 0px 0px !important;
+}
+#results-options > li:not(.active) > a:hover {
+    background-color: white;
+}
+*/
+#results-options > li {
+    padding:0;
+    margin:0;
+}
+#results-options > .divider-vertical {
+    height: 37px;
+    margin: 2px 0px 2px 0px;
+    border-right: 1px solid #F0F3EA;
+    border-left: 1px solid #D0CEC8;
+
+}
+
+.leftcol {
+    border-radius:2px;
+
+    padding-left:0;
+    padding-right:0;
+    margin-bottom: 4em;
+    background-color: #E8EDDF;
+}
+.thin-border {
+  border: 1px solid lightgrey;
+}
+
+.nav-pills > li > a > span {
+  color: #352135;
+  font-weight: bold;
+}
+
+#selected-result {
+  margin-left: 14px;
+  width: 93%;
+  padding-top: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid grey;
+}
+
+.thin-border.row {
+  padding-bottom: 33px;
+  border-bottom: 1px solid darkgrey;
+}
+
+#selected-result > h4 {
+  color: #fcf1a1;
+  padding-left: 10px;
+  font-size: 32px;
+}
+
+#selected-result > ul {
+  margin-left: 0px;
+  padding-top: 5px;
+}
+
+.suggestion {
+  margin-right: 38px;
+  padding: 10px 0px 15px 0px;
+  color: #352135;
+  font: 22px arial, serif;
+}
+
+.suggestion > glyphicon glyphicon-triangle-right {
+  color: black !important;
+  font-size:  10px !important;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:black;
+    background-color:#352035;
+}
