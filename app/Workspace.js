@@ -35,10 +35,10 @@ class Workspace extends React.Component {
 
                 <div className='col-md-4'>
                 {/*<textarea id="results-box" value={this.state.info}></textarea> */}
-                <div className="results-panel thin-border">
+                <div id="results-box" className="thin-border">
                 <div className="row">
                   <div className="col-md-12">
-                    <ul className="nav nav-pills">
+                    <ul className="nav nav-pills nav-justified">
                       <li role="presentation" className="active">
                         <a href="#"><span>
                           Rhyme
@@ -63,6 +63,18 @@ class Workspace extends React.Component {
                           </span>
                         </a></li>
                     </ul>
+                  </div>
+                </div>
+                <div className="row">
+                  <div id="selected-result" className="col-md-12">
+                      <h4>&ldquo;Mom&rsquo;s spaghetti&rdquo;</h4>
+                      <ul className="list-group">
+                      <li class="list-group-item">Suggestion1</li>
+                      <li class="list-group-item">Suggestion2</li>
+                      <li class="list-group-item">Suggestion3</li>
+                      <li class="list-group-item">Suggestion4</li>
+                      <li class="list-group-item">Suggestion5</li>
+                      </ul>
                   </div>
                 </div>
                 </div>

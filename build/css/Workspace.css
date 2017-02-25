@@ -5,6 +5,7 @@ body, html {
 #results-box {
     height: 43em;
     width: 100%;
+    background-color: rgba(255, 255, 250, 0.2);
 }
 
 #doc-title {
@@ -34,17 +35,43 @@ body, html {
 }
 .leftcol {
     border-radius:2px;
-    
+
     padding-left:0;
     padding-right:0;
     margin-bottom: 4em;
     background-color: white;
 }
-#results-panel {
-  height: 43em;
-  width: 100%;
-}
 
 .thin-border {
   border: 1px solid lightgrey;
 }
+
+.nav-pills > li > a > span {
+  color: #352135;
+  font-weight: bold;
+}
+
+#selected-result {
+  padding-left: 38px;
+  padding-top: 15px;
+}
+
+.thin-border.row {
+  padding-bottom: 33px;
+  border-bottom: 1px solid darkgrey;
+}
+
+#selected-result > h4 {
+  color: #fcf1a1;
+  margin-left: -15px;
+  font-size: 32px;
+}
+
+#selected-result > ul {
+  margin-left: 15px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color:black;
+    background-color:rgba(252, 241, 161, 0.85);
+    }
