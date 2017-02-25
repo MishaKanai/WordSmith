@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactQuill from 'react-quill';
 import { Modal, Button } from 'react-bootstrap';
 import { loremipsum } from './LoremIpsum';
 
@@ -18,31 +19,54 @@ class TextEditor extends React.Component {
         });
     }
     rightClick(e) {
-        const start = e.target.selectionStart;
-        const end = e.target.selectionEnd;
-        //default behavior for single character selections
-        if (end - start < 2)
-            return;
+        const selection = document.getSelection();
+        const anchorNode = selection.anchorNode;
+        const focusNode = selection.focusNode;
 
-        e.preventDefault();
-        const word = e.target.value.slice(start,end);
+        var word;
+        if (anchorNode !== focusNode) {
+
+            const anchorStart = selection.anchorOffset;
+            const anchorEnd = anchorNode.length;
+
+            const totalEnd = anchorNode.length + selection.focusOffset;
+            const combinedNode = anchorNode.textContent + focusNode.textContent;
+
+            word = combinedNode.slice(anchorStart, totalEnd);
+
+        } else {
+
+            const node = selection.anchorNode;
+            const start = selection.anchorOffset;
+            const end = selection.focusOffset;
+            word = node.textContent.slice(start,end);
+        }
+        word = word.trim().replace(/(^\W*)|(\W*$)/g, '').trim();
+        if (word.length < 2 || word.split(' ').length > 1) {
+            //do nothing
+            return;
+        } else e.preventDefault();
+
         this.state.word = word;
         this.setState({
             modalShown: true
         });
     }
     handleChange(event) {
-        this.setState({text: event.target.value});
+        this.setState({text: event});
     }
+
     render() {
-        return (<div className="texteditor-inner-wrapper">
-                <textarea
-                className="texteditor-textarea"
-                value={this.state.text}
-                onContextMenu={(e) => this.rightClick(e)}
-                onChange={(e)=>this.handleChange(e)}
-                >
-	        </textarea>
+        return (
+                <div className="texteditor-inner-wrapper"
+            onContextMenu={(e)=>this.rightClick(e)}>
+                <ReactQuill
+            className="texteditor-textarea"
+            onContextMenu={(e)=>this.rightClick(e)}
+            onChange={(e)=>this.handleChange(e)}
+            value={this.state.text}
+                />
+
 
                 <Modal show={this.state.modalShown} onHide={() => this.closeModal()}>
                 <Modal.Header closeButton>
@@ -66,7 +90,7 @@ class TextEditor extends React.Component {
                 </Modal.Footer>
                 </Modal>
                 </div>
-               );
+        );
     }
 }
 
