@@ -33,7 +33,39 @@ class Workspace extends React.Component {
                 </div>
 
                 <div className='col-md-4'>
-                <textarea id="results-box" value={this.state.info}></textarea>
+                {/*<textarea id="results-box" value={this.state.info}></textarea> */}
+                <div className="results-panel thin-border">
+                <div className="row">
+                  <div className="col-md-12">
+                    <ul className="nav nav-pills">
+                      <li role="presentation" className="active">
+                        <a href="#"><span>
+                          Rhyme
+                        </span></a>
+                      </li>
+                      <li role="presentation">
+                        <a href="#">
+                          <span>
+                            Mime
+                          </span>
+                        </a></li>
+                      <li role="presentation">
+                        <a href="#">
+                          <span>
+                            Define
+                          </span>
+                        </a></li>
+                      <li role="presentation">
+                        <a href="#">
+                          <span>
+                            Slang
+                          </span>
+                        </a></li>
+                    </ul>
+                  </div>
+                </div>
+                </div>
+
                 </div>
 
                 </row>
