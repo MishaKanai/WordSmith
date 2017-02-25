@@ -38,25 +38,33 @@ class Workspace extends React.Component {
                 <div id="results-box" className="thin-border">
                 <div className="row">
                   <div className="col-md-12">
+{/*<<<<<<< HEAD
                     <ul className="nav nav-pills nav-justified">
                       <li role="presentation" className="active">
+=======*/}
+                    <ul id="results-options" className="nav nav-pills">
+                      <li role="presentation" className="active leftMost-li">
+{/*>>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/}
                         <a href="#"><span>
                           Rhyme
                         </span></a>
                       </li>
+                      <li className="divider-vertical"></li>
                       <li role="presentation">
                         <a href="#">
                           <span>
                             Mime
                           </span>
                         </a></li>
+                      <li className="divider-vertical"></li>
                       <li role="presentation">
                         <a href="#">
                           <span>
                             Define
                           </span>
-                        </a></li>
-                      <li role="presentation">
+                      </a></li>
+                      <li className="divider-vertical"></li>
+                      <li role="presentation" className="rightMost-li">
                         <a href="#">
                           <span>
                             Slang
@@ -65,6 +73,7 @@ class Workspace extends React.Component {
                     </ul>
                   </div>
                 </div>
+{/*<<<<<<< HEAD*/}
                 <div className="row">
                   <div id="selected-result" className="col-md-12">
                       <h4>&ldquo;Mom&rsquo;s spaghetti&rdquo;</h4>
@@ -77,6 +86,9 @@ class Workspace extends React.Component {
                       </ul>
                   </div>
                 </div>
+{/*=======
+                <textarea id="results-box" value={this.state.info}></textarea>
+>>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/}
                 </div>
 
                 </div>
