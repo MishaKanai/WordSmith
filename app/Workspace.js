@@ -38,25 +38,28 @@ class Workspace extends React.Component {
                 <div className="results-panel thin-border">
                 <div className="row">
                   <div className="col-md-12">
-                    <ul className="nav nav-pills">
-                      <li role="presentation" className="active">
+                    <ul id="results-options" className="nav nav-pills">
+                      <li role="presentation" className="active leftMost-li">
                         <a href="#"><span>
                           Rhyme
                         </span></a>
                       </li>
+                      <li className="divider-vertical"></li>
                       <li role="presentation">
                         <a href="#">
                           <span>
                             Mime
                           </span>
                         </a></li>
+                      <li className="divider-vertical"></li>
                       <li role="presentation">
                         <a href="#">
                           <span>
                             Define
                           </span>
-                        </a></li>
-                      <li role="presentation">
+                      </a></li>
+                      <li className="divider-vertical"></li>
+                      <li role="presentation" className="rightMost-li">
                         <a href="#">
                           <span>
                             Slang
@@ -65,6 +68,7 @@ class Workspace extends React.Component {
                     </ul>
                   </div>
                 </div>
+                <textarea id="results-box" value={this.state.info}></textarea>
                 </div>
 
                 </div>

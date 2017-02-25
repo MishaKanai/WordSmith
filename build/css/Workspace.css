@@ -2,10 +2,6 @@ body, html {
     height: 100%;
     background-color: #553555;
 }
-#results-box {
-    height: 43em;
-    width: 100%;
-}
 
 #doc-title {
     margin-top:0;
@@ -32,6 +28,50 @@ body, html {
 .texteditor-textarea {
     height: 40em;
 }
+#results-box {
+    height:43.5em;
+}
+#results-options {
+    background-color: #E8EDDF;
+}
+.results-panel {
+    border-radius: 2px;
+}
+#results-options a {
+    color: #777;
+}
+
+#results-options > li.active > a {
+    color: white;
+    background-color: #A64253;
+    
+    border-radius:0;
+    margin-bottom:1px;
+}
+#results-options > li > a {
+    border-radius:0px 0px 0px 0px;
+}
+#results-options > .leftMost-li > a {
+    border-radius:1px 0px 0px 0px !important;
+}
+#results-options > .rightMost-li > a{
+    border-radius:0px 1px 0px 0px !important;
+}
+#results-options > li:not(.active) > a:hover {
+    background-color: white;
+}
+#results-options > li {
+    padding:0;
+    margin:0;
+}
+#results-options > .divider-vertical {
+    height: 37px;
+    margin: 2px 0px 2px 0px;
+    border-right: 1px solid #F0F3EA;
+    border-left: 1px solid #D0CEC8;
+    
+}
+
 .leftcol {
     border-radius:2px;
     
@@ -40,9 +80,11 @@ body, html {
     margin-bottom: 4em;
     background-color: #E8EDDF;
 }
-#results-panel {
-  height: 43em;
-  width: 100%;
+textarea {
+    vertical-align: top;
+    height: 100%;
+    width: 100%;
+    display: block;
 }
 
 .thin-border {
