@@ -1,0 +1,36 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'serve' ]
+2 info using npm@4.0.5
+3 info using node@v7.4.0
+4 verbose run-script [ 'preserve', 'serve', 'postserve' ]
+5 info lifecycle team-project-client@0.0.1~preserve: team-project-client@0.0.1
+6 silly lifecycle team-project-client@0.0.1~preserve: no script for preserve, continuing
+7 info lifecycle team-project-client@0.0.1~serve: team-project-client@0.0.1
+8 verbose lifecycle team-project-client@0.0.1~serve: unsafe-perm in lifecycle true
+9 verbose lifecycle team-project-client@0.0.1~serve: PATH: C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\Alan\Documents\CS326\WordSmith\node_modules\.bin;C:\Users\Alan\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\Python27\;C:\Python27\Scripts;C:\Program Files\Java\jdk1.7.0_79\bin\java.exe;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Windows\System32;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\Alan\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Java\jdk1.7.0_79\bin;C:\Program Files\MiKTeX 2.9\miktex\bin\x64\;C:\Users\Alan\AppData\Roaming\Dashlane\4.6.4.21286\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\Alan\AppData\Roaming\Dashlane\4.6.5.21982\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Windows\System32\notepad.exe;C:\Users\Alan\AppData\Roaming\Dashlane\4.6.6.23032\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\Alan\AppData\Local\atom\bin;C:\Users\Alan\AppData\Roaming\npm;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;%DASHLANE_DLL_DIR%
+10 verbose lifecycle team-project-client@0.0.1~serve: CWD: C:\Users\Alan\Documents\CS326\WordSmith
+11 silly lifecycle team-project-client@0.0.1~serve: Args: [ '/d /s /c', 'webpack-dev-server --content-base build' ]
+12 verbose stack Error: kill ENOSYS
+12 verbose stack     at exports._errnoException (util.js:1022:11)
+12 verbose stack     at process.kill (internal/process.js:173:13)
+12 verbose stack     at process.listener (C:\Program Files\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:86:15)
+12 verbose stack     at emitNone (events.js:91:20)
+12 verbose stack     at process.emit (events.js:185:7)
+12 verbose stack     at processEmit (C:\Program Files\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at processEmit (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at Signal.wrap.onsignal (internal/process.js:200:44)
+13 verbose cwd C:\Users\Alan\Documents\CS326\WordSmith
+14 error Windows_NT 10.0.14393
+15 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "serve"
+16 error node v7.4.0
+17 error npm  v4.0.5
+18 error code ENOSYS
+19 error errno ENOSYS
+20 error syscall kill
+21 error kill ENOSYS
+22 error If you need help, you may report this error at:
+22 error     <https://github.com/npm/npm/issues>
+23 verbose exit [ 1, true ]
