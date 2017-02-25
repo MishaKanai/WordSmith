@@ -23,7 +23,7 @@ class Workspace extends React.Component {
     }
     render() {
         return (<div className='workspace-inner-wrapper container'>
-                <h3>{' '+this.props.title}</h3>
+                <h3 id='doc-title'>{' '+this.props.title}</h3>
                 <row>
 
                 <div className='col-md-8 leftcol'>

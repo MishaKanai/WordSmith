@@ -4,7 +4,10 @@ body, html {
 #results-box {
     height: 43em;
     width: 100%;
-    
+}
+
+#doc-title {
+    margin-top:0;
 }
 .texteditor-textarea {
     height: 40em;
