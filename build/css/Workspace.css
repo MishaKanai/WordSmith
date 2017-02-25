@@ -4,12 +4,24 @@ body, html {
 #results-box {
     height: 43em;
     width: 100%;
-    
 }
+
+#doc-title {
+    margin-top:0;
+}
+
 .texteditor-textarea {
     height: 40em;
 }
 .leftcol {
     padding-right:0;
     padding-bottom: 4em;
+}
+#results-panel {
+  height: 43em;
+  width: 100%;
+}
+
+.thin-border {
+  border: 1px solid lightgrey;
 }
