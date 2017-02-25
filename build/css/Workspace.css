@@ -55,10 +55,11 @@ body, html {
     border-radius:0;
     margin-bottom:1px;
 }
-/*
+
 #results-options > li > a {
     border-radius:0px 0px 0px 0px;
 }
+/*
 #results-options > .leftMost-li > a {
     border-radius:1px 0px 0px 0px !important;
 }
