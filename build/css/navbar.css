@@ -1,10 +1,11 @@
 .navbar {
     background-color: #E8EDDF;
+    margin-bottom: 0;
 }
 
-.navbar #bs-example-navbar-collapse-1 + #bs-example-editor-collapse-1{
-  padding-top: 0px;
-}
+/*.navbar #bs-example-navbar-collapse-1 + #bs-example-editor-collapse-1{
+  margin-top: 0px;
+}*/
 
 .navbar .divider-vertical {
     height: 44px;
