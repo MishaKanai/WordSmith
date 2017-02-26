@@ -2,7 +2,7 @@
     background-color: #E8EDDF;
 }
 
-#bs-example-navbar-collapse-1 + #bs-example-editor-collapse-1{
+.navbar #bs-example-navbar-collapse-1 + #bs-example-editor-collapse-1{
   padding-top: 0px;
 }
 
