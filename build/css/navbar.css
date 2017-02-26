@@ -1,4 +1,8 @@
 .navbar {
+    border-radius: 0;
+}
+
+.navbar:not(#docbar) {
     background-color: #E8EDDF;
     margin-bottom: 0;
 }
