@@ -7,10 +7,6 @@
     margin-bottom: 0;
 }
 
-/*.navbar #bs-example-navbar-collapse-1 + #bs-example-editor-collapse-1{
-  margin-top: 0px;
-}*/
-
 .navbar .divider-vertical {
     height: 44px;
     margin: 3px 0px 3px 0px;
@@ -27,7 +23,6 @@
     color: #352135 !important;
 }
 .navbar-form button {
-    /*color: #553555;*/
     background-color: #E8EDDF;
 }
 .navbar-form button:hover {

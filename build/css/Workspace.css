@@ -2,18 +2,16 @@ body, html {
     height: 100%;
     background-color: #553555;
 }
-/*<<<<<<< HEAD*/
+
 #results-box {
     height: 100%;
     width: 100%;
-    /*background-color: rgba(255, 255, 250, 0.2);*/
     background-color: white;
 }
-/*=======
->>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/
+
+
 #docbar {
-    min-height:32px !important;/*
-    max-height:45px !important;*/
+    min-height:32px !important;
     padding:0;
     border: 0;
     border-top: 1px solid #553555;
@@ -27,13 +25,10 @@ body, html {
 #docbar li
 {
   display: inline;
-  /*list-style-type: none;
-  padding-right: 20px;*/
   float: left;
 }
 
 #docbar li > a {
-    /*color: white !important;*/
     min-width: 6em;
     text-align: center;
     padding: 12px;
@@ -99,17 +94,7 @@ body, html {
 #results-options > li > a {
     border-radius:0px 0px 0px 0px;
 }
-/*
-#results-options > .leftMost-li > a {
-    border-radius:1px 0px 0px 0px !important;
-}
-#results-options > .rightMost-li > a{
-    border-radius:0px 1px 0px 0px !important;
-}
-#results-options > li:not(.active) > a:hover {
-    background-color: white;
-}
-*/
+
 #results-options > li {
     padding:0;
     margin:0;
