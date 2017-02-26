@@ -16,6 +16,15 @@ body {
   margin-bottom: -9999px;
   padding-bottom: 9999px;
   background-color: white;
+  border-radius: 5px;
+}
+
+.pwd-box {
+    width: 300px;
+}
+
+.modal-btn {
+    width: 100%;
 }
 
 .left-hand-text {
@@ -44,6 +53,7 @@ select {
 .bottom-border-only {
     border-left: none;
     border-right: none;
+    border-bottom: none;
     position: relative;
 }
 

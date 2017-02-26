@@ -58,54 +58,6 @@
     </nav>
 
 <div class="container">
-    <div id="updatePassword" class="modal fade" role="dialog">
-        <div class="modal-dialog pwd-box">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Update password</h4>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        <li class="list-group-item bottom-border-only">
-                        <div class="form-group">
-                            <label for="oldPwd">Old password</label>
-                            <input type="password" class="form-control" id="OldPwd">
-                        </div>
-                        </li>
-                        <li class="list-group-item bottom-border-only">
-                        <div class="form-group">
-                            <label for="newPwd">New password</label>
-                            <input type="password" class="form-control" id="newPwd">
-                        </div>
-                        </li>
-                        <li class="list-group-item bottom-border-only">
-                        <div class="form-group">
-                            <label for="newPwd2">Confirm new password</label>
-                            <input type="password" class="form-control" id="newPwd2">
-                        </div>
-                        </li>
-                        <li class="list-group-item bottom-border-only">
-                            <button type="button" class="btn btn-success modal-btn" data-dismiss="modal">Update</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="deleteAccount" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Are you sure you want to delete your account?</h4>
-                </div>
-                <div class="modal-body">
-                    <button type="button" class="btn btn-danger modal-btn" data-dismiss="modal">Delete account</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row-fluid">
       <div class="col-md-10 col-md-offset-1 white-box">
       </div>
@@ -149,9 +101,9 @@
                 <li class="list-group-item bottom-border-only clearfix">
                   <span class="left-hand-text">Display name</span>
                 <div class="right-element pull-right">
-                    <input type="text" class="form-control display-name pull-left" value="Kendrick Lamar" disabled>
+                    <input type="text" class="form-control display-name pull-left" value="Kendrick Lamar">
                     <button type="button" class="btn btn-default display-name-btn pull-right">
-                        <span class="glyphicon glyphicon-pencil"></span>
+                        <span class="glyphicon glyphicon-ok text-success"></span>
                     </button>
                 </div>
                 </li>
@@ -166,12 +118,12 @@
                 </li>
                 <li class="list-group-item bottom-border-only clearfix">
                   <span class="left-hand-text">Password</span>
-                <button type="button" class="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">
+                <button type="button" class="btn btn-default right-element pull-right">
                     Update
                 </button>
                 </li>
                 <li class="list-group-item bottom-border-only clearfix">
-                <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteAccount">
+                <button type="button" class="btn btn-danger delete-btn">
                     Delete account
                 </button>
                 </li>
