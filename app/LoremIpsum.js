@@ -1,4 +1,4 @@
-export var loremipsum = `Look, if you had, one shot, or one opportunity
+export var loremipsum = (`<h1>Look,</h1> if you had, one shot, or one opportunity
 To seize everything you ever wanted. In one moment
 Would you capture it, or just let it slip?
 Yo
@@ -83,4 +83,4 @@ This may be the only opportunity that I got
 
 [Hook]
 
-You can do anything you set your mind to, man`
+You can do anything you set your mind to, man`).split("\n").join("<br>");
