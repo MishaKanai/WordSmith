@@ -34,17 +34,11 @@ class Workspace extends React.Component {
                 </div>
 
                 <div className='col-md-4'>
-                {/*<textarea id="results-box" value={this.state.info}></textarea> */}
                 <div id="results-box" className="thin-border">
                 <div className="row">
                   <div className="col-md-12">
-{/*<<<<<<< HEAD
-                    <ul className="nav nav-pills nav-justified">
-                      <li role="presentation" className="active">
-=======*/}
                     <ul id="results-options" className="nav nav-pills">
                       <li role="presentation" className="active leftMost-li">
-{/*>>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/}
                         <a href="#"><span>
                           Rhyme
                         </span></a>
@@ -73,22 +67,25 @@ class Workspace extends React.Component {
                     </ul>
                   </div>
                 </div>
-{/*<<<<<<< HEAD*/}
                 <div className="row">
                   <div id="selected-result" className="col-md-12">
+                    <div id="word-selected" className="list-group-item">
                       <h4>&ldquo;Mom&rsquo;s spaghetti&rdquo;</h4>
-                      <ul className="list-group">
-                      <li class="list-group-item">Suggestion1</li>
-                      <li class="list-group-item">Suggestion2</li>
-                      <li class="list-group-item">Suggestion3</li>
-                      <li class="list-group-item">Suggestion4</li>
-                      <li class="list-group-item">Suggestion5</li>
-                      </ul>
+                    </div>
+                    <ul className="list-group">
+                    {
+                      [...Array(50).keys()].map(
+                        (i)=>
+                          <li className="list-group-item">
+                            Suggestion{i}
+                            <span className="glyphicon glyphicon-book pull-right">
+                            </span>
+                          </li>
+                      )}
+                    </ul>
                   </div>
                 </div>
-{/*=======
-                <textarea id="results-box" value={this.state.info}></textarea>
->>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/}
+{/* <textarea id="results-box" value={this.state.info}></textarea>*/}
                 </div>
 
                 </div>

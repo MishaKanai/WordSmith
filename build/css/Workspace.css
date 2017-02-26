@@ -4,9 +4,10 @@ body, html {
 }
 /*<<<<<<< HEAD*/
 #results-box {
-    height: 43em;
+    height: 100%;
     width: 100%;
-    background-color: rgba(255, 255, 250, 0.2);
+    /*background-color: rgba(255, 255, 250, 0.2);*/
+    background-color: white;
 }
 /*=======
 >>>>>>> b00cb7c00fd03fbe498703e7e9f5dcb1d96501b8*/
@@ -16,7 +17,7 @@ body, html {
     padding-top:.5em;
     margin-left: 1em;
     margin-bottom:.5em;
-    color:#666;
+    color:#352035;
 }
 
 .ql-editor {
@@ -37,7 +38,7 @@ body, html {
     height: 40em;
 }
 #results-box {
-    height:43.5em;
+    height:100%;
 }
 #results-options {
     background-color: #E8EDDF;
@@ -49,9 +50,14 @@ body, html {
     color: #777;
 }
 
-#results-options > li.active > a > span {
-    color: #fcf1a1;
+#results-options > li.active {
+    border-bottom: 1px solid #775D76;
+    
+}
 
+#results-options > li.active > a > span {
+    
+    color: #fcf1a1;
     border-radius:0;
     margin-bottom:1px;
 }
@@ -105,14 +111,15 @@ textarea {
 }
 
 .nav-pills > li > a > span {
-  color: #352135;
-  font-weight: bold;
+    color: #352135;
+    
+  /*font-weight: bold;*/
 }
 
 #selected-result {
-  padding-left: 38px;
-  padding-top: 15px;
-}
+    padding-left: 15px;
+    
+  }
 
 .thin-border.row {
   padding-bottom: 33px;
@@ -121,15 +128,33 @@ textarea {
 
 #selected-result > h4 {
   color: #fcf1a1;
-  margin-left: -15px;
+  text-align: center;
   font-size: 32px;
 }
 
 #selected-result > ul {
-  margin-left: 15px;
+  margin-left: 0px;
+}
+.list-group {
+    margin:0;
+    height:39em;
+    overflow-y:scroll;
+}
+
+.list-group-item {
+    
+    border-radius:0 !important;
+    margin-left: 0;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
     color:black;
     background-color:#352035;
+    background-color: #775D76;
     }
+#word-selected {
+    border-left: 1px solid #775D76;
+    border-right: 1px solid #775D76;
+    background-color: #775D76;
+    color: #fcf1a1;
+}
