@@ -15,7 +15,7 @@
     }
 }
 .navbar-brand , .navbar-nav * {
-    color: #553555;
+    color: #352135 !important;
 }
 .navbar-form button {
     /*color: #553555;*/
@@ -23,11 +23,13 @@
 }
 .navbar-form button:hover {
     color:white;
-    background-color: #A64253;
+    background-color: #352035;
 }
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    /*
-color
-background-color
-     */
+
+.navbar-default .navbar-nav > li:not(.open) > a:hover, .navbar-default .navbar-nav > li:not(.open) > a:focus {
+                                                
+    color: black !important;
+                                                       }
+.navbar-default .navbar-nav > li:hover {
+    background-color: #eeeeee;
 }
