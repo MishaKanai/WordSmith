@@ -2,12 +2,16 @@
     background-color: #E8EDDF;
 }
 
+#bs-example-navbar-collapse-1 + #bs-example-editor-collapse-1{
+  padding-top: 0px;
+}
+
 .navbar .divider-vertical {
     height: 44px;
     margin: 3px 0px 3px 0px;
     border-right: 1px solid #F0F3EA;
     border-left: 1px solid #D0CEC8;
-    
+
 }
 @media (max-width: 767px) {
     .navbar-collapse .nav > .divider-vertical {
@@ -27,7 +31,7 @@
 }
 
 .navbar-default .navbar-nav > li:not(.open) > a:hover, .navbar-default .navbar-nav > li:not(.open) > a:focus {
-                                                
+
     color: black !important;
                                                        }
 .navbar-default .navbar-nav > li:hover {
