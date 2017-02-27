@@ -21,7 +21,7 @@ body, html {
 }
 
 #results-options > li.active > a > span {
-    color: #fcf1a1;
+    color: #e8eddf;
     border-radius:0px;
     margin-bottom:1px;
 }
@@ -71,7 +71,7 @@ body, html {
 }
 
 #selected-result > h4 {
-  color: #fcf1a1;
+  color: #e8eddf;
   padding-left: 10px;
   font-size: 32px;
 }
