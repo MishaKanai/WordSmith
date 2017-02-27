@@ -23,13 +23,17 @@ background-color: #553555;
 
 }
 
-
 h4{
 color: black;	
 }
 .well{	
 margin-top: 5em;	
 }
+h4:hover
+{
+    color: #428bca;
+}
+
 
 .glyphicon { margin-right:5px; }
 .thumbnail
