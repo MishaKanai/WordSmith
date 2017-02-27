@@ -177,3 +177,20 @@ textarea {
     background-color: #775D76;
     color: #fcf1a1;
 }
+
+.popover {
+    margin: 50px;
+}
+#close-popover {
+    margin-bottom: 5px;
+}
+
+button.list-group-item {
+    margin:0;
+}
+
+.popover ul {
+    padding-left:0;
+    padding-bottom: 0;
+}
+
