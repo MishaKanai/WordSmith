@@ -1,24 +1,32 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import { Modal, Button } from 'react-bootstrap';
+import { Overlay, Popover, Button } from 'react-bootstrap';
 import { loremipsum } from './LoremIpsum';
 
 class TextEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalShown: false,
+            popoverShown: false,
             word: null,
             text: loremipsum
         };
     }
-    closeModal() {
+    closePopover() {
         this.setState({
-            modalShown: false,
+            target: null,
+            popoverShown: false,
             word: null,
         });
     }
+    replaceWithChild(target_parent, target) {
+        target_parent.replaceChild(this.state.target.firstChild,this.state.target);
+    }
     rightClick(e) {
+        if (this.state.popoverShown) {
+            this.closePopover();
+            this.replaceWithChild(this.state.target_parent, this.state.target);
+        }
         const selection = document.getSelection();
         const anchorNode = selection.anchorNode;
         const focusNode = selection.focusNode;
@@ -30,16 +38,31 @@ class TextEditor extends React.Component {
             const anchorEnd = anchorNode.length;
 
             const totalEnd = anchorNode.length + selection.focusOffset;
-            const combinedNode = anchorNode.textContent + focusNode.textContent;
+            const combinedText = anchorNode.textContent + focusNode.textContent;
 
-            word = combinedNode.slice(anchorStart, totalEnd);
+            word = combinedText.slice(anchorStart, totalEnd);
 
+            //TODO: tooltip target.
         } else {
 
             const node = selection.anchorNode;
             const start = selection.anchorOffset;
             const end = selection.focusOffset;
-            word = node.textContent.slice(start,end);
+            const text = node.textContent;
+            word = text.slice(start,end);
+
+            var popover_target = document.createElement('span');
+            popover_target.id = 'popover-target';
+            popover_target.innerHTML = text.slice(start,end);
+            popover_target.style.color = "blue";
+            const parentElem = node.parentElement;
+            parentElem.innerHTML = (text.slice(0, start));
+            parentElem.append(popover_target)
+            parentElem.append(text.slice(end, text.length));
+            this.setState({
+                target_parent: popover_target.parentNode,
+                target:popover_target
+            });
         }
         word = word.trim().replace(/(^\W*)|(\W*$)/g, '').trim();
         if (word.length < 2 || word.split(' ').length > 1) {
@@ -49,7 +72,7 @@ class TextEditor extends React.Component {
 
         this.state.word = word;
         this.setState({
-            modalShown: true
+            popoverShown: true,
         });
     }
     handleChange(event) {
@@ -66,29 +89,28 @@ class TextEditor extends React.Component {
             onChange={(e)=>this.handleChange(e)}
             value={this.state.text}
                 />
-
-
-                <Modal show={this.state.modalShown} onHide={() => this.closeModal()}>
-                <Modal.Header closeButton>
-                <Modal.Title>"{this.state.word}"</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                <Overlay
+            show={this.state.popoverShown}
+            target={this.state.target}
+            placement='right'
+            container={this}
+            containerPadding={20}
+                >
+                <Popover id="popover-contained" title={this.state.word}>
                 <ul>
-                <li><Button onClick={
-                    ()=>{
-                        this.props.getRhymes(this.state.word);
-                        this.closeModal()
-                    }
-                }>Rhymes</Button></li>
-                <li>Dictionary</li>
-                <li>Thesaurus</li>
-                <li>Urban Dictionary</li>
+                <Button className="list-group-item">Rhymes</Button>
+                <Button className="list-group-item">Thesaurus</Button>
+                <Button className="list-group-item">Dictionary</Button>
+                <Button className="list-group-item">UrbanDictionary</Button>
                 </ul>
-                </Modal.Body>
-                <Modal.Footer>
-                <Button onClick={(e) => this.closeModal()}>Close</Button>
-                </Modal.Footer>
-                </Modal>
+                <Button id="close-popover" className="pull-right" onClick={(e) => {
+                    const target_parent = this.state.target_parent;
+                    const target = this.state.target;
+                    this.closePopover();
+                    this.replaceWithChild(target_parent, target);
+                }}>Close</Button>
+            </Popover>
+                </Overlay>
                 </div>
         );
     }
