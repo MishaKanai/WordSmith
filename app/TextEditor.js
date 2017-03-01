@@ -24,9 +24,13 @@ class TextEditor extends React.Component {
         target_parent.replaceChild(this.state.target.firstChild,this.state.target);
     }
     rightClick(e) {
+        $(".special-target").removeClass("special-target");
+        if (this.state.target_parent && this.state.target)
+            this.replaceWithChild(this.state.target_parent, this.state.target);
+
         if (this.state.popoverShown) {
             this.closePopover();
-            this.replaceWithChild(this.state.target_parent, this.state.target);
+            //this.replaceWithChild(this.state.target_parent, this.state.target);
         }
         const selection = document.getSelection();
         const anchorNode = selection.anchorNode;
@@ -86,20 +90,7 @@ class TextEditor extends React.Component {
                         return [[], sf,ef];
                     }
                 }
-
-                /*else if (parentNode.textContent != null){
-                    console.log("new");
-                    if (sf && !ef) {
-                        textAnchorToFocus += parentNode.textContent;
-                        return [new Array (parentNode), 1 , 0];
-                    }
-                    else {
-                        if (!sf) {
-                            textPre = textPre + parentNode.textContent;
-                        }
-                        return [[], sf,ef];
-                    }
-                }*/else {
+                else {
                     console.log("else!");
                     console.log("nodetype:" ,parentNode.nodeType);
                 }
@@ -148,7 +139,13 @@ class TextEditor extends React.Component {
 
             //length of everything pre-focusNode
 
-            word = combinedText.slice(0, preFocusText.length + selection.focusOffset);
+            console.log("prefocusText", preFocusText);
+            console.log(selection.focusOffset);
+            let word1 = textAnchorToFocus.slice(preFocusText.length, textAnchorToFocus.length);
+            console.log("word1:",word1);
+
+
+            //word = combinedText.slice(0, preFocusText.length + selection.focusOffset);
             console.log("word:", word);
 
 /*
@@ -196,14 +193,43 @@ class TextEditor extends React.Component {
             console.log("an == fn");
 
             const node = selection.anchorNode;
-            const start = selection.anchorOffset;
-            const end = selection.focusOffset;
+            var start = selection.anchorOffset;
+            var end = selection.focusOffset;
             const text = node.textContent;
+            console.log(text);
             word = text.slice(start,end);
 
+
+            var left, right;
+            //http://stackoverflow.com/a/5174867
+            function getWordAt(str, pos) {
+
+                // Perform type conversions.
+                str = String(str);
+                pos = Number(pos) >>> 0;
+
+                // Search for the word's beginning and end.
+                left = str.slice(0, pos + 1).search(/\S+$/);
+                right = str.slice(pos).search(/\s/);
+
+                // The last word in the string is a special case.
+                if (right < 0) {
+                    return [left, str.length];
+                }
+
+                // Return the word, using the located bounds to extract it from the string.
+                return [left, right + pos];
+
+            }
+            const t =getWordAt(text, (start + end)/ 2);
+            start = t[0];
+            end = t[1];
+            word = text.slice(start,end);
+
+            console.log(word);
             let popover_target = document.createElement('span');
             popover_target.id = 'popover-target';
-            popover_target.innerHTML = text.slice(start,end);
+            popover_target.innerHTML = word;
             popover_target.style.color = "blue";
 
             let parentElem = node.parentElement;
@@ -259,6 +285,7 @@ class TextEditor extends React.Component {
                     const target_parent = this.state.target_parent;
                     const target = this.state.target;
                     this.closePopover();
+                    $(".special-target").removeClass("special-target");
                     this.replaceWithChild(target_parent, target);
                 }}>Close</Button>
             </Popover>
