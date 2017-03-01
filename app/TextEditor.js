@@ -34,6 +34,7 @@ class TextEditor extends React.Component {
 
         var word;
         if (anchorNode !== focusNode) {
+            console.log("an != fn");
             const anchorStart = selection.anchorOffset;
             const anchorEnd = anchorNode.length;
 
@@ -51,6 +52,10 @@ class TextEditor extends React.Component {
                 }
             }
             const parentNode = fp[fp.index(ap[i])];
+            if (parentNode.className == "ql-editor") {
+                console.log("not clicked on text");
+                return;
+            }
 
             const totalEnd = anchorNode.length + selection.focusOffset;
             console.log("anchorNode:", anchorNode.cloneNode(true));
@@ -188,6 +193,7 @@ class TextEditor extends React.Component {
 
 
         } else {
+            console.log("an == fn");
 
             const node = selection.anchorNode;
             const start = selection.anchorOffset;
