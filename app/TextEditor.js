@@ -45,7 +45,9 @@ class TextEditor extends React.Component {
 
             //TODO: tooltip target.
 
-            tagCrossNodeWord(anchorNode.parentNode, anchorStart, totalEnd);
+
+            var prevLength = anchorNode.parentNode.parentNode.textContent.length - combinedText.length;
+            tagCrossNodeWord(anchorNode.parentNode.parentNode, prevLength + anchorStart, prevLength + totalEnd);
 
 /*
             let popover_target = document.createElement('span');
