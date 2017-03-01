@@ -33,21 +33,139 @@ class TextEditor extends React.Component {
         const focusNode = selection.focusNode;
 
         var word;
-        if (anchorNode !== focusNode) {
+       // if (anchorNode !== focusNode) {
 
+        if (true) {
             const anchorStart = selection.anchorOffset;
             const anchorEnd = anchorNode.length;
 
+            //TODO:
+            //find common parent of anchorNode and focusNode
+
+            //http://stackoverflow.com/a/2453811
+            var fp = $(focusNode).parents();
+            var ap = $(anchorNode).parents();
+            for (var i=0; i<ap.length; i++) {
+                if (fp.index(ap[i]) != -1) {
+                    // common parent
+                    console.log("common parent: (?): ",fp[fp.index(ap[i])].cloneNode(true));
+                    break;
+                }
+            }
+            const parentNode = fp[fp.index(ap[i])];
+
             const totalEnd = anchorNode.length + selection.focusOffset;
-            const combinedText = anchorNode.textContent + focusNode.textContent;
+            console.log("anchorNode:", anchorNode.cloneNode(true));
+            console.log("focusNode", focusNode.cloneNode(true));
 
-            word = combinedText.slice(anchorStart, totalEnd);
+            var textAnchorToFocus = '';
 
+            var textPre = '';
+            // FILL GAPS (recursion?)
+            let traverseList = (parentNode, startNode, endNode, sf, ef) => {
+                if (parentNode === startNode) {
+                    textAnchorToFocus += parentNode.wholeText;
+                    return [new Array (parentNode), 1,0 ];
+                }
+                else if (parentNode === endNode) {
+                    textAnchorToFocus += parentNode.wholeText;
+                    return [new Array (parentNode), 1,1 ];
+                }
+                else if (parentNode.nodeType === Node.TEXT_NODE) {
+                    if (sf && !ef) {
+                        textAnchorToFocus += parentNode.wholeText;
+                        return [new Array (parentNode), 1 , 0];
+                    }
+                    else {
+                        if (!sf) {
+                            textPre = textPre + parentNode.wholeText;
+                        }
+                        return [[], sf,ef];
+                    }
+                }
+
+                /*else if (parentNode.textContent != null){
+                    console.log("new");
+                    if (sf && !ef) {
+                        textAnchorToFocus += parentNode.textContent;
+                        return [new Array (parentNode), 1 , 0];
+                    }
+                    else {
+                        if (!sf) {
+                            textPre = textPre + parentNode.textContent;
+                        }
+                        return [[], sf,ef];
+                    }
+                }*/else {
+                    console.log("else!");
+                    console.log("nodetype:" ,parentNode.nodeType);
+                }
+
+                //traverse list and concat
+                const childNodes = parentNode.childNodes;
+                console.log(childNodes);
+
+                var returnList = [];
+                for (let i = 0; i < childNodes.length; i++) {
+                    let currChild = childNodes[i];
+                    let result = traverseList(currChild, startNode, endNode, sf, ef)
+                    sf = result[1];
+                    ef = result[2];
+                    returnList = returnList.concat(result[0]);
+                }
+                console.log(returnList);
+                return [returnList, sf, ef];
+            }
+
+
+
+            var traversal = traverseList(parentNode, anchorNode, focusNode, 0, 0)[0];
+            console.log("textPre:", textPre);
+            console.log("textAnchorToFocus:", textAnchorToFocus);
+            var textpart2 = '';
+            var preFocusText = '';
+            for (let i = 0; i < traversal.length; i++) {
+
+                textpart2 += traversal[i].wholeText;
+                if (i != traversal.length-1)
+                    preFocusText += traversal[i].wholeText;
+            }
+            textpart2 = textpart2.slice(anchorStart, textpart2.length);
+            console.log(textpart2);
+
+            let combinedText = textpart2;
+
+            console.log("combined text build through iteration:", combinedText);
+
+
+
+//            const combinedText = anchorNode.textContent + focusNode.textContent;
+            //const combinedText = //length of our anchorStart to end.
+            console.log("ct2:",combinedText);
+
+            //length of everything pre-focusNode
+
+            word = combinedText.slice(0, preFocusText.length + selection.focusOffset);
+            console.log("word:", word);
+
+/*
+            console.log("selection object:",selection);
+            console.log("combinedText: ",combinedText);
+            console.log("anchornode parent",anchorNode.parentNode);
+            console.log("anchornode parent parent",anchorNode.parentNode.parentNode);
+*/
             //TODO: tooltip target.
 
 
-            var prevLength = anchorNode.parentNode.parentNode.textContent.length - combinedText.length;
-            tagCrossNodeWord(anchorNode.parentNode.parentNode, prevLength + anchorStart, prevLength + totalEnd);
+            var prevLengthFocusOffset = parentNode.textContent.length - preFocusText.length+selection.focusOffset;
+            console.log("pntc: ",parentNode.textContent);
+            var prevLengthAnchorOffset = parentNode.textContent.length - combinedText.length;
+
+            //console.log("node: ",anchorNode.parentNode.parentNode.cloneNode(true));
+            console.log("start: ", prevLengthAnchorOffset);
+            console.log("end:", prevLengthFocusOffset);
+            tagCrossNodeWord(parentNode, textPre.length + selection.anchorOffset, textPre.length + word.length);
+            //tagCrossNodeWord(parentNode, prevLengthAnchorOffset, prevLengthFocusOffset);
 
 /*
             let popover_target = document.createElement('span');

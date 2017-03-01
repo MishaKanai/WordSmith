@@ -95,7 +95,7 @@ export default function tagCrossNodeWord(node, startIndex, endIndex) {
             console.log("onreturn:",resultTuple);
             si = resultTuple[0];
             ei = resultTuple[1];
-            if (si === 0 && ei === 0)
+            if (si <= 0 && ei <= 0)
                 break;
         }
         console.log("returning from ", node);
