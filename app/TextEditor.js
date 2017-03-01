@@ -33,9 +33,7 @@ class TextEditor extends React.Component {
         const focusNode = selection.focusNode;
 
         var word;
-       // if (anchorNode !== focusNode) {
-
-        if (true) {
+        if (anchorNode !== focusNode) {
             const anchorStart = selection.anchorOffset;
             const anchorEnd = anchorNode.length;
 
@@ -48,7 +46,7 @@ class TextEditor extends React.Component {
             for (var i=0; i<ap.length; i++) {
                 if (fp.index(ap[i]) != -1) {
                     // common parent
-                    console.log("common parent: (?): ",fp[fp.index(ap[i])].cloneNode(true));
+                    console.log("common parent: (?): ",fp[fp.index(ap[i])]);
                     break;
                 }
             }
