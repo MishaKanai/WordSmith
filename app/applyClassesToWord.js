@@ -28,7 +28,10 @@ export default function tagCrossNodeWord(node, startIndex, endIndex) {
                 let insertedTailNode = parent.insertBefore(tail, nextSib);
             }
             //trim the html of our node to before spanned text.
-            node.innerHTML = node.textContent.slice(0, si);
+            console.log("this is what's in our node first: ", node);
+            //subtract size of target text from si
+            node.textContent = node.textContent.slice(0, si);
+            console.log("this is what's in our node after innerHTML change: ", node);
 
             if (ei > node.length)
                 return [0, ei - node.textContent.length];
