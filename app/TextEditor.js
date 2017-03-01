@@ -165,9 +165,9 @@ class TextEditor extends React.Component {
             var prevLengthAnchorOffset = parentNode.textContent.length - combinedText.length;
 
             //console.log("node: ",anchorNode.parentNode.parentNode.cloneNode(true));
-            console.log("start: ", prevLengthAnchorOffset);
-            console.log("end:", prevLengthFocusOffset);
-            tagCrossNodeWord(parentNode, textPre.length + selection.anchorOffset, textPre.length + word.length);
+            console.log("start: ", textPre.length + selection.anchorOffset);
+            console.log("end:", textPre.length + selection.anchorOffset + word.length);
+            tagCrossNodeWord(parentNode, textPre.length + selection.anchorOffset, textPre.length + selection.anchorOffset + word.length);
             //tagCrossNodeWord(parentNode, prevLengthAnchorOffset, prevLengthFocusOffset);
 
 /*
