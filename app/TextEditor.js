@@ -2,6 +2,7 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import { Overlay, Popover, Button } from 'react-bootstrap';
 import { loremipsum } from './LoremIpsum';
+import tagCrossNodeWord from './applyClassesToWord';
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -43,6 +44,31 @@ class TextEditor extends React.Component {
             word = combinedText.slice(anchorStart, totalEnd);
 
             //TODO: tooltip target.
+
+            tagCrossNodeWord(anchorNode.parentNode, anchorStart, totalEnd);
+
+/*
+            let popover_target = document.createElement('span');
+            popover_target.id = 'popover-target';
+            popover_target.innerHTML = focusNode.textContent.slice(0, selection.focusOffset);
+            popover_target.style.color = "blue";
+
+            //anchorNode only
+            //anchorNode.parentElement.innerHTML =
+
+            //focusNode.parentElement.
+            let parentElem = focusNode.parentElement;
+            let parentNode = focusNode.parentNode;
+
+            parentNode.removeChild(parentNode.firstChild);
+            console.log(parentElem);
+            console.log(parentElem.firstChild);
+            parentElem.append(popover_target);
+            parentElem.append(combinedText.slice(totalEnd, combinedText.length));
+*/
+
+
+
         } else {
 
             const node = selection.anchorNode;
@@ -51,14 +77,16 @@ class TextEditor extends React.Component {
             const text = node.textContent;
             word = text.slice(start,end);
 
-            var popover_target = document.createElement('span');
+            let popover_target = document.createElement('span');
             popover_target.id = 'popover-target';
             popover_target.innerHTML = text.slice(start,end);
             popover_target.style.color = "blue";
-            const parentElem = node.parentElement;
+
+            let parentElem = node.parentElement;
             parentElem.innerHTML = (text.slice(0, start));
             parentElem.append(popover_target)
             parentElem.append(text.slice(end, text.length));
+
             this.setState({
                 target_parent: popover_target.parentNode,
                 target:popover_target
