@@ -24,7 +24,8 @@ class TextEditor extends React.Component {
         target_parent.replaceChild(this.state.target.firstChild,this.state.target);
     }
     rightClick(e) {
-        $(".special-target").removeClass("special-target");
+        $(".special-target").remove();
+
         if (this.state.target_parent && this.state.target)
             this.replaceWithChild(this.state.target_parent, this.state.target);
 
@@ -116,6 +117,10 @@ class TextEditor extends React.Component {
             var traversal = traverseList(parentNode, anchorNode, focusNode, 0, 0)[0];
             console.log("textPre:", textPre);
             console.log("textAnchorToFocus:", textAnchorToFocus);
+
+
+
+
             var textpart2 = '';
             var preFocusText = '';
             for (let i = 0; i < traversal.length; i++) {
@@ -126,6 +131,36 @@ class TextEditor extends React.Component {
             }
             textpart2 = textpart2.slice(anchorStart, textpart2.length);
             console.log(textpart2);
+
+//INSERT
+            //http://stackoverflow.com/a/5174867
+            function getWordAt(str, pos) {
+
+                // Perform type conversions.
+                str = String(str);
+                pos = Number(pos) >>> 0;
+
+                // Search for the word's beginning and end.
+                let left = str.slice(0, pos + 1).search(/\S+$/),
+                    right = str.slice(pos).search(/\s/);
+
+                // The last word in the string is a special case.
+                if (right < 0) {
+                    return [left, str.length];
+                }
+
+                // Return the word, using the located bounds to extract it from the string.
+                return [left, right + pos];
+
+            }
+            const t =getWordAt(textPre + textAnchorToFocus, preFocusText.length);
+            const start = t[0];
+            const end = t[1];
+            var word = textAnchorToFocus.slice(start,end);
+            console.log("word ",word);
+//ENDPASTE
+
+/*
 
             let combinedText = textpart2;
 
@@ -156,7 +191,8 @@ class TextEditor extends React.Component {
 */
             //TODO: tooltip target.
 
-
+            tagCrossNodeWord(parentNode, start, end);
+/*
             var prevLengthFocusOffset = parentNode.textContent.length - preFocusText.length+selection.focusOffset;
             console.log("pntc: ",parentNode.textContent);
             var prevLengthAnchorOffset = parentNode.textContent.length - combinedText.length;
@@ -200,7 +236,6 @@ class TextEditor extends React.Component {
             word = text.slice(start,end);
 
 
-            var left, right;
             //http://stackoverflow.com/a/5174867
             function getWordAt(str, pos) {
 
@@ -209,8 +244,8 @@ class TextEditor extends React.Component {
                 pos = Number(pos) >>> 0;
 
                 // Search for the word's beginning and end.
-                left = str.slice(0, pos + 1).search(/\S+$/);
-                right = str.slice(pos).search(/\s/);
+                let left = str.slice(0, pos + 1).search(/\S+$/),
+                    right = str.slice(pos).search(/\s/);
 
                 // The last word in the string is a special case.
                 if (right < 0) {
@@ -285,7 +320,9 @@ class TextEditor extends React.Component {
                     const target_parent = this.state.target_parent;
                     const target = this.state.target;
                     this.closePopover();
-                    $(".special-target").removeClass("special-target");
+                    $(".special-target").each(function() {
+                        $(this).replaceWith($(this).text());
+                    });
                     this.replaceWithChild(target_parent, target);
                 }}>Close</Button>
             </Popover>
