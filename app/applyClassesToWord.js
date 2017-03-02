@@ -129,7 +129,6 @@ export default function insertTargets(selection, e) {
     var anchorNodeHit = false;
     var focusNodeHit = false;
     var textAccumulateUntilSplit = '';
-    var doneAUS = false;
 
     //TODO:
     //The function below is ASYNCHRONOUS
@@ -146,14 +145,14 @@ export default function insertTargets(selection, e) {
             if (anchorNode == focusNode) {
                 console.log("A", parentNode.cloneNode(true));
                 console.log(textAccumulateUntilSplit);
-                if(!doneAUS)
-                    textAccumulateUntilSplit += parentNode.wholeText.slice(
-                        0,
-                        (selection.anchorOffset + selection.focusOffset)/2
-                    );
+
+                textAccumulateUntilSplit += parentNode.wholeText.slice(
+                    0,
+                    (selection.anchorOffset + selection.focusOffset)/2
+                );
                 console.log(textAccumulateUntilSplit);
                 //prevent textAccumulateUntilSplit from continuing
-                doneAUS=true;
+                focusNodeHit = true;
             }
             else if (focusNodeHit == true) {
                 console.log("B", parentNode.cloneNode(true));
@@ -166,7 +165,7 @@ export default function insertTargets(selection, e) {
                 textAccumulateUntilSplit +=
                 parentNode.wholeText.slice(0, fo);
             }
-            else if (!doneAUS)
+            else
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
 
@@ -174,7 +173,7 @@ export default function insertTargets(selection, e) {
         }
         else if (parentNode === focusNode) {
             focusNodeHit = true;
-            if (anchorNodeHit == true && !doneAUS) {
+            if (anchorNodeHit == true) {
                 console.log("C", parentNode.cloneNode(true));
                 //asymmetry is in case focusNode is a text node.
                 var fo = parentNode.focusOffset;
@@ -184,7 +183,7 @@ export default function insertTargets(selection, e) {
                 textAccumulateUntilSplit +=
                     parentNode.wholeText.slice(0, fo);
             }
-            else if (!doneAUS)
+            else
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
 
@@ -192,7 +191,7 @@ export default function insertTargets(selection, e) {
         }
         else if (parentNode.nodeType === Node.TEXT_NODE) {
             console.log("D", parentNode.cloneNode(true));
-            if (!(anchorNodeHit && focusNodeHit) && !doneAUS)
+            if (!(anchorNodeHit && focusNodeHit))
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
             return new Array (parentNode);
