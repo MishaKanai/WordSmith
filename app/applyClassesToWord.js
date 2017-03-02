@@ -122,7 +122,7 @@ export default function insertTargets(selection) {
     if (parentNode.className == "ql-editor") {
         //selection has missed text.
         //leave to default behavior
-        return[null, null];
+        return null;
     }
 
     var textAccumulator = '';
@@ -213,7 +213,7 @@ export default function insertTargets(selection) {
     let wholeText = textAccumulator;
 
     // tuple t
-    const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length-1);
+    const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length);
     const start = t[0];
     const end = t[1];
     var word = (textAccumulator).slice(start,end);
@@ -222,6 +222,9 @@ export default function insertTargets(selection) {
     console.log("start index: ", start);
     console.log("end index: ", end);
     console.log("word extracted: ",word);
+
+    if (start < 0)
+        return null;
 
     //recursively insert .special-target spans into word, split across leaves
     tagCrossNodeWord(parentNode, start, end);
@@ -236,7 +239,7 @@ export default function insertTargets(selection) {
     //check for 1 letter words, and inner whitespace, and ignore
     if (word.length < 2 || word.split(' ').length > 1) {
         //do nothing
-        return [null, null];
+        return null;
     }
 
     return [word, lasttarget];
