@@ -24,10 +24,10 @@ class TextEditor extends React.Component {
         target_parent.replaceChild(this.state.target.firstChild,this.state.target);
     }
     rightClick(e) {
-        $(".special-target").remove();
 
-        if (this.state.target_parent && this.state.target)
-            this.replaceWithChild(this.state.target_parent, this.state.target);
+        $(".special-target").each(function() {
+            $(this).replaceWith($(this).text());
+        });
 
         if (this.state.popoverShown) {
             this.closePopover();
@@ -158,71 +158,17 @@ class TextEditor extends React.Component {
             const end = t[1];
             var word = textAnchorToFocus.slice(start,end);
             console.log("word ",word);
-//ENDPASTE
 
-/*
-
-            let combinedText = textpart2;
-
-            console.log("combined text build through iteration:", combinedText);
-
-
-
-//            const combinedText = anchorNode.textContent + focusNode.textContent;
-            //const combinedText = //length of our anchorStart to end.
-            console.log("ct2:",combinedText);
-
-            //length of everything pre-focusNode
-
-            console.log("prefocusText", preFocusText);
-            console.log(selection.focusOffset);
-            let word1 = textAnchorToFocus.slice(preFocusText.length, textAnchorToFocus.length);
-            console.log("word1:",word1);
-
-
-            //word = combinedText.slice(0, preFocusText.length + selection.focusOffset);
-            console.log("word:", word);
-
-/*
-            console.log("selection object:",selection);
-            console.log("combinedText: ",combinedText);
-            console.log("anchornode parent",anchorNode.parentNode);
-            console.log("anchornode parent parent",anchorNode.parentNode.parentNode);
-*/
-            //TODO: tooltip target.
 
             tagCrossNodeWord(parentNode, start, end);
-/*
-            var prevLengthFocusOffset = parentNode.textContent.length - preFocusText.length+selection.focusOffset;
-            console.log("pntc: ",parentNode.textContent);
-            var prevLengthAnchorOffset = parentNode.textContent.length - combinedText.length;
 
-            //console.log("node: ",anchorNode.parentNode.parentNode.cloneNode(true));
-            console.log("start: ", textPre.length + selection.anchorOffset);
-            console.log("end:", textPre.length + selection.anchorOffset + word.length);
-            tagCrossNodeWord(parentNode, textPre.length + selection.anchorOffset, textPre.length + selection.anchorOffset + word.length);
-            //tagCrossNodeWord(parentNode, prevLengthAnchorOffset, prevLengthFocusOffset);
+            const specialtargetarray = document.getElementsByClassName('special-target');
+            const lasttarget = specialtargetarray.item(specialtargetarray.length -1);
+            lasttarget.id = "popover-target";
 
-/*
-            let popover_target = document.createElement('span');
-            popover_target.id = 'popover-target';
-            popover_target.innerHTML = focusNode.textContent.slice(0, selection.focusOffset);
-            popover_target.style.color = "blue";
-
-            //anchorNode only
-            //anchorNode.parentElement.innerHTML =
-
-            //focusNode.parentElement.
-            let parentElem = focusNode.parentElement;
-            let parentNode = focusNode.parentNode;
-
-            parentNode.removeChild(parentNode.firstChild);
-            console.log(parentElem);
-            console.log(parentElem.firstChild);
-            parentElem.append(popover_target);
-            parentElem.append(combinedText.slice(totalEnd, combinedText.length));
-*/
-
+            this.setState({
+                target:lasttarget
+            });
 
 
         } else {
@@ -264,11 +210,12 @@ class TextEditor extends React.Component {
             console.log(word);
             let popover_target = document.createElement('span');
             popover_target.id = 'popover-target';
+            popover_target.className = 'special-target'
             popover_target.innerHTML = word;
             popover_target.style.color = "blue";
 
             let parentElem = node.parentElement;
-            parentElem.innerHTML = (text.slice(0, start));
+            parentElem.replaceChild( document.createTextNode(text.slice(0, start)), node );
             parentElem.append(popover_target)
             parentElem.append(text.slice(end, text.length));
 
@@ -323,7 +270,6 @@ class TextEditor extends React.Component {
                     $(".special-target").each(function() {
                         $(this).replaceWith($(this).text());
                     });
-                    this.replaceWithChild(target_parent, target);
                 }}>Close</Button>
             </Popover>
                 </Overlay>
