@@ -87,9 +87,10 @@ class TextEditor extends React.Component {
                 else if (parentNode === focusNode) {
                     focusNodeHit = true;
                     if (anchorNodeHit = true)
-                        textAccumulator += parentNode.wholeText.split(0, parentNode.focusOffset);
+                        textAccumulateUntilSplit += parentNode.wholeText.split(0, parentNode.focusOffset);
                     else
-                        textAccumulator += parentNode.wholeText;
+                        textAccumulateUntilSplit += parentNode.wholeText;
+                    textAccumulator += parentNode.wholeText;
                     textAnchorToFocus += parentNode.wholeText;
                     return [new Array (parentNode), 1,1 ];
                 }
