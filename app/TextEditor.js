@@ -25,12 +25,11 @@ class TextEditor extends React.Component {
 
     }
     rightClick(e) {
-
         //close popover
         if (this.state.popoverShown) {
             this.closePopover();
         }
-
+        //t is a tuple: [word selected, popover-target element]
         var t = insertTargets(document.getSelection(), e);
 
         this.state.word = t[0];
