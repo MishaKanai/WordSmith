@@ -31,6 +31,7 @@ class TextEditor extends React.Component {
             //this.replaceWithChild(this.state.target_parent, this.state.target);
         }
         const selection = document.getSelection();
+        console.log("selection:" ,selection);
         const anchorNode = selection.anchorNode;
         const focusNode = selection.focusNode;
 
@@ -66,22 +67,35 @@ class TextEditor extends React.Component {
             var textAnchorToFocus = '';
 
             var textAccumulator = '';
+            var anchorNodeHit = false;
+            var focusNodeHit = false;
+            var textAccumulateUntilSplit = '';
             var textPre = '';
             // FILL GAPS (recursion?)
-            let traverseList = (parentNode, startNode, endNode, sf, ef) => {
-                if (parentNode === startNode) {
+            let traverseList = (parentNode, anchorNode, focusNode, sf, ef) => {
+                if (parentNode === anchorNode) {
+                    anchorNodeHit = true;
+                    if (focusNodeHit = true)
+                        textAccumulateUntilSplit += parentNode.wholeText.split(0, parentNode.anchorOffset);
+                    else
+                        textAccumulateUntilSplit += parentNode.wholeText;
                     textAccumulator += parentNode.wholeText;
 
                     textAnchorToFocus += parentNode.wholeText;
                     return [new Array (parentNode), 1,0 ];
                 }
-                else if (parentNode === endNode) {
-                    textAccumulator += parentNode.wholeText;
-
+                else if (parentNode === focusNode) {
+                    focusNodeHit = true;
+                    if (anchorNodeHit = true)
+                        textAccumulator += parentNode.wholeText.split(0, parentNode.focusOffset);
+                    else
+                        textAccumulator += parentNode.wholeText;
                     textAnchorToFocus += parentNode.wholeText;
                     return [new Array (parentNode), 1,1 ];
                 }
                 else if (parentNode.nodeType === Node.TEXT_NODE) {
+                    if (!(anchorNodeHit && focusNodeHit))
+                        textAccumulateUntilSplit += parentNode.wholeText;
                     textAccumulator += parentNode.wholeText;
 
                     console.log("X": parentNode);
@@ -108,7 +122,7 @@ class TextEditor extends React.Component {
                 var returnList = [];
                 for (let i = 0; i < childNodes.length; i++) {
                     let currChild = childNodes[i];
-                    let result = traverseList(currChild, startNode, endNode, sf, ef)
+                    let result = traverseList(currChild, anchorNode, focusNode, sf, ef)
                     sf = result[1];
                     ef = result[2];
                     returnList = returnList.concat(result[0]);
@@ -123,22 +137,28 @@ class TextEditor extends React.Component {
             console.log("textPre:", textPre);
             console.log("textAnchorToFocus:", textAnchorToFocus);
             console.log("textAccumulator", textAccumulator);
-
+            console.log("TEXTACCUMULATEUNTILSPLIT", textAccumulateUntilSplit);
 
 
             var textpart2 = '';
-            var preFocusText = '';
+            var preAnchorText = '';
+            var found = false;
             for (let i = 0; i < traversal.length; i++) {
                 console.log("line ", i);
                 console.log("text: ", traversal[i].wholeText);
                 textpart2 += traversal[i].wholeText;
-                if (i != traversal.length-1)
-                    preFocusText += traversal[i].wholeText;
+                if (!found) {
+                    if (traversal[i] === selection.anchorNode) {
+                        found = true;
+                        preAnchorText += traversal[i].wholeText;
+                    }
+                }
             }
-            let wholeText = textpart2;
+            let wholeText = textAccumulator;
             console.log(wholeText);
             textpart2 = textpart2.slice(anchorStart, textpart2.length);
             console.log(textpart2);
+            console.log("preFocusText: ", preAnchorText);
 
 //INSERT
             //http://stackoverflow.com/a/5174867
@@ -161,15 +181,10 @@ class TextEditor extends React.Component {
                 return [left, right + pos];
 
             }
-            console.log("textpart2", textpart2);
-            console.log("string searched by getWordAt", textPre + textAnchorToFocus);
-            console.log("index: ", preFocusText.length + selection.focusOffset);
-            const untilWord = textPre + textAnchorToFocus.slice(0, selection.anchorOffset) + textpart2
-
-            const t =getWordAt(untilWord, preFocusText.length + selection.focusOffset);
+            const t =getWordAt(textAccumulator, textAccumulateUntilSplit.length);
             const start = t[0];
             const end = t[1];
-            var word = (textPre + textAnchorToFocus).slice(start,end);
+            var word = (textAccumulator).slice(start,end);
             console.log("and start: ", start);
             console.log("reulting end: ", end);
             console.log("word ",word);
