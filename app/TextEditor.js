@@ -95,6 +95,11 @@ class TextEditor extends React.Component {
             var focusNodeHit = false;
             var textAccumulateUntilSplit = '';
 
+            //TODO:
+            //The function below is ASYNCHRONOUS
+            //this means that occasionally we get nodes appended out of order.
+            //This will have to be resolved in an iterative implementation with a queue.
+
             // *Traverse the list recursively, getting the text nodes in-order.
             //    After reconstructing the text, we will send to tagCrossNodeWord
             // *Simultaneously accumulate textAccumulateUntilSplit until selection end
