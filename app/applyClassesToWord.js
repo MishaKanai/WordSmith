@@ -143,22 +143,16 @@ export default function insertTargets(selection, e) {
         if (parentNode === anchorNode) {
             anchorNodeHit = true;
             if (anchorNode == focusNode) {
-                console.log("A", parentNode.cloneNode(true));
-                console.log(textAccumulateUntilSplit);
-
                 textAccumulateUntilSplit += parentNode.wholeText.slice(
                     0,
                     (selection.anchorOffset + selection.focusOffset)/2
                 );
-                console.log(textAccumulateUntilSplit);
                 //prevent textAccumulateUntilSplit from continuing
                 focusNodeHit = true;
             }
             else if (focusNodeHit == true) {
-                console.log("B", parentNode.cloneNode(true));
-                console.log(textAccumulateUntilSplit);
-                console.log(parentNode.anchorOffset);
                 var fo = parentNode.focusOffset;
+                //if F.O. is undefined, we want nothing (slice will give everything)
                 if (typeof fo == 'undefined') {
                     fo = 0;
                 }
@@ -174,9 +168,8 @@ export default function insertTargets(selection, e) {
         else if (parentNode === focusNode) {
             focusNodeHit = true;
             if (anchorNodeHit == true) {
-                console.log("C", parentNode.cloneNode(true));
-                //asymmetry is in case focusNode is a text node.
                 var fo = parentNode.focusOffset;
+                //if F.O. is undefined, we want nothing (slice will give everything)
                 if (typeof fo == 'undefined') {
                     fo = 0;
                 }
@@ -190,7 +183,6 @@ export default function insertTargets(selection, e) {
             return new Array (parentNode);
         }
         else if (parentNode.nodeType === Node.TEXT_NODE) {
-            console.log("D", parentNode.cloneNode(true));
             if (!(anchorNodeHit && focusNodeHit))
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
