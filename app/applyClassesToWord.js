@@ -144,174 +144,134 @@ export default function insertTargets(selection, e) {
     const focusNode = selection.focusNode;
 
     var word;
-    var target;
-    //if (anchorNode !== focusNode) {
-    if (true) {
-        //this is occurs when selection is across different leaves.
-        //We will prepare the parameters we need to pass to tagCrossNodeWord
-        // i.e. A mutual parent node to anchorNode and focusNode,
-        //      And the startIndexes and endIndexes in the parent's textContent
-        //      That refer to the word in questions.
-        console.log("an != fn");
 
-        //find common parent of anchorNode and focusNode
-        //http://stackoverflow.com/a/2453811
-        var fp = $(focusNode).parents();
-        var ap = $(anchorNode).parents();
-        for (var i=0; i<ap.length; i++) {
-            if (fp.index(ap[i]) != -1) {
-                // common parent
-                console.log("common parent: (?): ",fp[fp.index(ap[i])]);
-                break;
-            }
+    //We will prepare the parameters we need to pass to tagCrossNodeWord
+    // i.e. A mutual parent node to anchorNode and focusNode,
+    //      And the startIndexes and endIndexes in the parent's textContent
+    //      That refer to the word in questions.
+    console.log("an != fn");
+
+    //find common parent of anchorNode and focusNode
+    //http://stackoverflow.com/a/2453811
+    var fp = $(focusNode).parents();
+    var ap = $(anchorNode).parents();
+    for (var i=0; i<ap.length; i++) {
+        if (fp.index(ap[i]) != -1) {
+            // common parent
+            console.log("common parent: (?): ",fp[fp.index(ap[i])]);
+            break;
         }
-        const parentNode = fp[fp.index(ap[i])];
-
-        if (parentNode.className == "ql-editor") {
-            //selection has missed text.
-            //leave to default behavior
-            return[null, null];
-        }
-
-        var textAccumulator = '';
-        var anchorNodeHit = false;
-        var focusNodeHit = false;
-        var textAccumulateUntilSplit = '';
-
-        //TODO:
-        //The function below is ASYNCHRONOUS
-        //this means that occasionally we get nodes appended out of order.
-        //This will have to be resolved in an iterative implementation with a queue.
-
-        // *Traverse the list recursively, getting the text nodes in-order.
-        //    After reconstructing the text, we will send to tagCrossNodeWord
-        // *Simultaneously accumulate textAccumulateUntilSplit until selection end
-        //  so we know the index of the word to send to tagCrossNodeWord
-        let traverseList = (parentNode, anchorNode, focusNode) => {
-            if (parentNode === anchorNode) {
-                anchorNodeHit = true;
-                if (anchorNode == focusNode) {
-                    console.log("in with", parentNode.cloneNode(true));
-                    textAccumulateUntilSplit += parentNode.wholeText.slice(
-                        0,
-                        (selection.anchorOffset + selection.focusOffset)/2
-                    );
-                    //prevent textAccumulateUntilSplit from continuing
-                    focusNodeHit=true;
-                }
-                else if (focusNodeHit == true) {
-                    textAccumulateUntilSplit +=
-                        parentNode.wholeText.slice(0, parentNode.anchorOffset);
-                }
-                else
-                    textAccumulateUntilSplit += parentNode.wholeText;
-                textAccumulator += parentNode.wholeText;
-
-                return new Array (parentNode);
-            }
-            else if (parentNode === focusNode) {
-                focusNodeHit = true;
-                if (anchorNodeHit == true) {
-                    //asymmetry is in case focusNode is a text node.
-                    var fo = parentNode.focusOffset;
-                    if (typeof fo == 'undefined') {
-                        fo = 0;
-                    }
-                    textAccumulateUntilSplit +=
-                        parentNode.wholeText.slice(0, fo);
-                }
-                else
-                    textAccumulateUntilSplit += parentNode.wholeText;
-                textAccumulator += parentNode.wholeText;
-
-                return new Array (parentNode);
-            }
-            else if (parentNode.nodeType === Node.TEXT_NODE) {
-                if (!(anchorNodeHit && focusNodeHit))
-                    textAccumulateUntilSplit += parentNode.wholeText;
-                textAccumulator += parentNode.wholeText;
-                return new Array (parentNode);
-            }
-
-            //traverse list recursively
-            const childNodes = parentNode.childNodes;
-
-            var returnList = [];
-            for (let i = 0; i < childNodes.length; i++) {
-                let currChild = childNodes[i];
-                let result = traverseList(currChild, anchorNode, focusNode)
-                returnList = returnList.concat(result);
-            }
-            return returnList;
-        }
-
-        // generate list of textNodes
-        //while filling text accumulators
-        var traversal = traverseList(parentNode, anchorNode, focusNode);
-
-        //these are important for debugging.
-        console.log("textAccumulator", textAccumulator);
-        console.log("TEXTACCUMULATEUNTILSPLIT", textAccumulateUntilSplit);
-
-
-        let wholeText = textAccumulator;
-
-        // tuple t
-        const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length-1);
-        const start = t[0];
-        const end = t[1];
-        var word = (textAccumulator).slice(start,end);
-
-        //good for debugging
-        console.log("start index: ", start);
-        console.log("end index: ", end);
-        console.log("word extracted: ",word);
-
-        //recursively insert .special-target spans into word, split across leaves
-        tagCrossNodeWord(parentNode, start, end);
-
-        //tag last .special-target with id="popover-target", for popover targeting
-        const specialtargetarray = document.getElementsByClassName('special-target');
-        const lasttarget = specialtargetarray.item(specialtargetarray.length -1);
-        lasttarget.id = "popover-target";
-
-        target = lasttarget;
-    } else {
-        //selection is across the same leaf node.
-        console.log("an == fn");
-
-        const node = selection.anchorNode;
-        const text = node.textContent;
-        var start = selection.anchorOffset;
-        var end = selection.focusOffset;
-
-
-        word = text.slice(start,end);
-
-        const t = getWordAt(text, (start + end)/ 2);
-        console.log(t);
-        start = t[0];
-        end = t[1];
-        word = text.slice(start,end);
-
-        //insert popover target
-        let popover_target = document.createElement('span');
-        popover_target.id = 'popover-target';
-        popover_target.className = 'special-target'
-        popover_target.innerHTML = word;
-        popover_target.style.color = "blue";
-
-        let parentElem = node.parentElement;
-        console.log("parentElem0", parentElem.parentNode.cloneNode(true));
-        parentElem.replaceChild( document.createTextNode(text.slice(0, start)), node );
-        console.log("parentElem1", parentElem.parentNode.cloneNode(true));
-        parentElem.append(popover_target)
-        console.log("parentElem2", parentElem.parentNode.cloneNode(true));
-        parentElem.append(text.slice(end, text.length));
-        console.log("parentElem3", parentElem.parentNode.cloneNode(true));
-
-        target = popover_target;
     }
+    const parentNode = fp[fp.index(ap[i])];
+
+    if (parentNode.className == "ql-editor") {
+        //selection has missed text.
+        //leave to default behavior
+        return[null, null];
+    }
+
+    var textAccumulator = '';
+    var anchorNodeHit = false;
+    var focusNodeHit = false;
+    var textAccumulateUntilSplit = '';
+
+    //TODO:
+    //The function below is ASYNCHRONOUS
+    //this means that occasionally we get nodes appended out of order.
+    //This will have to be resolved in an iterative implementation with a queue.
+
+    // *Traverse the list recursively, getting the text nodes in-order.
+    //    After reconstructing the text, we will send to tagCrossNodeWord
+    // *Simultaneously accumulate textAccumulateUntilSplit until selection end
+    //  so we know the index of the word to send to tagCrossNodeWord
+    let traverseList = (parentNode, anchorNode, focusNode) => {
+        if (parentNode === anchorNode) {
+            anchorNodeHit = true;
+            if (anchorNode == focusNode) {
+                console.log("in with", parentNode.cloneNode(true));
+                textAccumulateUntilSplit += parentNode.wholeText.slice(
+                    0,
+                    (selection.anchorOffset + selection.focusOffset)/2
+                );
+                //prevent textAccumulateUntilSplit from continuing
+                focusNodeHit=true;
+            }
+            else if (focusNodeHit == true) {
+                textAccumulateUntilSplit +=
+                    parentNode.wholeText.slice(0, parentNode.anchorOffset);
+            }
+            else
+                textAccumulateUntilSplit += parentNode.wholeText;
+            textAccumulator += parentNode.wholeText;
+
+            return new Array (parentNode);
+        }
+        else if (parentNode === focusNode) {
+            focusNodeHit = true;
+            if (anchorNodeHit == true) {
+                //asymmetry is in case focusNode is a text node.
+                var fo = parentNode.focusOffset;
+                if (typeof fo == 'undefined') {
+                    fo = 0;
+                }
+                textAccumulateUntilSplit +=
+                    parentNode.wholeText.slice(0, fo);
+            }
+            else
+                textAccumulateUntilSplit += parentNode.wholeText;
+            textAccumulator += parentNode.wholeText;
+
+            return new Array (parentNode);
+        }
+        else if (parentNode.nodeType === Node.TEXT_NODE) {
+            if (!(anchorNodeHit && focusNodeHit))
+                textAccumulateUntilSplit += parentNode.wholeText;
+            textAccumulator += parentNode.wholeText;
+            return new Array (parentNode);
+        }
+
+        //traverse list recursively
+        const childNodes = parentNode.childNodes;
+
+        var returnList = [];
+        for (let i = 0; i < childNodes.length; i++) {
+            let currChild = childNodes[i];
+            let result = traverseList(currChild, anchorNode, focusNode)
+            returnList = returnList.concat(result);
+        }
+        return returnList;
+    }
+
+    // generate list of textNodes
+    //while filling text accumulators
+    var traversal = traverseList(parentNode, anchorNode, focusNode);
+
+    //these are important for debugging.
+    console.log("textAccumulator", textAccumulator);
+    console.log("TEXTACCUMULATEUNTILSPLIT", textAccumulateUntilSplit);
+
+
+    let wholeText = textAccumulator;
+
+    // tuple t
+    const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length-1);
+    const start = t[0];
+    const end = t[1];
+    var word = (textAccumulator).slice(start,end);
+
+    //good for debugging
+    console.log("start index: ", start);
+    console.log("end index: ", end);
+    console.log("word extracted: ",word);
+
+    //recursively insert .special-target spans into word, split across leaves
+    tagCrossNodeWord(parentNode, start, end);
+
+    //tag last .special-target with id="popover-target", for popover targeting
+    const specialtargetarray = document.getElementsByClassName('special-target');
+    const lasttarget = specialtargetarray.item(specialtargetarray.length -1);
+    lasttarget.id = "popover-target";
+
     //trim whitespace from word.
     word = word.trim().replace(/(^\W*)|(\W*$)/g, '').trim();
     //check for 1 letter words, and inner whitespace, and ignore
@@ -320,7 +280,7 @@ export default function insertTargets(selection, e) {
         return;
     } else e.preventDefault();
 
-    return [word, target];
+    return [word, lasttarget];
 
 }
 
