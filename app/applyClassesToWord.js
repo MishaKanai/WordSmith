@@ -88,7 +88,7 @@ function tagCrossNodeWord(node, startIndex, endIndex) {
 
 
 
-export default function insertTargets(selection, e) {
+export default function insertTargets(selection) {
     console.log(selection);
 
     //clear previous highlighting and targeting
@@ -236,8 +236,8 @@ export default function insertTargets(selection, e) {
     //check for 1 letter words, and inner whitespace, and ignore
     if (word.length < 2 || word.split(' ').length > 1) {
         //do nothing
-        return;
-    } else e.preventDefault();
+        return [null, null];
+    }
 
     return [word, lasttarget];
 

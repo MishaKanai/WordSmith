@@ -30,7 +30,10 @@ class TextEditor extends React.Component {
             this.closePopover();
         }
         //t is a tuple: [word selected, popover-target element]
-        var t = insertTargets(document.getSelection(), e);
+        var t = insertTargets(document.getSelection());
+
+        if (t[0] != null)
+            e.preventDefault();
 
         this.state.word = t[0];
         this.setState({
