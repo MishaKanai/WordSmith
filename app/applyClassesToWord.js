@@ -143,7 +143,8 @@ export default function insertTargets(selection, e) {
 
     var word;
     var target;
-    if (anchorNode !== focusNode) {
+    //if (anchorNode !== focusNode) {
+    if (true) {
         //this is occurs when selection is across different leaves.
         //We will prepare the parameters we need to pass to tagCrossNodeWord
         // i.e. A mutual parent node to anchorNode and focusNode,
@@ -187,9 +188,19 @@ export default function insertTargets(selection, e) {
         let traverseList = (parentNode, anchorNode, focusNode) => {
             if (parentNode === anchorNode) {
                 anchorNodeHit = true;
-                if (focusNodeHit = true)
+                if (anchorNode == focusNode) {
+                    console.log("in with", parentNode.cloneNode(true));
+                    textAccumulateUntilSplit += parentNode.wholeText.slice(
+                        0,
+                        (selection.anchorOffset + selection.focusOffset)/2
+                    );
+                    //prevent textAccumulateUntilSplit from continuing
+                    focusNodeHit=true;
+                }
+                else if (focusNodeHit == true) {
                     textAccumulateUntilSplit +=
-                    parentNode.wholeText.slice(0, parentNode.anchorOffset);
+                        parentNode.wholeText.slice(0, parentNode.anchorOffset);
+                }
                 else
                     textAccumulateUntilSplit += parentNode.wholeText;
                 textAccumulator += parentNode.wholeText;
@@ -198,11 +209,14 @@ export default function insertTargets(selection, e) {
             }
             else if (parentNode === focusNode) {
                 focusNodeHit = true;
-                if (anchorNodeHit = true) {
+                if (anchorNodeHit == true) {
                     //asymmetry is in case focusNode is a text node.
                     var fo = parentNode.focusOffset;
-                    if (typeof fo == 'undefined')
+                    console.log("fo:",fo);
+                    if (typeof fo == 'undefined') {
+                        console.log("XXXXXXXXXXXXXXXX");
                         fo = 0;
+                    }
                     textAccumulateUntilSplit +=
                         parentNode.wholeText.slice(0, fo);
                 }
@@ -243,7 +257,7 @@ export default function insertTargets(selection, e) {
         let wholeText = textAccumulator;
 
         // tuple t
-        const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length);
+        const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length-1);
         const start = t[0];
         const end = t[1];
         var word = (textAccumulator).slice(start,end);
@@ -275,6 +289,7 @@ export default function insertTargets(selection, e) {
         word = text.slice(start,end);
 
         const t = getWordAt(text, (start + end)/ 2);
+        console.log(t);
         start = t[0];
         end = t[1];
         word = text.slice(start,end);
@@ -287,9 +302,13 @@ export default function insertTargets(selection, e) {
         popover_target.style.color = "blue";
 
         let parentElem = node.parentElement;
+        console.log("parentElem0", parentElem.parentNode.cloneNode(true));
         parentElem.replaceChild( document.createTextNode(text.slice(0, start)), node );
+        console.log("parentElem1", parentElem.parentNode.cloneNode(true));
         parentElem.append(popover_target)
+        console.log("parentElem2", parentElem.parentNode.cloneNode(true));
         parentElem.append(text.slice(end, text.length));
+        console.log("parentElem3", parentElem.parentNode.cloneNode(true));
 
         target = popover_target;
     }
