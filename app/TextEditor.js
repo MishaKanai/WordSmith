@@ -32,14 +32,27 @@ class TextEditor extends React.Component {
         //t is a tuple: [word selected, popover-target element]
         var t = insertTargets(document.getSelection());
 
-        if (t[0] != null)
+        if (t != null) {
+            //success
+            if (window.getSelection) {
+                if (window.getSelection().empty) {  // Chrome
+                    window.getSelection().empty();
+                } else if (window.getSelection().removeAllRanges) {  // Firefox
+                    window.getSelection().removeAllRanges();
+                }
+            } else if (document.selection) {  // IE?
+                document.selection.empty();
+            }
             e.preventDefault();
 
-        this.state.word = t[0];
-        this.setState({
-            target:t[1],
-            popoverShown: t[1],
-        });
+            this.state.word = t[0];
+            this.setState({
+                target:t[1],
+                popoverShown: t[1],
+            });
+        }
+
+
     }
     handleChange(event) {
         this.setState({text: event});
