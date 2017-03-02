@@ -28,7 +28,9 @@ function tagCrossNodeWord(node, startIndex, endIndex) {
             //create target
             let target = document.createElement('span');
             target.className = 'special-target';
-            target.style.color = "blue";
+            //target.style.backgroundColor = "green";
+            target.style.color = "purple";
+            target.style.fontSize = "150%";
             target.innerHTML = spanText;
             console.log("sliced for inside span:\n si: ", target.innerHTML);
 
@@ -212,9 +214,7 @@ export default function insertTargets(selection, e) {
                 if (anchorNodeHit == true) {
                     //asymmetry is in case focusNode is a text node.
                     var fo = parentNode.focusOffset;
-                    console.log("fo:",fo);
                     if (typeof fo == 'undefined') {
-                        console.log("XXXXXXXXXXXXXXXX");
                         fo = 0;
                     }
                     textAccumulateUntilSplit +=
