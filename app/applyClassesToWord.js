@@ -105,7 +105,6 @@ export default function insertTargets(selection, e) {
     // i.e. A mutual parent node to anchorNode and focusNode,
     //      And the startIndexes and endIndexes in the parent's textContent
     //      That refer to the word in questions.
-    console.log("an != fn");
 
     //find common parent of anchorNode and focusNode
     //http://stackoverflow.com/a/2453811
@@ -130,6 +129,7 @@ export default function insertTargets(selection, e) {
     var anchorNodeHit = false;
     var focusNodeHit = false;
     var textAccumulateUntilSplit = '';
+    var doneAUS = false;
 
     //TODO:
     //The function below is ASYNCHRONOUS
@@ -144,19 +144,29 @@ export default function insertTargets(selection, e) {
         if (parentNode === anchorNode) {
             anchorNodeHit = true;
             if (anchorNode == focusNode) {
-                console.log("in with", parentNode.cloneNode(true));
-                textAccumulateUntilSplit += parentNode.wholeText.slice(
-                    0,
-                    (selection.anchorOffset + selection.focusOffset)/2
-                );
+                console.log("A", parentNode.cloneNode(true));
+                console.log(textAccumulateUntilSplit);
+                if(!doneAUS)
+                    textAccumulateUntilSplit += parentNode.wholeText.slice(
+                        0,
+                        (selection.anchorOffset + selection.focusOffset)/2
+                    );
+                console.log(textAccumulateUntilSplit);
                 //prevent textAccumulateUntilSplit from continuing
-                focusNodeHit=true;
+                doneAUS=true;
             }
             else if (focusNodeHit == true) {
+                console.log("B", parentNode.cloneNode(true));
+                console.log(textAccumulateUntilSplit);
+                console.log(parentNode.anchorOffset);
+                var fo = parentNode.focusOffset;
+                if (typeof fo == 'undefined') {
+                    fo = 0;
+                }
                 textAccumulateUntilSplit +=
-                    parentNode.wholeText.slice(0, parentNode.anchorOffset);
+                parentNode.wholeText.slice(0, fo);
             }
-            else
+            else if (!doneAUS)
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
 
@@ -164,7 +174,8 @@ export default function insertTargets(selection, e) {
         }
         else if (parentNode === focusNode) {
             focusNodeHit = true;
-            if (anchorNodeHit == true) {
+            if (anchorNodeHit == true && !doneAUS) {
+                console.log("C", parentNode.cloneNode(true));
                 //asymmetry is in case focusNode is a text node.
                 var fo = parentNode.focusOffset;
                 if (typeof fo == 'undefined') {
@@ -173,14 +184,15 @@ export default function insertTargets(selection, e) {
                 textAccumulateUntilSplit +=
                     parentNode.wholeText.slice(0, fo);
             }
-            else
+            else if (!doneAUS)
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
 
             return new Array (parentNode);
         }
         else if (parentNode.nodeType === Node.TEXT_NODE) {
-            if (!(anchorNodeHit && focusNodeHit))
+            console.log("D", parentNode.cloneNode(true));
+            if (!(anchorNodeHit && focusNodeHit) && !doneAUS)
                 textAccumulateUntilSplit += parentNode.wholeText;
             textAccumulator += parentNode.wholeText;
             return new Array (parentNode);
