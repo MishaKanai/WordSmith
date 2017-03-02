@@ -20,30 +20,58 @@ class TextEditor extends React.Component {
             word: null,
         });
     }
-    rightClick(e) {
+    getWordAt(str, pos) {
+        //nifty function to get the word at index pos
+        //much easier this way
+        //Taken and modified slightly from:
+        //http://stackoverflow.com/a/5174867
+        function getWordAt(str, pos) {
 
+            // Perform type conversions.
+            str = String(str);
+            pos = Number(pos) >>> 0;
+
+            // Search for the word's beginning and end.
+            let left = str.slice(0, pos + 1).search(/\S+$/),
+                right = str.slice(pos).search(/\s/);
+
+            // The last word in the string is a special case.
+            if (right < 0) {
+                return [left, str.length];
+            }
+
+            // Return the word, using the located bounds to extract it from the string.
+            return [left, right + pos];
+        }
+
+        return getWordAt(str, pos);
+
+    }
+    rightClick(e) {
+        //clear highlighting and targeting
         $(".special-target").each(function() {
             $(this).replaceWith($(this).text());
         });
 
+        //close popover
         if (this.state.popoverShown) {
             this.closePopover();
-            //this.replaceWithChild(this.state.target_parent, this.state.target);
         }
+
         const selection = document.getSelection();
-        console.log("selection:" ,selection);
         const anchorNode = selection.anchorNode;
         const focusNode = selection.focusNode;
 
         var word;
         if (anchorNode !== focusNode) {
+            //this is occurs when selection is across different leaves.
+            //We will prepare the parameters we need to pass to tagCrossNodeWord
+            // i.e. A mutual parent node to anchorNode and focusNode,
+            //      And the startIndexes and endIndexes in the parent's textContent
+            //      That refer to the word in questions.
             console.log("an != fn");
-            const anchorStart = selection.anchorOffset;
-            const anchorEnd = anchorNode.length;
 
-            //TODO:
             //find common parent of anchorNode and focusNode
-
             //http://stackoverflow.com/a/2453811
             var fp = $(focusNode).parents();
             var ap = $(anchorNode).parents();
@@ -55,144 +83,88 @@ class TextEditor extends React.Component {
                 }
             }
             const parentNode = fp[fp.index(ap[i])];
+
             if (parentNode.className == "ql-editor") {
-                console.log("not clicked on text");
+                //selection has missed text.
+                //leave to default behavior
                 return;
             }
-
-            const totalEnd = anchorNode.length + selection.focusOffset;
-            console.log("anchorNode:", anchorNode.cloneNode(true));
-            console.log("focusNode", focusNode.cloneNode(true));
-
-            var textAnchorToFocus = '';
 
             var textAccumulator = '';
             var anchorNodeHit = false;
             var focusNodeHit = false;
             var textAccumulateUntilSplit = '';
-            var textPre = '';
-            // FILL GAPS (recursion?)
-            let traverseList = (parentNode, anchorNode, focusNode, sf, ef) => {
+
+            // *Traverse the list recursively, getting the text nodes in-order.
+            //    After reconstructing the text, we will send to tagCrossNodeWord
+            // *Simultaneously accumulate textAccumulateUntilSplit until selection end
+            //  so we know the index of the word to send to tagCrossNodeWord
+            let traverseList = (parentNode, anchorNode, focusNode) => {
                 if (parentNode === anchorNode) {
                     anchorNodeHit = true;
                     if (focusNodeHit = true)
-                        textAccumulateUntilSplit += parentNode.wholeText.split(0, parentNode.anchorOffset);
+                        textAccumulateUntilSplit +=
+                        parentNode.wholeText.split(0, parentNode.anchorOffset);
                     else
                         textAccumulateUntilSplit += parentNode.wholeText;
                     textAccumulator += parentNode.wholeText;
-
-                    textAnchorToFocus += parentNode.wholeText;
-                    return [new Array (parentNode), 1,0 ];
+                    return new Array (parentNode);
                 }
                 else if (parentNode === focusNode) {
                     focusNodeHit = true;
                     if (anchorNodeHit = true)
-                        textAccumulateUntilSplit += parentNode.wholeText.split(0, parentNode.focusOffset);
+                        textAccumulateUntilSplit +=
+                        parentNode.wholeText.split(0, parentNode.focusOffset);
                     else
                         textAccumulateUntilSplit += parentNode.wholeText;
                     textAccumulator += parentNode.wholeText;
-                    textAnchorToFocus += parentNode.wholeText;
-                    return [new Array (parentNode), 1,1 ];
+                    return new Array (parentNode);
                 }
                 else if (parentNode.nodeType === Node.TEXT_NODE) {
                     if (!(anchorNodeHit && focusNodeHit))
                         textAccumulateUntilSplit += parentNode.wholeText;
                     textAccumulator += parentNode.wholeText;
-
-                    console.log("X": parentNode);
-                    if (sf && !ef) {
-                        textAnchorToFocus += parentNode.wholeText;
-                        return [new Array (parentNode), 1 , 0];
-                    }
-                    else {
-                        if (!sf) {
-                            textPre = textPre + parentNode.wholeText;
-                        }
-                        return [[], sf,ef];
-                    }
-                }
-                else {
-                    console.log("else!");
-                    console.log("nodetype:" ,parentNode.nodeType);
+                    return new Array (parentNode);
                 }
 
-                //traverse list and concat
+                //traverse list recursively
                 const childNodes = parentNode.childNodes;
-                console.log(childNodes);
 
                 var returnList = [];
                 for (let i = 0; i < childNodes.length; i++) {
                     let currChild = childNodes[i];
-                    let result = traverseList(currChild, anchorNode, focusNode, sf, ef)
-                    sf = result[1];
-                    ef = result[2];
-                    returnList = returnList.concat(result[0]);
+                    let result = traverseList(currChild, anchorNode, focusNode)
+                    returnList = returnList.concat(result);
                 }
-                console.log(returnList);
-                return [returnList, sf, ef];
+                return returnList;
             }
 
+            // generate list of textNodes
+            //while filling text accumulators
+            var traversal = traverseList(parentNode, anchorNode, focusNode);
 
-
-            var traversal = traverseList(parentNode, anchorNode, focusNode, 0, 0)[0];
-            console.log("textPre:", textPre);
-            console.log("textAnchorToFocus:", textAnchorToFocus);
+            //these are important for debugging.
             console.log("textAccumulator", textAccumulator);
             console.log("TEXTACCUMULATEUNTILSPLIT", textAccumulateUntilSplit);
 
 
-            var textpart2 = '';
-            var preAnchorText = '';
-            var found = false;
-            for (let i = 0; i < traversal.length; i++) {
-                console.log("line ", i);
-                console.log("text: ", traversal[i].wholeText);
-                textpart2 += traversal[i].wholeText;
-                if (!found) {
-                    if (traversal[i] === selection.anchorNode) {
-                        found = true;
-                        preAnchorText += traversal[i].wholeText;
-                    }
-                }
-            }
             let wholeText = textAccumulator;
-            console.log(wholeText);
-            textpart2 = textpart2.slice(anchorStart, textpart2.length);
-            console.log(textpart2);
-            console.log("preFocusText: ", preAnchorText);
 
-//INSERT
-            //http://stackoverflow.com/a/5174867
-            function getWordAt(str, pos) {
-
-                // Perform type conversions.
-                str = String(str);
-                pos = Number(pos) >>> 0;
-
-                // Search for the word's beginning and end.
-                let left = str.slice(0, pos + 1).search(/\S+$/),
-                    right = str.slice(pos).search(/\s/);
-
-                // The last word in the string is a special case.
-                if (right < 0) {
-                    return [left, str.length];
-                }
-
-                // Return the word, using the located bounds to extract it from the string.
-                return [left, right + pos];
-
-            }
-            const t =getWordAt(textAccumulator, textAccumulateUntilSplit.length);
+            // tuple t
+            const t =this.getWordAt(textAccumulator, textAccumulateUntilSplit.length);
             const start = t[0];
             const end = t[1];
             var word = (textAccumulator).slice(start,end);
-            console.log("and start: ", start);
-            console.log("reulting end: ", end);
-            console.log("word ",word);
 
+            //good for debugging
+            console.log("start index: ", start);
+            console.log("end index: ", end);
+            console.log("word extracted: ",word);
 
+            //recursively insert .special-target spans into word, split across leaves
             tagCrossNodeWord(parentNode, start, end);
 
+            //tag last .special-target with id="popover-target", for popover targeting
             const specialtargetarray = document.getElementsByClassName('special-target');
             const lasttarget = specialtargetarray.item(specialtargetarray.length -1);
             lasttarget.id = "popover-target";
@@ -201,44 +173,24 @@ class TextEditor extends React.Component {
                 target:lasttarget
             });
 
-
         } else {
+            //selection is across the same leaf node.
             console.log("an == fn");
 
             const node = selection.anchorNode;
+            const text = node.textContent;
             var start = selection.anchorOffset;
             var end = selection.focusOffset;
-            const text = node.textContent;
-            console.log(text);
+
+
             word = text.slice(start,end);
 
-
-            //http://stackoverflow.com/a/5174867
-            function getWordAt(str, pos) {
-
-                // Perform type conversions.
-                str = String(str);
-                pos = Number(pos) >>> 0;
-
-                // Search for the word's beginning and end.
-                let left = str.slice(0, pos + 1).search(/\S+$/),
-                    right = str.slice(pos).search(/\s/);
-
-                // The last word in the string is a special case.
-                if (right < 0) {
-                    return [left, str.length];
-                }
-
-                // Return the word, using the located bounds to extract it from the string.
-                return [left, right + pos];
-
-            }
-            const t =getWordAt(text, (start + end)/ 2);
+            const t = this.getWordAt(text, (start + end)/ 2);
             start = t[0];
             end = t[1];
             word = text.slice(start,end);
 
-            console.log(word);
+            //insert popover target
             let popover_target = document.createElement('span');
             popover_target.id = 'popover-target';
             popover_target.className = 'special-target'
@@ -251,11 +203,14 @@ class TextEditor extends React.Component {
             parentElem.append(text.slice(end, text.length));
 
             this.setState({
-                target_parent: popover_target.parentNode,
                 target:popover_target
             });
         }
+
+        //trim whitespace from word.
+        //necessary?
         word = word.trim().replace(/(^\W*)|(\W*$)/g, '').trim();
+        //check for 1 letter words, and inner whitespace, and ignore
         if (word.length < 2 || word.split(' ').length > 1) {
             //do nothing
             return;
