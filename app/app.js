@@ -1,16 +1,20 @@
-import TextEditor from "./TextEditor";
-import Workspace from "./Workspace";
-import ReactDOM from 'react-dom';
 import React from 'react';
-import ReactQuill from 'react-quill';
+import ReactDOM from 'react-dom';
 
-var app = document.createElement('div');
-app.id = 'app';
+// Each major browser view user interface must be imported.
+import UI01 from './components/ui-01.js';
+import UI02 from './components/ui-02.js';
 
-document.body.appendChild(app);
-
-
-ReactDOM.render( <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word=' />, app );
-
-
-//ReactDOM.render( <TextEditor />, app);
+// For each view conditionally determine which view to display
+// depending on if the ID is present in the HTML.
+if (document.getElementById('ui-01') !== null) {
+  ReactDOM.render(
+    <UI01 />,
+    document.getElementById('ui-01')
+  );
+} else if (document.getElementById('ui-02') !== null) {
+  ReactDOM.render(
+    <UI02 />,
+    document.getElementById('ui-02')
+  );
+}
