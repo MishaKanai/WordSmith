@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
 import { Overlay, Popover, Button } from 'react-bootstrap';
-import { loremipsum } from './LoremIpsum';
-import insertTargets from './applyClassesToWord';
+import { loremipsum } from '../js/LoremIpsum';
+import insertTargets from '../js/applyClassesToWord';
 
 class TextEditor extends React.Component {
     constructor(props) {
