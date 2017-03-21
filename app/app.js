@@ -19,7 +19,7 @@ if (document.getElementById('workspace') !== null) {
 );
 
 } else if (document.getElementById('documents') !== null) {
-  ReactDOM.render( <SavedDocuments />,
+  ReactDOM.render( <SavedDocuments  />,
   document.getElementById('documents')
 );
 }
