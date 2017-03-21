@@ -3,7 +3,6 @@ import React from 'react';
 export default class SavedDocuments extends React.Component {
   render() {
     return (
-
       <div className="row list-group" id="documents">
           <div className="item  col-xs-4 col-lg-4">
               <div className="thumbnail">
