@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-export default class Suggestions extends React.Component{
+export default class SuggestionsBar extends React.Component{
   render(){
     return(
     <div>

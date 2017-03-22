@@ -1,6 +1,6 @@
 import React from 'react';
 import TextEditor from './TextEditor';
-import Suggestions from './suggestions';
+import SuggestionsBar from './SuggestionsBar';
 class Workspace extends React.Component {
     constructor(props) {
         super(props);
@@ -33,7 +33,7 @@ class Workspace extends React.Component {
                 getRhymes={(word)=>this.getRhymes(word)}
                 />
                 </div>
-                <Suggestions />
+                <SuggestionsBar />
 
                 </row>
 
