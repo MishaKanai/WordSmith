@@ -1,4 +1,5 @@
 import React from 'react';
+import Suggestion from './Suggestion';
 
 export default class SuggestionsBar extends React.Component{
   render(){
@@ -47,7 +48,8 @@ export default class SuggestionsBar extends React.Component{
     </div>
     <div className="row" >
       <div className="col-md-12" >
-        <ul className="list-group">
+        {/*
+          <ul className="list-group">
           <li className="list-group-item"  style={{"borderRadius" : "0px"}}>Cras justo odio</li>
           <li className="list-group-item">Dapibus ac facilisis in</li>
           <li className="list-group-item">Morbi leo risus</li>
@@ -61,6 +63,10 @@ export default class SuggestionsBar extends React.Component{
           <li className="list-group-item">Morbi leo risus</li>
           <li className="list-group-item">Porta ac consectetur ac</li>
           <li className="list-group-item" style={{"borderRadius" : "0px"}}>Vestibulum at eros</li>
+        </ul>
+        */}
+        <ul className="list-group">
+          {[...Array(20).keys()].map(n => <Suggestion word="blah" />)}
         </ul>
       </div>
     </div>
