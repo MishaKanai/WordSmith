@@ -37,7 +37,7 @@ class Workspace extends React.Component {
                 getRhymes={(word)=>this.getRhymes(word)}
                 />
                 </div>
-                <SuggestionsBar active="mime" allSuggestions={sugArr}/>
+                <SuggestionsBar word="Placeholder" active="mime" allSuggestions={sugArr}/>
 
                 </row>
 

@@ -42,7 +42,7 @@ export default class SuggestionsBar extends React.Component{
     <div className="row">
       <div  className="col-md-12">
         <div id="selected-result" className="nav">
-          <h4>&ldquo;sweaty&rdquo;</h4>
+          <h4>&ldquo;{this.props.word}&rdquo;</h4>
         </div>
       </div>
     </div>
