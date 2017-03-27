@@ -33,7 +33,7 @@ class Workspace extends React.Component {
                 getRhymes={(word)=>this.getRhymes(word)}
                 />
                 </div>
-                <SuggestionsBar />
+                <SuggestionsBar active="mime"/>
 
                 </row>
 

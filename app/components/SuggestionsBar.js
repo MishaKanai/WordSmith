@@ -2,6 +2,10 @@ import React from 'react';
 import Suggestion from './Suggestion';
 
 export default class SuggestionsBar extends React.Component{
+  /*var rhymeStyle = this.props.active === "rhyme" ? "active leftMost-li" : "leftMost-li"
+  var mimeStyle = this.props.active === "mime" ? "active" : ""
+  var defineStyle = this.props.active === "define" ? "active" : ""
+  var slangStyle = this.props.active === "slang" ? "active" : ""*/
   render(){
     return(
     <div>
@@ -10,27 +14,27 @@ export default class SuggestionsBar extends React.Component{
     <div className="row">
       <div className="col-md-12">
         <ul id="results-options" className="nav nav-pills">
-          <li role="presentation" className="active leftMost-li">
+          <li role="presentation" className={this.props.active === "rhyme" ? "active leftMost-li" : "leftMost-li"}>
             <a href="#"><span>
               Rhyme
             </span></a>
           </li>
           <li className="divider-vertical"></li>
-          <li role="presentation">
+          <li role="presentation" className = {this.props.active === "mime" ? "active" : ""}>
             <a href="#">
               <span>
                 Mime
               </span>
             </a></li>
           <li className="divider-vertical"></li>
-          <li role="presentation">
+          <li role="presentation" className = {this.props.active === "define" ? "active" : ""}>
             <a href="#">
               <span>
                 Define
               </span>
           </a></li>
           <li className="divider-vertical"></li>
-          <li role="presentation" className="rightMost-li">
+          <li role="presentation" className={this.props.active === "slance" ? "active rightMost-li" : "rightMost-li"}>
             <a href="#">
               <span>
                 Slang
