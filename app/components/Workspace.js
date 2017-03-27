@@ -1,11 +1,12 @@
 import React from 'react';
 import TextEditor from './TextEditor';
+import SuggestionsBar from './SuggestionsBar';
 class Workspace extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             //we will store info returned from api here.
-            info: null,
+            info: null
         }
     }
     getRhymes(word) {
@@ -22,6 +23,10 @@ class Workspace extends React.Component {
         });
     }
     render() {
+      var sugArr = []
+      for (var i=0; i < 20; i++){
+        sugArr.push("Placeholder")
+      }
         return (<div className='workspace-inner-wrapper container'>
 
                 <row>
@@ -32,63 +37,7 @@ class Workspace extends React.Component {
                 getRhymes={(word)=>this.getRhymes(word)}
                 />
                 </div>
-
-                <div className='col-md-4'>
-                <div id="results-box" className="thin-border">
-                <div className="row">
-                  <div className="col-md-12">
-                    <ul id="results-options" className="nav nav-pills">
-                      <li role="presentation" className="active leftMost-li">
-                        <a href="#"><span>
-                          Rhyme
-                        </span></a>
-                      </li>
-                      <li className="divider-vertical"></li>
-                      <li role="presentation">
-                        <a href="#">
-                          <span>
-                            Mime
-                          </span>
-                        </a></li>
-                      <li className="divider-vertical"></li>
-                      <li role="presentation">
-                        <a href="#">
-                          <span>
-                            Define
-                          </span>
-                      </a></li>
-                      <li className="divider-vertical"></li>
-                      <li role="presentation" className="rightMost-li">
-                        <a href="#">
-                          <span>
-                            Slang
-                          </span>
-                        </a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="row">
-                  <div id="selected-result" className="col-md-12">
-                    <div id="word-selected" className="list-group-item">
-                      <h4>&ldquo;Mom&rsquo;s spaghetti&rdquo;</h4>
-                    </div>
-                    <ul className="list-group">
-                    {
-                      [...Array(50).keys()].map(
-                        (i)=>
-                          <li className="list-group-item">
-                            Suggestion{i}
-                            <span className="glyphicon glyphicon-book pull-right">
-                            </span>
-                          </li>
-                      )}
-                    </ul>
-                  </div>
-                </div>
-{/* <textarea id="results-box" value={this.state.info}></textarea>*/}
-                </div>
-
-                </div>
+                <SuggestionsBar word="Placeholder" active="mime" allSuggestions={sugArr}/>
 
                 </row>
 

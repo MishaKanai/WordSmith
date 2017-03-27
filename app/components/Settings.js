@@ -1,9 +1,68 @@
 import React from 'react';
 
+class Element extends React.Component {
+    render() {
+        return (
+            <li className="list-group-item bottom-border-only clearfix">
+              <span className="left-hand-text">{this.props.subject}</span>
+                {this.props.children}
+            </li>
+            )
+        }
+    }
+
+class ModalElement extends React.Component {
+    render() {
+        return (
+            <li className="list-group-item bottom-border-only">
+                <div className="form-group">
+                    <label for={this.props.forLabel}>{this.props.subject}</label>
+                    {this.props.children}
+                </div>
+            </li> 
+            );
+        }
+    }
+
+class PasswordBox extends React.Component {
+    render() {
+        return (
+            <input type="password" className="form-control" id={this.props.id} />
+            );
+        }
+    }
+
+class ListElements extends React.Component {
+    render() {
+        const elementArray = this.props.elementArray;
+        const listItems = elementArray.map((element) =>
+            <option>{element}</option>
+            );
+        return (
+            <select className="pull-right" id="sel1">
+                {listItems}
+            </select>
+            );
+        }
+    }
+
+class EditElement extends React.Component {
+    render() {
+        return (
+            <div className="right-element pull-right">
+                <input type="text" className="form-control display-name pull-left" value={this.props.displayName} disabled />
+                <button type="button" className="btn btn-default display-name-btn pull-right">
+                    <span className="glyphicon glyphicon-pencil"></span>
+                </button>
+            </div> 
+            );
+        }
+    }
+
 export default class Settings extends React.Component {
   render() {
     return (
-    <div>// starting tag of component
+    <div>
 
     <div className="container">
       <div id="updatePassword" className="modal fade" role="dialog">
@@ -16,24 +75,9 @@ export default class Settings extends React.Component {
             </div>
             <div className="modal-body">
               <ul className="list-group">
-                <li className="list-group-item bottom-border-only">
-                  <div className="form-group">
-                    <label for="oldPwd">Old password</label>
-                    <input type="password" className="form-control" id="OldPwd" />
-                  </div>
-                </li>
-                <li className="list-group-item bottom-border-only">
-                  <div className="form-group">
-                    <label for="newPwd">New password</label>
-                    <input type="password" className="form-control" id="newPwd" />
-                  </div>
-                </li>
-                <li className="list-group-item bottom-border-only">
-                  <div className="form-group">
-                    <label for="newPwd2">Confirm new password</label>
-                    <input type="password" className="form-control" id="newPwd2" />
-                    </div>
-                </li>
+                <ModalElement forLabel="oldPwd" subject="Old password"><PasswordBox id="oldPwd" /></ModalElement>
+                <ModalElement forLabel="newPwd" subject="New password"><PasswordBox id="newPwd" /></ModalElement>
+                <ModalElement forLabel="newPwd2" subject="Confirm new password"><PasswordBox id="newPwd2" /></ModalElement>
                 <li className="list-group-item bottom-border-only">
                   <button type="button" className="btn btn-success modal-btn" data-dismiss="modal">Update</button>
                 </li>
@@ -69,57 +113,17 @@ export default class Settings extends React.Component {
             <li className="list-group-item bottom-border-only">
               <h3 className="text-center">Wordsmith editor default settings</h3>
             </li>
-            <li className="list-group-item bottom-border-only clearfix">
-              <span className="left-hand-text">Theme</span>
-              <select className="pull-right" id="sel1">
-                <option>Light</option>
-                <option>Dark</option>
-              </select>
-            </li>
-            <li className="list-group-item bottom-border-only clearfix">
-              <span className="left-hand-text">Font</span>
-              <select className="pull-right" id="sel1">
-                <option>Arial</option>
-                <option>Times New Roman</option>
-              </select>
-            </li>
-            <li className="list-group-item bottom-border-only clearfix">
-              <span className="left-hand-text">Font size</span>
-              <select className="pull-right" id="sel1">
-                <option>10</option>
-                <option>12</option>
-                <option>14</option>
-                <option>16</option>
-                <option>18</option>
-              </select>
-            </li>
+            <Element subject="Theme"><ListElements elementArray={['Light', 'Dark']} /></Element>
+            <Element subject="Font"><ListElements elementArray={['Arial', 'Times New Roman']} /></Element>
+            <Element subject="Font size"><ListElements elementArray={['10', '12', '14', '16', '18']} /></Element>
             <li className="list-group-item bottom-border-only">
               <h3 className="text-center">Account settings</h3>
             </li>
-            <li className="list-group-item bottom-border-only clearfix">
-              <span className="left-hand-text">Display name</span>
-              <div className="right-element pull-right">
-                <input type="text" className="form-control display-name pull-left" value="Kendrick Lamar" disabled />
-                <button type="button" className="btn btn-default display-name-btn pull-right">
-                  <span className="glyphicon glyphicon-pencil"></span>
-                </button>
-              </div>
-            </li>
-            <li className="list-group-item bottom-border-only clearfix">
-              <span className="left-hand-text">Email</span>
-              <div className="right-element pull-right">
-                <input type="text" className="form-control display-name pull-left" value="klamar@tde.us" disabled />
-                <button type="button" className="btn btn-default display-name-btn pull-right">
-                  <span className="glyphicon glyphicon-pencil"></span>
-                </button>
-              </div>
-            </li>
-            <li className="list-group-item bottom-border-only clearfix">
-              <span className="left-hand-text">Password</span>
-              <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">
-                Update
-              </button>
-            </li>
+            <Element subject="Display name"><EditElement displayName="Kendrick Lamar" /></Element>
+            <Element subject="Email"><EditElement displayName="klamar@tde.us" /></Element>
+            <Element subject="Password">
+              <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>  
+            </Element>
             <li className="list-group-item bottom-border-only clearfix">
               <button type="button" className="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteAccount">
                 Delete account
@@ -130,7 +134,7 @@ export default class Settings extends React.Component {
       </div>
     </div>
 
-</div>// ending tag of Component
+</div>
     )
   }
 }
