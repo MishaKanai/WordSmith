@@ -2,10 +2,6 @@ import React from 'react';
 import Suggestion from './Suggestion';
 
 export default class SuggestionsBar extends React.Component{
-  /*var rhymeStyle = this.props.active === "rhyme" ? "active leftMost-li" : "leftMost-li"
-  var mimeStyle = this.props.active === "mime" ? "active" : ""
-  var defineStyle = this.props.active === "define" ? "active" : ""
-  var slangStyle = this.props.active === "slang" ? "active" : ""*/
   render(){
     return(
     <div>
@@ -52,25 +48,8 @@ export default class SuggestionsBar extends React.Component{
     </div>
     <div className="row" >
       <div className="col-md-12" >
-        {/*
-          <ul className="list-group">
-          <li className="list-group-item"  style={{"borderRadius" : "0px"}}>Cras justo odio</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item" style={{"borderRadius" : "0px"}}>Vestibulum at eros</li>
-        </ul>
-        */}
         <ul className="list-group">
-          {[...Array(20).keys()].map(n => <Suggestion word="blah" />)}
+          {this.props.allSuggestions.map(n => <Suggestion word={n} />)}
         </ul>
       </div>
     </div>

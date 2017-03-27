@@ -23,6 +23,10 @@ class Workspace extends React.Component {
         });
     }
     render() {
+      var sugArr = []
+      for (var i=0; i < 20; i++){
+        sugArr.push("Placeholder")
+      }
         return (<div className='workspace-inner-wrapper container'>
 
                 <row>
@@ -33,7 +37,7 @@ class Workspace extends React.Component {
                 getRhymes={(word)=>this.getRhymes(word)}
                 />
                 </div>
-                <SuggestionsBar active="mime"/>
+                <SuggestionsBar active="mime" allSuggestions={sugArr}/>
 
                 </row>
 
