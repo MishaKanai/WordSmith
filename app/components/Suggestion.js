@@ -1,5 +1,4 @@
 import React from 'react';
-import { loremipsum } from '../js/LoremIpsum';
 
 export default class Suggestion extends React.Component{
   render(){

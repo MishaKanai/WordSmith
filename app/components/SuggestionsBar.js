@@ -10,27 +10,27 @@ export default class SuggestionsBar extends React.Component{
     <div className="row">
       <div className="col-md-12">
         <ul id="results-options" className="nav nav-pills">
-          <li role="presentation" className="active leftMost-li">
+          <li role="presentation" className={this.props.active === "rhyme" ? "active leftMost-li" : "leftMost-li"}>
             <a href="#"><span>
               Rhyme
             </span></a>
           </li>
           <li className="divider-vertical"></li>
-          <li role="presentation">
+          <li role="presentation" className = {this.props.active === "mime" ? "active" : ""}>
             <a href="#">
               <span>
                 Mime
               </span>
             </a></li>
           <li className="divider-vertical"></li>
-          <li role="presentation">
+          <li role="presentation" className = {this.props.active === "define" ? "active" : ""}>
             <a href="#">
               <span>
                 Define
               </span>
           </a></li>
           <li className="divider-vertical"></li>
-          <li role="presentation" className="rightMost-li">
+          <li role="presentation" className={this.props.active === "slance" ? "active rightMost-li" : "rightMost-li"}>
             <a href="#">
               <span>
                 Slang
@@ -42,31 +42,14 @@ export default class SuggestionsBar extends React.Component{
     <div className="row">
       <div  className="col-md-12">
         <div id="selected-result" className="nav">
-          <h4>&ldquo;sweaty&rdquo;</h4>
+          <h4>&ldquo;{this.props.word}&rdquo;</h4>
         </div>
       </div>
     </div>
     <div className="row" >
       <div className="col-md-12" >
-        {/*
-          <ul className="list-group">
-          <li className="list-group-item"  style={{"borderRadius" : "0px"}}>Cras justo odio</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item">Dapibus ac facilisis in</li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item" style={{"borderRadius" : "0px"}}>Vestibulum at eros</li>
-        </ul>
-        */}
         <ul className="list-group">
-          {[...Array(20).keys()].map(n => <Suggestion word="blah" />)}
+          {this.props.allSuggestions.map(n => <Suggestion word={n} />)}
         </ul>
       </div>
     </div>
