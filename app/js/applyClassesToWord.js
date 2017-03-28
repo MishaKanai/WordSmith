@@ -90,6 +90,10 @@ function tagCrossNodeWord(node, startIndex, endIndex) {
 
 export default function insertTargets(selection) {
     console.log(selection);
+    console.log(selection.anchorOffset);
+    console.log(selection.focusOffset);
+    console.log(selection.anchorNode.cloneNode(true));
+    console.log(selection.focusNode.cloneNode(true));
 
     //clear previous highlighting and targeting
     $(".special-target").each(function() {
@@ -125,106 +129,105 @@ export default function insertTargets(selection) {
         return null;
     }
 
-    var textAccumulator = '';
-    var anchorNodeHit = false;
-    var focusNodeHit = false;
-    var textAccumulateUntilSplit = '';
-
     //TODO:
-    //The function below is ASYNCHRONOUS
-    //this means that occasionally we may get nodes appended out of order.
-    //This will have to be resolved in an iterative implementation with a queue.
+    //convert to iterative implementation.
 
-    // *Traverse the list recursively, getting the text nodes in-order.
-    //    After reconstructing the text, we will send to tagCrossNodeWord
-    // *Simultaneously accumulate textAccumulateUntilSplit until selection end
-    //  so we know the index of the word to send to tagCrossNodeWord
-    let traverseList = (parentNode, anchorNode, focusNode) => {
-        if (parentNode === anchorNode) {
-            anchorNodeHit = true;
-            if (anchorNode == focusNode) {
-                textAccumulateUntilSplit += parentNode.wholeText.slice(
-                    0,
-                    (selection.anchorOffset + selection.focusOffset)/2
-                );
-                //prevent textAccumulateUntilSplit from continuing
-                focusNodeHit = true;
-            }
-            else if (focusNodeHit == true) {
-                var fo = parentNode.focusOffset;
-                //if F.O. is undefined, we want nothing (slice will give everything)
-                if (typeof fo == 'undefined') {
-                    fo = 0;
-                }
-                textAccumulateUntilSplit +=
-                parentNode.wholeText.slice(0, fo);
-            }
-            else
-                textAccumulateUntilSplit += parentNode.wholeText;
-            textAccumulator += parentNode.wholeText;
+    let textAccBefore = '';
+    let textAccDuring = '';
+    let textAccAfter = '';
+    let selectionStartHit = false;
+    let selectionEndHit = false;
+
+    let traverseList = (parentNode) => {
+        const wholeText = parentNode.wholeText;
+        if (parentNode === anchorNode && parentNode === focusNode) {
+            console.log("here");
+            const min = Math.min(selection.anchorOffset, selection.focusOffset);
+            const max = Math.max(selection.anchorOffset, selection.focusOffset);
+            const before = wholeText.slice(0, min);
+            const during = wholeText.slice(min, max);
+            const after = wholeText.slice(max);
+
+            textAccBefore += before;
+            textAccDuring += during;
+            textAccAfter += after;
+
+            selectionStartHit = true;
+            selectionEndHit = true;
 
             return new Array (parentNode);
-        }
-        else if (parentNode === focusNode) {
-            focusNodeHit = true;
-            if (anchorNodeHit == true) {
-                var fo = parentNode.focusOffset;
-                //if F.O. is undefined, we want nothing (slice will give everything)
-                if (typeof fo == 'undefined') {
-                    fo = 0;
-                }
-                textAccumulateUntilSplit +=
-                    parentNode.wholeText.slice(0, fo);
+        } else if (parentNode === anchorNode) {
+            if (!selectionStartHit) {
+                const before = wholeText.slice(0, selection.anchorOffset);
+                const during = wholeText.slice(selection.anchorOffset);
+
+                textAccBefore += before;
+                textAccDuring += during;
+                selectionStartHit = true;
+            } else {
+                const during = wholeText.slice(0, selection.anchorOffset);
+                const after = wholeText.slice(selection.anchorOffset);
+                textAccDuring += during;
+                textAccAfter += after;
+                selectionEndHit = true;
             }
-            else
-                textAccumulateUntilSplit += parentNode.wholeText;
-            textAccumulator += parentNode.wholeText;
 
             return new Array (parentNode);
-        }
-        else if (parentNode.nodeType === Node.TEXT_NODE) {
-            if (!(anchorNodeHit && focusNodeHit))
-                textAccumulateUntilSplit += parentNode.wholeText;
-            textAccumulator += parentNode.wholeText;
+        } else if (parentNode === focusNode) {
+
+            if (!selectionStartHit) {
+                const before = wholeText.slice(0, selection.focusOffset);
+                const during = wholeText.slice(selection.focusOffset);
+
+                textAccBefore += before;
+                textAccDuring += during;
+                selectionStartHit = true;
+            } else {
+                const during = wholeText.slice(0, selection.focusOffset);
+                const after = wholeText.slice(selection.focusOffset);
+                textAccDuring += during;
+                textAccAfter += after;
+                selectionEndHit = true;
+            }
             return new Array (parentNode);
-        }
+        } else if (parentNode.nodeType === Node.TEXT_NODE) {
+            if (selectionEndHit) {
+                textAccAfter += wholeText;
+            } else if (selectionStartHit) {
+                textAccDuring += wholeText;
+            } else {
+                textAccBefore += wholeText;
+            }
+            return new Array (parentNode);
+        } else {
+            //traverse list recursively
+            const childNodes = parentNode.childNodes;
 
-        //traverse list recursively
-        const childNodes = parentNode.childNodes;
-
-        var returnList = [];
-        for (let i = 0; i < childNodes.length; i++) {
-            let currChild = childNodes[i];
-            let result = traverseList(currChild, anchorNode, focusNode)
-            returnList = returnList.concat(result);
+            var returnList = [];
+            for (let i = 0; i < childNodes.length; i++) {
+                let currChild = childNodes[i];
+                const result = traverseList(currChild, anchorNode, focusNode)
+                returnList = returnList.concat(result);
+            }
+            return returnList;
         }
-        return returnList;
     }
 
-    // generate list of textNodes
-    //while filling text accumulators
-    var traversal = traverseList(parentNode, anchorNode, focusNode);
+    // generate list of textNodes while filling text accumulators
+    traverseList(parentNode);
 
-    //these are important for debugging.
-    console.log("textAccumulator", textAccumulator);
-    console.log("TEXTACCUMULATEUNTILSPLIT", textAccumulateUntilSplit);
+    console.log("before:", textAccBefore);
+    console.log("during:", textAccDuring);
+    console.log("after:", textAccAfter);
 
-
-    let wholeText = textAccumulator;
-
-    // tuple t
-    const t = getWordAt(textAccumulator, textAccumulateUntilSplit.length);
-    const start = t[0];
-    const end = t[1];
-    var word = (textAccumulator).slice(start,end);
+    const start = textAccBefore.length;
+    const end = (textAccBefore+textAccDuring).length;
+    var word = textAccDuring;
 
     //good for debugging
     console.log("start index: ", start);
     console.log("end index: ", end);
     console.log("word extracted: ",word);
-
-    if (start < 0)
-        return null;
 
     //recursively insert .special-target spans into word, split across leaves
     tagCrossNodeWord(parentNode, start, end);
@@ -234,37 +237,9 @@ export default function insertTargets(selection) {
     const lasttarget = specialtargetarray.item(specialtargetarray.length -1);
     lasttarget.id = "popover-target";
 
-    //trim whitespace from word.
-    word = word.trim().replace(/(^\W*)|(\W*$)/g, '').trim();
-    //check for 1 letter words, and inner whitespace, and ignore
-    if (word.length < 2 || word.split(' ').length > 1) {
-        //do nothing
-        return null;
-    }
+    //trim whitespace from selected text.
+    word = word.trim();
 
     return [word, lasttarget];
 
-}
-
-//nifty function to get the word at index pos
-//much easier this way
-//Taken and modified slightly from:
-//http://stackoverflow.com/a/5174867
-function getWordAt(str, pos) {
-
-    // Perform type conversions.
-    str = String(str);
-    pos = Number(pos) >>> 0;
-
-    // Search for the word's beginning and end.
-    let left = str.slice(0, pos + 1).search(/\S+$/),
-        right = str.slice(pos).search(/\s/);
-
-    // The last word in the string is a special case.
-    if (right < 0) {
-        return [left, str.length];
-    }
-
-    // Return the word, using the located bounds to extract it from the string.
-    return [left, right + pos];
 }
