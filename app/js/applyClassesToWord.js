@@ -220,14 +220,26 @@ export default function insertTargets(selection) {
     console.log("during:", textAccDuring);
     console.log("after:", textAccAfter);
 
-    const start = textAccBefore.length;
-    const end = (textAccBefore+textAccDuring).length;
+    let start = textAccBefore.length;
+    let end = (textAccBefore+textAccDuring).length;
     var word = textAccDuring;
 
     //good for debugging
     console.log("start index: ", start);
     console.log("end index: ", end);
     console.log("word extracted: ",word);
+
+    const wholeAccText = textAccBefore + textAccDuring + textAccAfter;
+    //In Firefox, double clicking does NOT select the word.
+    //Therefore we must extract the word at the start/end position, when start == end
+    if (start == end) {
+        let t = getWordAt(wholeAccText, start);
+        start = t[0];
+        end = t[1];
+        word = wholeAccText.slice(start, end)
+    }
+
+
 
     //recursively insert .special-target spans into word, split across leaves
     tagCrossNodeWord(parentNode, start, end);
@@ -242,4 +254,28 @@ export default function insertTargets(selection) {
 
     return [word, lasttarget];
 
+}
+
+
+//nifty function to get the word at index pos
+//much easier this way
+//Taken and modified slightly from:
+//http://stackoverflow.com/a/5174867
+function getWordAt(str, pos) {
+
+    // Perform type conversions.
+    str = String(str);
+    pos = Number(pos) >>> 0;
+
+    // Search for the word's beginning and end.
+    let left = str.slice(0, pos + 1).search(/\S+$/),
+        right = str.slice(pos).search(/\s/);
+
+    // The last word in the string is a special case.
+    if (right < 0) {
+        return [left, str.length];
+    }
+
+    // Return the word, using the located bounds to extract it from the string.
+    return [left, right + pos];
 }
