@@ -28,6 +28,15 @@ body {
     width: 100%;
 }
 
+.fake-btn {
+    background-color: white;
+    border-color: transparent;
+}
+
+.modal-pw-box {
+    width: 198px;
+}
+
 .left-hand-text {
   position: absolute;
   top: 50%;
