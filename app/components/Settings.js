@@ -122,8 +122,7 @@ export default class Settings extends React.Component {
         </div>
       </div>
       <div className="row-fluid">
-        <div className="col-md-10 col-md-offset-1 white-box">
-        </div>
+        <div className="col-md-10 col-md-offset-1 white-box"></div>
       </div>
       <div className="row">
         <div className="col-md-10 col-md-offset-1">
