@@ -47,14 +47,35 @@ class ListElements extends React.Component {
     }
 
 class EditElement extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            enabled: false,
+            value: this.props.value
+            };
+
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        }
+
+    handleClick() {
+        this.setState(prevState => ({
+            enabled: !prevState.enabled    
+            }));
+        }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});    
+        }
+
     render() {
         return (
             <div className="right-element pull-right">
-                <input type="text" className="form-control display-name pull-left" value={this.props.displayName} disabled />
-                <button type="button" className="btn btn-default display-name-btn pull-right">
-                    <span className="glyphicon glyphicon-pencil"></span>
+                <input type="text" className="form-control display-name pull-left" value={this.state.value} onChange={this.handleChange} disabled={this.state.enabled ? "" : "disabled"} />
+                <button type="button" onClick={this.handleClick} className="btn btn-default display-name-btn pull-right">
+                    <span className={this.state.enabled ? "glyphicon glyphicon-ok text-success" : "glyphicon glyphicon-pencil"}></span>
                 </button>
-            </div> 
+            </div>
             );
         }
     }
@@ -101,8 +122,7 @@ export default class Settings extends React.Component {
         </div>
       </div>
       <div className="row-fluid">
-        <div className="col-md-10 col-md-offset-1 white-box">
-        </div>
+        <div className="col-md-10 col-md-offset-1 white-box"></div>
       </div>
       <div className="row">
         <div className="col-md-10 col-md-offset-1">
@@ -119,8 +139,8 @@ export default class Settings extends React.Component {
             <li className="list-group-item bottom-border-only">
               <h3 className="text-center">Account settings</h3>
             </li>
-            <Element subject="Display name"><EditElement displayName="Kendrick Lamar" /></Element>
-            <Element subject="Email"><EditElement displayName="klamar@tde.us" /></Element>
+            <Element subject="Display name"><EditElement value="Kendrick Lamar" /></Element>
+            <Element subject="Email"><EditElement value="klamar@tde.us" /></Element>
             <Element subject="Password">
               <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>  
             </Element>
