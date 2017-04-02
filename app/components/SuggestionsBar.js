@@ -12,25 +12,25 @@ export default class SuggestionsBar extends React.Component{
         <ul id="results-options" className="nav nav-pills">
           <li role="presentation" className={this.props.active === "rhyme" ? "active leftMost-li" : "leftMost-li"}>
             <a href="#"><span>
-              Rhyme
+              Rhymes
             </span></a>
           </li>
           <li className="divider-vertical"></li>
-          <li role="presentation" className = {this.props.active === "mime" ? "active" : ""}>
+          <li role="presentation" className = {this.props.active === "synonym" ? "active" : ""}>
             <a href="#">
               <span>
-                Mime
+                Synonyms
               </span>
             </a></li>
           <li className="divider-vertical"></li>
-          <li role="presentation" className = {this.props.active === "define" ? "active" : ""}>
+          <li role="presentation" className = {this.props.active === "definition" ? "active" : ""}>
             <a href="#">
               <span>
-                Define
+                Definitions
               </span>
           </a></li>
           <li className="divider-vertical"></li>
-          <li role="presentation" className={this.props.active === "slance" ? "active rightMost-li" : "rightMost-li"}>
+          <li role="presentation" className={this.props.active === "slang" ? "active rightMost-li" : "rightMost-li"}>
             <a href="#">
               <span>
                 Slang

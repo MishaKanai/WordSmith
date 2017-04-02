@@ -77,10 +77,42 @@ class TextEditor extends React.Component {
                 >
                 <Popover id="popover-contained" title={this.state.word}>
                 <ul>
-                <Button className="list-group-item">Rhymes</Button>
-                <Button className="list-group-item">Thesaurus</Button>
-                <Button className="list-group-item">Dictionary</Button>
-                <Button className="list-group-item">UrbanDictionary</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                    const target_parent = this.state.target_parent;
+                    const target = this.state.target;
+                    this.closePopover();
+                    $(".special-target").each(function() {
+                        $(this).replaceWith($(this).text());
+                    });
+                    this.props.getCategory("rhyme");
+                  }}>Rhymes</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                  const target_parent = this.state.target_parent;
+                  const target = this.state.target;
+                  this.closePopover();
+                  $(".special-target").each(function() {
+                      $(this).replaceWith($(this).text());
+                  });
+                  this.props.getCategory("synonym");
+                  }}>Thesaurus</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                  const target_parent = this.state.target_parent;
+                  const target = this.state.target;
+                  this.closePopover();
+                  $(".special-target").each(function() {
+                      $(this).replaceWith($(this).text());
+                  });
+                  this.props.getCategory("definition");
+                  }}>Dictionary</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                  const target_parent = this.state.target_parent;
+                  const target = this.state.target;
+                  this.closePopover();
+                  $(".special-target").each(function() {
+                      $(this).replaceWith($(this).text());
+                  });
+                  this.props.getCategory("slang");
+                  }}>UrbanDictionary</Button>
                 </ul>
                 <Button id="close-popover" className="pull-right" onClick={(e) => {
                     const target_parent = this.state.target_parent;

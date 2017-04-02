@@ -6,7 +6,8 @@ class Workspace extends React.Component {
         super(props);
         this.state = {
             //we will store info returned from api here.
-            info: null
+            info: null,
+            category:"rhyme"
         }
     }
     getRhymes(word) {
@@ -22,6 +23,9 @@ class Workspace extends React.Component {
             }.bind(this)
         });
     }
+    getCategory(cat) {
+      this.setState({category:cat})
+    }
     render() {
       var sugArr = []
       for (var i=0; i < 20; i++){
@@ -35,9 +39,10 @@ class Workspace extends React.Component {
                 <h3 id='doc-title'>{' '+this.props.title}</h3>
                 <TextEditor
                 getRhymes={(word)=>this.getRhymes(word)}
+                getCategory={(x) => this.getCategory(x)}
                 />
                 </div>
-                <SuggestionsBar word="Placeholder" active="mime" allSuggestions={sugArr}/>
+                <SuggestionsBar word="Placeholder" active={this.state.category} allSuggestions={sugArr}/>
 
                 </row>
 
