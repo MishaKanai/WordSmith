@@ -27,7 +27,6 @@ class UpdatePwModal extends React.Component {
   }
 
   handleChange(value, id) {
-    
     let icon = null
     switch(id) {
       case "oldPwd":
@@ -91,9 +90,9 @@ class UpdatePwModal extends React.Component {
   render() {
     return (
       <div>
-      <ModalElement myOnChange{(x, y) => this.handleChange(x, y)} forLabel="oldPwd" subject="Old password" id="oldPwd" />
-      <ModalElement forLabel="newPwd" subject="New password" id="newPwd" />
-      <ModalElement forLabel="newPwd2" subject="Confirm new password" id="newPwd2" /> 
+      <ModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="oldPwd" subject="Old password" id="oldPwd" />
+      <ModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd" subject="New password" id="newPwd" />
+      <ModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd2" subject="Confirm new password" id="newPwd2" /> 
       </div>
     );
   }
@@ -113,7 +112,7 @@ class ModalElement extends React.Component {
 
   handleChange(event) {
     let newIcon = null
-    newIcon = super.handleChange(this.props.id, event.target.value);
+    newIcon = this.props.modalOnChange(event.target.value, this.props.id);
     this.setState({
       value: event.target.value,
       icon: newIcon
