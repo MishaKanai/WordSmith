@@ -42,7 +42,7 @@ class Workspace extends React.Component {
                 getCategory={(x) => this.getCategory(x)}
                 />
                 </div>
-                <SuggestionsBar word="Placeholder" active={this.state.category} allSuggestions={sugArr}/>
+                <SuggestionsBar word="Placeholder" active={this.state.category} updateCategory={(x) => this.getCategory(x)} allSuggestions={sugArr}/>
 
                 </row>
 
