@@ -33,7 +33,6 @@ class Workspace extends React.Component {
       this.setState({word:w})
       if(this.state.category==="rhyme"){
         this.getRhymes(w)
-        alert("got rhymes")
       }
     }
 
