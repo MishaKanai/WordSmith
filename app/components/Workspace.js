@@ -6,7 +6,7 @@ class Workspace extends React.Component {
         super(props);
         this.state = {
             //we will store info returned from api here.
-            info: null,
+            info: [],
             category:"rhyme",
             word:""
         }
@@ -17,25 +17,31 @@ class Workspace extends React.Component {
             dataType: 'json',
             cache: true,
             success: function(data) {
-                this.setState({info: JSON.stringify(data)});
+                //this.setState({info: JSON.stringify(data)});
+                this.setState({info: data});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
+        //alert("{"+this.state.word+"}" + this.state.info)
     }
     getCategory(cat) {
       this.setState({category:cat})
     }
     getWord(w) {
       this.setState({word:w})
+      if(this.state.category==="rhyme"){
+        this.getRhymes(w)
+        alert("got rhymes")
+      }
     }
 
     render() {
       var sugArr = []
-      /*for (var i=0; i < 20; i++){
-        sugArr.push("Placeholder")
-      }*/
+      for (var i=0; i < 20; i++){
+        sugArr.push("...")
+      }
         return (<div className='workspace-inner-wrapper container'>
 
                 <row>
@@ -48,7 +54,10 @@ class Workspace extends React.Component {
                 getWord={(x) => this.getWord(x)}
                 />
                 </div>
-                <SuggestionsBar word={this.state.word} active={this.state.category} updateCategory={(x) => this.getCategory(x)} allSuggestions={sugArr}/>
+                <SuggestionsBar word={this.state.word}
+                  active={this.state.category}
+                  updateCategory={(x) => this.getCategory(x)}
+                  allSuggestions={this.state.info.map((x) => x.word)}/>
 
                 </row>
 
