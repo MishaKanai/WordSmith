@@ -28,6 +28,22 @@ class Workspace extends React.Component {
     }
     getCategory(cat) {
       this.setState({category:cat})
+      switch(cat){
+        case "rhyme":
+          if(this.state.info.length != 0){
+            this.getRhymes(this.state.word)
+          }
+          break;
+        case "synonym":
+          this.setState({info: []});
+          break;
+        case "definition":
+          this.setState({info: []});
+          break;
+        case "slang":
+          this.setState({info: []});
+          break;
+    }
     }
     getWord(w) {
       this.setState({word:w})
