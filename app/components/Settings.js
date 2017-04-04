@@ -126,9 +126,9 @@ class ModalElement extends React.Component {
       <div className="form-group">
       <label for={this.props.forLabel}>{this.props.subject}</label>
       <input type="password" className="form-control modal-pw-box pull-left" onChange={this.handleChange} id={this.props.id} />
-      <button type="button" className="btn btn-default fake-btn pull-right" disabled="disabled">
+      <span className="fake-btn pull-right">
       {this.state.icon}
-      </button>
+      </span>
       </div>
       </li> 
     );
