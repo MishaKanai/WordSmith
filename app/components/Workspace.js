@@ -7,7 +7,8 @@ class Workspace extends React.Component {
         this.state = {
             //we will store info returned from api here.
             info: null,
-            category:"rhyme"
+            category:"rhyme",
+            word:""
         }
     }
     getRhymes(word) {
@@ -26,11 +27,15 @@ class Workspace extends React.Component {
     getCategory(cat) {
       this.setState({category:cat})
     }
+    getWord(w) {
+      this.setState({word:w})
+    }
+
     render() {
       var sugArr = []
-      for (var i=0; i < 20; i++){
+      /*for (var i=0; i < 20; i++){
         sugArr.push("Placeholder")
-      }
+      }*/
         return (<div className='workspace-inner-wrapper container'>
 
                 <row>
@@ -40,9 +45,10 @@ class Workspace extends React.Component {
                 <TextEditor
                 getRhymes={(word)=>this.getRhymes(word)}
                 getCategory={(x) => this.getCategory(x)}
+                getWord={(x) => this.getWord(x)}
                 />
                 </div>
-                <SuggestionsBar word="Placeholder" active={this.state.category} updateCategory={(x) => this.getCategory(x)} allSuggestions={sugArr}/>
+                <SuggestionsBar word={this.state.word} active={this.state.category} updateCategory={(x) => this.getCategory(x)} allSuggestions={sugArr}/>
 
                 </row>
 
