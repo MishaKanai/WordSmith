@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Router, Route, browserHistory, Link } from 'react-router'
 
-// Each major browser view user interface must be imported.
+import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
 import SavedDocuments from './components/SavedDocuments';
@@ -35,12 +35,15 @@ class SavedDocumentsPage extends React.Component {
  * The Router will give it different child Components as the user clicks
  * around the application.
  *
- * This will contain the navbar.
+ * This will contain the navbar
  */
 class App extends React.Component {
     render() {
         return (
-                <div>{this.props.children}</div>
+            <div>
+                <NavBar />
+                {this.props.children}
+            </div>
         )
     }
 }
