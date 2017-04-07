@@ -57,7 +57,7 @@ class TextEditor extends React.Component {
         this.setState({text: event});
     }
     componentDidMount() {
-        getDocument(this.props.docId, (updatedDocument) => this.setState({text: updatedDocument.text}));
+        getDocument(this.props.docId, (doc) => this.setState({text: doc.text}));
     }
     render() {
         return (

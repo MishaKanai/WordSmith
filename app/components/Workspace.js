@@ -1,11 +1,13 @@
 import React from 'react';
 import TextEditor from './TextEditor';
 import SuggestionsBar from './SuggestionsBar';
+import {getDocument} from '../server';
 class Workspace extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             //we will store info returned from api here.
+            title: "...",
             info: [],
             category:"rhyme",
             word:"",
@@ -51,6 +53,9 @@ class Workspace extends React.Component {
         this.getRhymes(w)
       }
     }
+    componentDidMount() {
+        getDocument(this.props.docId, (doc) => this.setState({title: doc.title}));
+    }
     render() {
       var sugArr = []
       for (var i=0; i < 20; i++){
@@ -61,7 +66,7 @@ class Workspace extends React.Component {
                 <row>
 
                 <div className='col-md-8 leftcol'>
-                <h3 id='doc-title'>{' '+this.props.title}</h3>
+                <h3 id='doc-title'>{' '+this.state.title}</h3>
 
                 <TextEditor
                     docId={this.props.docId}
