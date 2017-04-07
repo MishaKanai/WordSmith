@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import { Overlay, Popover, Button } from 'react-bootstrap';
 import { loremipsum } from '../js/LoremIpsum';
 import insertTargets from '../js/applyClassesToWord';
+import {getDocument} from '../server';
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -51,13 +52,13 @@ class TextEditor extends React.Component {
                 popoverShown: t[1],
             });
         }
-
-
     }
     handleChange(event) {
         this.setState({text: event});
     }
-
+    componentDidMount() {
+        getDocument(this.props.docId, (updatedDocument) => this.setState({text: updatedDocument.text}));
+    }
     render() {
         return (
                 <div className="texteditor-inner-wrapper"

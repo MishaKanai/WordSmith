@@ -1,6 +1,9 @@
 import React from 'react';
 
 export default class SavedDocuments extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
           <div>
@@ -9,7 +12,7 @@ export default class SavedDocuments extends React.Component {
               {
                 [...Array(5).keys()].map((i)=>
 
-                  <div className="item  col-xs-4 col-lg-4">
+                                         <div className="item  col-xs-4 col-lg-4" key={i}>
                       <div className="thumbnail">
                           <img className="group list-group-image" src="img/doc_temp.png" alt=""/>
 

@@ -8,7 +8,7 @@ class Workspace extends React.Component {
             //we will store info returned from api here.
             info: [],
             category:"rhyme",
-            word:""
+            word:"",
         }
     }
     getRhymes(word) {
@@ -51,7 +51,6 @@ class Workspace extends React.Component {
         this.getRhymes(w)
       }
     }
-
     render() {
       var sugArr = []
       for (var i=0; i < 20; i++){
@@ -63,16 +62,20 @@ class Workspace extends React.Component {
 
                 <div className='col-md-8 leftcol'>
                 <h3 id='doc-title'>{' '+this.props.title}</h3>
+
                 <TextEditor
-                getRhymes={(word)=>this.getRhymes(word)}
-                getCategory={(x) => this.getCategory(x)}
-                getWord={(x) => this.getWord(x)}
+                    docId={this.props.docId}
+                    getRhymes={(word)=>this.getRhymes(word)}
+                    getCategory={(x) => this.getCategory(x)}
+                    getWord={(x) => this.getWord(x)}
                 />
                 </div>
-                <SuggestionsBar word={this.state.word}
-                  active={this.state.category}
-                  updateCategory={(x) => this.getCategory(x)}
-                  allSuggestions={this.state.info.map((x) => x.word)}/>
+                <SuggestionsBar
+                    word={this.state.word}
+                    active={this.state.category}
+                    updateCategory={(x) => this.getCategory(x)}
+                    allSuggestions={this.state.info.map((x) => x.word)}
+                />
 
                 </row>
 

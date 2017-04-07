@@ -91,6 +91,10 @@ export function getDocumentSettings(userId, docId, cb) {
     emulateServerReturn(settings, cb);
 }
 
+export function getDocument(docId, cb) {
+    emulateServerReturn(readDocument('documents', docId), cb);
+}
+
 // POST functions
 export function postUser(username, email, displayName, password, cb) {
     var newUser = {
