@@ -1,7 +1,7 @@
 import React from 'react';
 import TextEditor from './TextEditor';
 import SuggestionsBar from './SuggestionsBar';
-import {getDocument} from '../server';
+import {putDocument, getDocument} from '../server';
 class Workspace extends React.Component {
     constructor(props) {
         super(props);
@@ -11,6 +11,7 @@ class Workspace extends React.Component {
             info: [],
             category:"rhyme",
             word:"",
+            text: "..."
         }
     }
     getRhymes(word) {
@@ -54,7 +55,22 @@ class Workspace extends React.Component {
       }
     }
     componentDidMount() {
-        getDocument(this.props.docId, (doc) => this.setState({title: doc.title}));
+        getDocument(this.props.docId, (doc) => this.setState({
+            title: doc.title,
+            text: doc.text
+        }));
+    }
+    handleChange(event) {
+        this.setState({text: event});
+    }
+    saveDoc() {
+        const docId = this.props.docId;
+        const title = this.state.title;
+        const text = this.state.text;
+        putDocument(docId, title, text, Date.now(), () => {
+            //TODO:
+            //grey out save button until next handleChange
+        });
     }
     render() {
       var sugArr = []
@@ -66,10 +82,14 @@ class Workspace extends React.Component {
                 <row>
 
                 <div className='col-md-8 leftcol'>
+                <row>
                 <h3 id='doc-title'>{' '+this.state.title}</h3>
-
+                <span id='saveBtn' onClick={() => this.saveDoc()} className='btn'>save</span>
+                </row>
                 <TextEditor
                     docId={this.props.docId}
+                    value={this.state.text}
+                    onChange={(e) => this.handleChange(e)}
                     getRhymes={(word)=>this.getRhymes(word)}
                     getCategory={(x) => this.getCategory(x)}
                     getWord={(x) => this.getWord(x)}

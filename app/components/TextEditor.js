@@ -10,8 +10,7 @@ class TextEditor extends React.Component {
         super(props);
         this.state = {
             popoverShown: false,
-            word: null,
-            text: loremipsum
+            word: null
         };
     }
     closePopover() {
@@ -54,11 +53,11 @@ class TextEditor extends React.Component {
         }
     }
     handleChange(event) {
-        this.setState({text: event});
+        this.props.onChange(event);
     }
-    componentDidMount() {
-        getDocument(this.props.docId, (doc) => this.setState({text: doc.text}));
-    }
+    //componentDidMount() {
+    //    getDocument(this.props.docId, (doc) => this.setState({text: doc.text}));
+    //}
     render() {
         return (
                 <div className="texteditor-inner-wrapper"
@@ -67,7 +66,7 @@ class TextEditor extends React.Component {
             className="texteditor-textarea"
             onContextMenu={(e)=>this.rightClick(e)}
             onChange={(e)=>this.handleChange(e)}
-            value={this.state.text}
+            value={this.props.value}
                 />
                 <Overlay
             show={this.state.popoverShown}

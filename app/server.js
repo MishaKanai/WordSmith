@@ -114,11 +114,11 @@ export function postUser(username, email, displayName, password, cb) {
     emulateServerReturn(newUser, cb);
 }
 
-export function postDocumentToUser(userId, title, text, timestamp) {
+export function postDocumentToUser(userId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var user = readDocument('users', userId);
     user.documents.push(doc._id);
-    emulateServerReturn(removePasswordSync(writeDocument('users', user)));
+    emulateServerReturn(removePasswordSync(writeDocument('users', user)), cb);
 }
 
 export function postDocumentToCollection(collectionId, title, text, timestamp) {
@@ -126,4 +126,14 @@ export function postDocumentToCollection(collectionId, title, text, timestamp) {
     var collection = readDocument('collections', collectionId);
     collection.documents.push(doc._id);
     emulateServerReturn(writeDocument('collections', collection));
+}
+
+//PUT functions
+
+export function putDocument(docId, title, text, timestamp, cb) {
+    var document = readDocument('documents', docId);
+    document.title = title;
+    document.text = text;
+    document.timestamp = 1337;
+    emulateServerReturn(writeDocument('documents', document), cb);
 }
