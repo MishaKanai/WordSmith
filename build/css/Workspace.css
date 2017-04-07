@@ -111,6 +111,11 @@ body, html {
     margin-bottom:-3px;
     float:right;
 }
+#lastsavedtxt {
+    margin-right: 10px;
+    margin-top: 10px;
+    float:right;
+}
 
 .leftcol {
     border-radius:2px;

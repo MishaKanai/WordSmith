@@ -11,8 +11,10 @@ class Workspace extends React.Component {
             info: [],
             category:"rhyme",
             word:"",
-            text: "..."
+            text: "...",
+            justSaved: true
         }
+        this.firstTextChange = true;
     }
     getRhymes(word) {
         $.ajax({
@@ -57,19 +59,31 @@ class Workspace extends React.Component {
     componentDidMount() {
         getDocument(this.props.docId, (doc) => this.setState({
             title: doc.title,
-            text: doc.text
+            text: doc.text,
+            lastSaved: doc.timestamp,
         }));
     }
     handleChange(event) {
-        this.setState({text: event});
+        //unsure justSaved is set correctly on first handleChange.
+        if (this.firstTextChange) {
+            this.setState({text: event, justSaved: true});
+            this.firstTextChange = false;
+        }
+        else
+            this.setState({text: event, justSaved: false});
     }
     saveDoc() {
         const docId = this.props.docId;
         const title = this.state.title;
         const text = this.state.text;
-        putDocument(docId, title, text, Date.now(), () => {
+        const now = Date.now();
+        putDocument(docId, title, text, now, () => {
             //TODO:
             //grey out save button until next handleChange
+            this.setState({
+                justSaved: true,
+                lastSaved: now
+            });
         });
     }
     render() {
@@ -84,7 +98,8 @@ class Workspace extends React.Component {
                 <div className='col-md-8 leftcol'>
                 <row>
                 <h3 id='doc-title'>{' '+this.state.title}</h3>
-                <span id='saveBtn' onClick={() => this.saveDoc()} className='btn'>save</span>
+                {this.state.justSaved? <span id='lastsavedtxt'>{'last saved: '} {new Date(this.state.lastSaved).toLocaleString()}</span>:
+                 <span id='saveBtn' onClick={() => this.saveDoc()} className='btn'>save</span>}
                 </row>
                 <TextEditor
                     docId={this.props.docId}
