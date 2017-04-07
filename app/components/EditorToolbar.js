@@ -2,6 +2,65 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
+class EditorToolbar extends React.Component{
+// var EditorToolbar = React.createClass({
+  render() {
+    return (
+      <div>
+      {/* Editor Toolbar */}
+      <div className="navbar navbar-default" id="docbar">
+        <div className="container">
+          <div className="navbar-header pull-left">
+            <ul id="docbar-list" className="nav navbar-nav pull-right">
+              <li className="divider-vertical"> </li>
+              <li><a href="#">File<span className="sr-only">(current)</span></a></li>
+                <ul>
+                  <li><a href="#">New</a></li>
+                  <li><a href="#">Open</a></li>
+                  <li><a href="#">Save</a></li>
+                  <li><a href="#">Save As</a></li>
+                  <li><a href="#">Rename</a></li>
+                </ul>
+              <li className="divider-vertical"> </li>
+              <li><a href="#">Edit<span className="sr-only">(current)</span></a></li>
+                <ul>
+                  <li><a href="#">Undo</a></li>
+                  <li><a href="#">Redo</a></li>
+                  <li><a href="#">Select All</a></li>
+                  <li><a href="#">Find & Replace</a></li>
+                </ul>
+              <li className="divider-vertical"> </li>
+              <li><a href="#">View<span className="sr-only">(current)</span></a></li>
+                <ul>
+                  <li><a href="#">Layout</a></li>
+                  <li><a href="#">Screen Size</a></li>
+                  <li><a href="#">Line Count</a></li>
+                  <li><a href="#">Option4</a></li>
+                </ul>
+              <li className="divider-vertical"> </li>
+              <li><a href="#">Share<span className="sr-only">(current)</span></a></li>
+                <ul>
+                  <li><a href="#">Download</a></li>
+                  <li><a href="#">Email</a></li>
+                  <li><a href="#">Export</a></li>
+                  <li><a href="#">Option4</a></li>
+                </ul>
+              <li className="divider-vertical"> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    );
+  }
+}
+
+
+ReactDOM.render
+(
+  <EditorToolbar />, document.getElementById('docbar')
+);
+
 // export default class EditorToolbar extends React.Component({
 //   render() {
 //     return (
@@ -110,36 +169,3 @@ import ReactDOM from 'react-dom';
 //   );
 // }
 // }
-class EditorToolbar extends React.Component{
-// var EditorToolbar = React.createClass({
-  render() {
-    return (
-      <div>
-      {/* Editor Toolbar */}
-      <div className="navbar navbar-default" id="docbar">
-        <div className="container">
-          <div className="navbar-header pull-left">
-            <ul id="docbar-list" className="nav navbar-nav pull-right">
-              <li className="divider-vertical"> </li>
-              <li><a href="#">File<span className="sr-only">(current)</span></a></li>
-              <li className="divider-vertical"> </li>
-              <li><a href="#">Edit<span className="sr-only">(current)</span></a></li>
-              <li className="divider-vertical"> </li>
-              <li><a href="#">View<span className="sr-only">(current)</span></a></li>
-              <li className="divider-vertical"> </li>
-              <li><a href="#">Share<span className="sr-only">(current)</span></a></li>
-              <li className="divider-vertical"> </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    );
-  }
-}
-
-
-ReactDOM.render
-(
-  <EditorToolbar />, document.getElementById('docbar')
-);
