@@ -9,7 +9,7 @@
 	border-radius: 50px;
 }
 .logo{
-  color: black;  
+  color: black;
 }
 hr.style1{
 	border-top: 1px solid #8c8b8b;
@@ -22,15 +22,15 @@ hr.style1{
     height: 100%;
 }
 body{
-background-color: #553555;	
+background-color: #553555;
 
 }
 
 h4{
-color: black;	
+color: black;
 }
-.well{	
-margin-top: 5em;	
+.well{
+margin-top: 5em;
 }
 h4:hover
 {
@@ -88,7 +88,7 @@ h4:hover
 	display: none;
 }
 
-.list-group-item .glyphicon 
+.list-group-item .glyphicon
 {
 	display:" ";
 }
@@ -104,4 +104,17 @@ h4:hover
 .list-group-item-text
 {
     margin: 0 0 11px;
+}
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 6px 0;
+  font-size: 18px;
+	color:white;
+	background-color: #09BC8A;
+  border-radius: 25px;
+}
+.btn-circle:hover {
+    background-color: #75DDDD;
+		color: #09BC8A;
 }

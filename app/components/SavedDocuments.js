@@ -34,6 +34,9 @@ export default class SavedDocuments extends React.Component {
     render() {
         return (
           <div>
+          <div className="item  col-lg-1 col-lg-offset-1 add-new-doc-btn" id="documents">
+            <button type="button" className="btn btn-default btn-circle"><i className="glyphicon glyphicon-plus"></i></button>
+          </div>
             <div className="row list-group" id="documents">
               <ul className="document-list">
               {
@@ -72,6 +75,7 @@ export default class SavedDocuments extends React.Component {
               </ul>
             </div>
           </div>
+
         )
     }
 }
