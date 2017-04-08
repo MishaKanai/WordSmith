@@ -17,6 +17,7 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.14.0",
     "history": "^1.17.0",
+    "rasterizehtml": "^1.2.4",
     "react": "^0.14.8",
     "react-dom": "^0.14.6",
     "react-router": "^1.0.3",

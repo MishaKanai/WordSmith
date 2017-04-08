@@ -1,6 +1,7 @@
 import React from 'react';
 import {getUserDocuments, getCollections} from '../server';
 import {Link} from 'react-router';
+import rasterizeHTML from 'rasterizehtml';
 
 export default class SavedDocuments extends React.Component {
     constructor(props) {
@@ -23,6 +24,13 @@ export default class SavedDocuments extends React.Component {
             });
         });
     }
+    componentDidUpdate() {
+        this.state.documents.forEach((doc) => {
+            rasterizeHTML.drawHTML(doc.text,
+                                   document.getElementById('canvas_'+doc._id)
+                                  );
+        });
+    }
     render() {
         return (
           <div>
@@ -33,7 +41,7 @@ export default class SavedDocuments extends React.Component {
                                            <Link to={"/workspace/"+doc._id} key={i}>
                           <div className="item  col-xs-4 col-lg-4">
                             <div className="thumbnail">
-                              <img className="group list-group-image" src="img/doc_temp.png" alt=""/>
+                                           <canvas id={'canvas_'+doc._id} className="group list-group-image"></canvas>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
                                   <span className="glyphicon glyphicon-file"></span>
