@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loremipsum } from './js/LoremIpsum';
+import { loremipsum1, loremipsum2 } from './js/LoremIpsum';
 
 // Modify with your startup's name!
 var startupName = "WordSmith";
@@ -50,8 +50,8 @@ var initialData = {
     "documents": {
         "1": {
             "_id": 1,
-            "title": "song1",
-            "text": loremipsum,
+            "title": "work in progress",
+            "text": loremipsum1,
             "timestamp": 1453668480000,
             "settings": {
                 "theme": "patriotic colors",
@@ -60,20 +60,20 @@ var initialData = {
         },
         "2": {
             "_id": 2,
-            "title": "song2",
-            "text": "<p>This is wysiwyg text for song 2</p>",
+            "title": "When Doves Cry",
+            "text": loremipsum2,
             "timestamp": 1453668480005
         },
         "3": {
             "_id": 3,
             "title": "song3",
-            "text": "<p>This is wysiwyg text for song 3</p>",
+            "text": "<p>This is wysiwyg text for song 3. Does the canvas adjust so we can see overflow? only YOU know!</p>",
             "timestamp": 1453668480066
         },
         "4": {
             "_id": 4,
             "title": "song4",
-            "text": "<p>This is wysiwyg text for song 4</p>",
+            "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 4</b></p>",
             "timestamp": 1453668480060
         }
 
