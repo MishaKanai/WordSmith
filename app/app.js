@@ -21,7 +21,7 @@ class SavedDocumentsPage extends React.Component {
         return (
             <div>
                 <Link to={"/workspace/1"}>linkedDoc</Link>
-                <SavedDocuments  />
+                <SavedDocuments  userId={1}/>
             </div>
         );
     }

@@ -70,7 +70,7 @@ export function getUserDocuments(userId, cb) {
 export function getCollectionDocuments(collectionId, cb) {
     var collection = readDocument('collections', collectionId);
     var documents = collection.documents.map(
-        (did) => readDocment('documents', did)
+        (did) => readDocument('documents', did)
     );
     emulateServerReturn(documents, cb);
 }

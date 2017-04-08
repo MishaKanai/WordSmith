@@ -18,7 +18,7 @@ var initialData = {
                 "fontSize": 12
             },
             "collections": [1, 2],
-            "documents": []
+            "documents": [1, 2, 3, 4]
         },
         "2": {
             "_id": 2,
@@ -31,7 +31,7 @@ var initialData = {
                 "fontSize": 50
             },
             "collections": [],
-            "documents": []
+            "documents": [3]
         }
     },
     "collections": {
@@ -68,6 +68,12 @@ var initialData = {
             "title": "song3",
             "text": "<p>This is wysiwyg text for song 3</p>",
             "timestamp": 1453668480066
+        },
+        "4": {
+            "_id": 4,
+            "title": "song4",
+            "text": "<p>This is wysiwyg text for song 4</p>",
+            "timestamp": 1453668480060
         }
 
     }
