@@ -29,13 +29,13 @@ class Workspace extends React.Component {
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
-        //alert("{"+this.state.word+"}" + this.state.info)
     }
     getCategory(cat) {
+      var currentCat = this.state.category
       this.setState({category:cat})
       switch(cat){
         case "rhyme":
-          if(this.state.info.length != 0){
+          if(this.state.info.length != 0 && currentCat != "rhyme"){
             this.getRhymes(this.state.word)
           }
           break;
@@ -48,8 +48,9 @@ class Workspace extends React.Component {
         case "slang":
           this.setState({info: []});
           break;
+        }
     }
-    }
+
     getWord(w) {
       this.setState({word:w})
       if(this.state.category==="rhyme"){
@@ -87,10 +88,6 @@ class Workspace extends React.Component {
         });
     }
     render() {
-      var sugArr = []
-      for (var i=0; i < 20; i++){
-        sugArr.push("...")
-      }
         return (<div className='workspace-inner-wrapper container'>
 
                 <row>
