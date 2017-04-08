@@ -65,7 +65,11 @@ if (document.getElementById('app') !== null) {
 // depending on if the ID is present in the HTML.
 else if (document.getElementById('workspace') !== null) {
   ReactDOM.render(
-          <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word=' docId='1' />,
+          <Workspace title='Document1'
+                rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word='
+                synonymAPIprefix='http://api.datamuse.com/words?rel_syn='
+                definitionAPIprefix='http://api.datamuse.com/words?md=d&&sp='
+                docId='1' />,
     document.getElementById('workspace')
   );
 

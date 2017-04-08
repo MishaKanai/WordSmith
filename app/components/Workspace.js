@@ -30,6 +30,38 @@ class Workspace extends React.Component {
             }.bind(this)
         });
     }
+    getSuggestions(word, category){
+      var api = this.props.rhymeAPIprefix
+      switch(category){
+        case "rhyme":
+          break;
+        case "synonym":
+          api = this.props.synonymAPIprefix
+          break;
+        case "slang":
+        case "definition":
+          api = this.props.definitionAPIprefix
+          break;
+        default:
+          break;
+      }
+      $.ajax({
+          url: api + word,
+          dataType: 'json',
+          cache: true,
+          success: function(data) {
+              //this.setState({info: JSON.stringify(data)});
+
+              if(category === "defintion"){
+                data = data[0].map((x) => x.defs)
+              }
+              this.setState({info: data});
+          }.bind(this),
+          error: function(xhr, status, err) {
+              console.error(this.props.url, status, err.toString());
+          }.bind(this)
+      });
+    }
     getCategory(cat) {
       var currentCat = this.state.category
       this.setState({category:cat})
@@ -40,13 +72,19 @@ class Workspace extends React.Component {
           }
           break;
         case "synonym":
-          this.setState({info: []});
+          if(this.state.info.length != 0 && currentCat != "synonym"){
+            this.getSuggestions(this.state.word, "synonym")
+          }
           break;
         case "definition":
-          this.setState({info: []});
+          if(this.state.info.length != 0 && currentCat != "definition"){
+            this.getSuggestions(this.state.word, "definition")
+          }
           break;
         case "slang":
-          this.setState({info: []});
+          if(this.state.info.length != 0 && currentCat != "slang"){
+            this.getSuggestions(this.state.word, "slang")
+          }
           break;
         }
     }
@@ -111,7 +149,9 @@ class Workspace extends React.Component {
                     word={this.state.word}
                     active={this.state.category}
                     updateCategory={(x) => this.getCategory(x)}
-                    allSuggestions={this.state.info.map((x) => x.word)}
+                    allSuggestions={this.state.category==="definition" ?
+                      this.state.info.map((x) => JSON.stringify(x).split("\t")[1]) :
+                      this.state.info.map((x) => x.word)}
                 />
 
                 </row>
