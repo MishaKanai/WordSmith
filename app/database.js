@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { loremipsum } from './js/LoremIpsum';
 
 // Modify with your startup's name!
 var startupName = "WordSmith";
@@ -50,7 +51,7 @@ var initialData = {
         "1": {
             "_id": 1,
             "title": "song1",
-            "text": "<p>This is wysiwyg text for song 1</p>",
+            "text": loremipsum,
             "timestamp": 1453668480000,
             "settings": {
                 "theme": "patriotic colors",
