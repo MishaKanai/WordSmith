@@ -134,6 +134,6 @@ export function putDocument(docId, title, text, timestamp, cb) {
     var document = readDocument('documents', docId);
     document.title = title;
     document.text = text;
-    document.timestamp = 1337;
+    document.timestamp = timestamp;
     emulateServerReturn(writeDocument('documents', document), cb);
 }
