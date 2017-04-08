@@ -19,8 +19,8 @@ class WorkspacePage extends React.Component {
 class SavedDocumentsPage extends React.Component {
     render() {
         return (
-            <div>
-                <Link to={"/workspace/1"}>linkedDoc</Link>
+                <div>
+                <br/>
                 <SavedDocuments  userId={1}/>
             </div>
         );

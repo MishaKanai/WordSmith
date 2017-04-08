@@ -1,5 +1,6 @@
 import React from 'react';
 import {getUserDocuments, getCollections} from '../server';
+import {Link} from 'react-router';
 
 export default class SavedDocuments extends React.Component {
     constructor(props) {
@@ -29,7 +30,8 @@ export default class SavedDocuments extends React.Component {
               <ul className="document-list">
               {
                   this.state.documents.map((doc, i)=>
-                          <div className="item  col-xs-4 col-lg-4" key={i}>
+                                           <Link to={"/workspace/"+doc._id} key={i}>
+                          <div className="item  col-xs-4 col-lg-4">
                             <div className="thumbnail">
                               <img className="group list-group-image" src="img/doc_temp.png" alt=""/>
                               <div className="caption">
@@ -40,6 +42,7 @@ export default class SavedDocuments extends React.Component {
                               </div>
                             </div>
                           </div>
+                        </Link>
                                           )
               }
               {
@@ -49,8 +52,8 @@ export default class SavedDocuments extends React.Component {
                           this.state.collections.map((coll, i) =>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
-                                  <span className="glyphicon glyphicon-file"></span>
-                                  {coll.name}
+                                  <span className="glyphicon glyphicon-folder-open"></span>
+                                  {' '+coll.name}
                                 </h4>
                               </div>
                                                     )
