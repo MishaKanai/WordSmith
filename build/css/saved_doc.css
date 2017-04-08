@@ -15,7 +15,7 @@ hr.style1{
 	border-top: 1px solid #8c8b8b;
 }
 .list-group-image{
-    width: 250px;
+    width: 100%;
     /* not sure why this was set to 50 px before?
     height: 50px;
    */
