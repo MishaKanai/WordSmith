@@ -48,20 +48,22 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render((
-        <Router history={browserHistory}>
-          <Route path="/" component={App}>
-            <IndexRoute component={SavedDocumentsPage} />
-            <Route path="workspace/:id" component={WorkspacePage} />
-          </Route>
-        </Router>
-),document.getElementById('app'));
+if (document.getElementById('app') !== null) {
+    ReactDOM.render((
+            <Router history={browserHistory}>
+              <Route path="/" component={App}>
+                <IndexRoute component={SavedDocumentsPage} />
+                <Route path="workspace/:id" component={WorkspacePage} />
+              </Route>
+            </Router>
+    ),document.getElementById('app'));
+}
 
 
-/*
+
 // For each view conditionally determine which view to display
 // depending on if the ID is present in the HTML.
-if (document.getElementById('workspace') !== null) {
+else if (document.getElementById('workspace') !== null) {
   ReactDOM.render(
           <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word=' docId='1' />,
     document.getElementById('workspace')
@@ -73,8 +75,7 @@ if (document.getElementById('workspace') !== null) {
 );
 
 } else if (document.getElementById('documents') !== null) {
-  ReactDOM.render( <SavedDocuments  />,
+  ReactDOM.render( <SavedDocuments userId={1} />,
   document.getElementById('documents')
 );
 }
-*/
