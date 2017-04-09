@@ -55,9 +55,9 @@ export default class Settings extends React.Component {
       <li className="list-group-item bottom-border-only">
       <h3 className="text-center">Wordsmith editor default settings</h3>
       </li>
-      <SettingsElement subject="Theme"><SettingsListElements elementArray={['Light', 'Dark']} /></SettingsElement>
-      <SettingsElement subject="Font"><SettingsListElements elementArray={['Arial', 'Times New Roman']} /></SettingsElement>
-      <SettingsElement subject="Font size"><SettingsListElements elementArray={['10', '12', '14', '16', '18']} /></SettingsElement>
+      <SettingsElement subject="Theme"><SettingsListElements id="Theme" elementArray={['Light', 'Dark', 'Gold']}/></SettingsElement>
+      <SettingsElement subject="Font"><SettingsListElements id="Font" elementArray={['Arial', 'Comic-Sans', 'Courier-New', 'Times New Roman']} /></SettingsElement>
+      <SettingsElement subject="Font size"><SettingsListElements id="Font size" elementArray={['10', '12', '14', '16', '18']} /></SettingsElement>
       <li className="list-group-item bottom-border-only">
       <h3 className="text-center">Account settings</h3>
       </li>
