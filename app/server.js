@@ -67,6 +67,12 @@ export function getUserDocuments(userId, cb) {
     emulateServerReturn(documents, cb);
 }
 
+export function getMostRecentUserDocument(userId) {
+    var user = readDocument('users', userId);
+    var mostRecentdocument = user.documents[user.documents.lenth-1]
+    emulateServerReturn(mostRecentdocument);
+}
+
 export function getCollectionDocuments(collectionId, cb) {
     var collection = readDocument('collections', collectionId);
     var documents = collection.documents.map(
@@ -118,14 +124,17 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var user = readDocument('users', userId);
     user.documents.push(doc._id);
-    emulateServerReturn(removePasswordSync(writeDocument('users', user)), cb);
+    console.log(user);
+    writeDocument('users', user)
+    emulateServerReturn(doc, cb);
 }
 
-export function postDocumentToCollection(collectionId, title, text, timestamp) {
+export function postDocumentToCollection(collectionId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var collection = readDocument('collections', collectionId);
     collection.documents.push(doc._id);
-    emulateServerReturn(writeDocument('collections', collection));
+    writeDocument('collections', collection)
+    emulateServerReturn(doc, cb);
 }
 
 //PUT functions
@@ -135,7 +144,8 @@ export function putDocument(docId, title, text, timestamp, cb) {
     document.title = title;
     document.text = text;
     document.timestamp = timestamp;
-    emulateServerReturn(writeDocument('documents', document), cb);
+    writeDocument('documents', document)
+    emulateServerReturn(document, cb);
 }
 
 export function putUserSettings(userId, settingsId, value, cb) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserDocuments, getCollections,postDocumentToCollection} from '../server';
+import {getUserDocuments, getCollections, postDocumentToUser,getMostRecentUserDocument} from '../server';
 import {Link} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -7,14 +7,13 @@ export default class SavedDocuments extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            title:"Untitled",
-            text:"",
+
             documents:[],
             collections:[]
         }
     }
     componentDidMount() {
-        console.log(this.props.userId);
+
         getCollections(this.props.userId, (colls) => {
             this.setState({
                 collections: colls
@@ -26,6 +25,7 @@ export default class SavedDocuments extends React.Component {
             });
         });
     }
+
     componentDidUpdate() {
         this.state.documents.forEach((doc) => {
             rasterizeHTML.drawHTML(doc.text,
@@ -34,25 +34,40 @@ export default class SavedDocuments extends React.Component {
         });
     }
 
-    handleChange(e) {
-      this.setState({ value: e.target.value });
-    }
+
 
     handleNewDocument(){
-      const docId = this.props.docId;
-      const title = this.state.title;
-      const text = this.state.text;
-      const now = Date.now();
-      postDocumentToCollection(docId, title, now, text)
+        const now = Date.now();
+        postDocumentToUser(this.props.userId, 'untitled', 'new doc', now, (doc) => {
+            this.setState((state) => {
+                return {
+                    documents: state.documents.concat([doc]),
+                    collections: state.collections
 
-      
+                }
+            });
+        });
+
+    //console.log(getMostRecentUserDocument(this.props.userId))
+
+        //<Link to={"/workspace/"}></Link>
     }
+
     render() {
         return (
           <div>
+
           <div className="item  col-lg-1 col-lg-offset-1 add-new-doc-btn" id="documents">
-            <button type="button" className="btn btn-default btn-circle" onClick={() => this.handleNewDocument()}><i className="glyphicon glyphicon-plus"></i></button>
-          </div>
+
+            <button type="button" className="btn btn-default btn-circle" onClick={() => this.handleNewDocument()}>
+              <i className="glyphicon glyphicon-plus" ></i>
+          </button>
+
+        </div>
+
+
+
+
             <div className="row list-group" id="documents">
               <ul className="document-list">
               {
@@ -76,13 +91,14 @@ export default class SavedDocuments extends React.Component {
                   <div className="item  col-xs-4 col-lg-4" key={this.state.documents.length + 1}>
                     <div className="thumbnail">
                       {
-                          this.state.collections.map((coll, i) =>
+                          this.state.collections.map((coll, i) =>  <Link to={"/workspace/"+coll._id} key={i}>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
                                   <span className="glyphicon glyphicon-folder-open"></span>
                                   {' '+coll.name}
                                 </h4>
                               </div>
+                            </Link>
                                                     )
                       }
                     </div>
