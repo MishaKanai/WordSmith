@@ -147,7 +147,7 @@ export function putSettings(userId, settingsId, value, cb) {
 	} else {
 	    user.settings.settingsId = value;
 	}
-
+    console.log(user);
     writeDocument('users', user);
     emulateServerReturn(user, cb);
 }
