@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserDocuments, getCollections} from '../server';
+import {getUserDocuments, getCollections,postDocumentToCollection} from '../server';
 import {Link} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -7,6 +7,8 @@ export default class SavedDocuments extends React.Component {
     constructor(props) {
         super(props);
         this.state={
+            title:"Untitled",
+            text:"",
             documents:[],
             collections:[]
         }
@@ -31,11 +33,25 @@ export default class SavedDocuments extends React.Component {
                                   );
         });
     }
+
+    handleChange(e) {
+      this.setState({ value: e.target.value });
+    }
+
+    handleNewDocument(){
+      const docId = this.props.docId;
+      const title = this.state.title;
+      const text = this.state.text;
+      const now = Date.now();
+      postDocumentToCollection(docId, title, now, text)
+
+      
+    }
     render() {
         return (
           <div>
           <div className="item  col-lg-1 col-lg-offset-1 add-new-doc-btn" id="documents">
-            <button type="button" className="btn btn-default btn-circle"><i className="glyphicon glyphicon-plus"></i></button>
+            <button type="button" className="btn btn-default btn-circle" onClick={() => this.handleNewDocument()}><i className="glyphicon glyphicon-plus"></i></button>
           </div>
             <div className="row list-group" id="documents">
               <ul className="document-list">
