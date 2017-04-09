@@ -10,9 +10,9 @@ var initialData = {
     "users": {
         "1": {
             "_id": 1,
-            "username": "Kendrick",
-            "email": "kendrick@email.com",
-            "displayName": "Kendrick",
+            "username": "klamar",
+            "email": "klamar@gmail.com",
+            "displayName": "Kendrick Lamar",
             "password" : "thisIsARandomHashWhatAreTheOdds!?",
             "settings" : {
                 "theme" : "indica",
@@ -23,13 +23,13 @@ var initialData = {
         },
         "2": {
             "_id": 2,
-            "username": "Fiddy",
-            "email": "50@email.com",
-            "displayName": "Fiddy",
+            "username": "fiddy",
+            "email": "50@gmail.com",
+            "displayName": "Fiddy Cent",
             "password" : "thisIsAlsoRandomHashThisIsIncredible(:)",
             "settings" : {
                 "theme" : "gold",
-                "fontSize": 50
+                "fontSize": 16
             },
             "collections": [],
             "documents": [3]
