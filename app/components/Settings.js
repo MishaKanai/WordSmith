@@ -80,9 +80,9 @@ export default class Settings extends React.Component {
                     <li className="list-group-item bottom-border-only">
                     <h3 className="text-center">Wordsmith editor default settings</h3>
                     </li>
-                    <SettingsElement subject="Theme"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="settings.theme" elementArray={['Light', 'Dark', 'Gold']} selected={data.settings.theme} /></SettingsElement>
-                    <SettingsElement subject="Font"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="settings.font" elementArray={['Arial', 'Comic-Sans', 'Courier-New', 'Times New Roman']} selected={data.settings.font} /></SettingsElement>
-                    <SettingsElement subject="Font size"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="settings.fontSize" elementArray={['10', '12', '14', '16', '18']} selected={data.settings.fontSize} /></SettingsElement>
+                    <SettingsElement subject="Theme"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="theme" elementArray={['Light', 'Dark', 'Gold']} selected={data.settings.theme} /></SettingsElement>
+                    <SettingsElement subject="Font"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="font" elementArray={['Arial', 'Comic-Sans', 'Courier-New', 'Times New Roman']} selected={data.settings.font} /></SettingsElement>
+                    <SettingsElement subject="Font size"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="fontSize" elementArray={['10', '12', '14', '16', '18']} selected={data.settings.fontSize} /></SettingsElement>
                     <li className="list-group-item bottom-border-only">
                     <h3 className="text-center">Account settings</h3>
                     </li>
