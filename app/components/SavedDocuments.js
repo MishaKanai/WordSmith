@@ -48,7 +48,7 @@ export default class SavedDocuments extends React.Component {
             });
         });
 
-    console.log(getMostRecentUserDocument(this.props.userId))
+    //console.log(getMostRecentUserDocument(this.props.userId))
 
         //<Link to={"/workspace/"}></Link>
     }
@@ -91,13 +91,14 @@ export default class SavedDocuments extends React.Component {
                   <div className="item  col-xs-4 col-lg-4" key={this.state.documents.length + 1}>
                     <div className="thumbnail">
                       {
-                          this.state.collections.map((coll, i) =>
+                          this.state.collections.map((coll, i) =>  <Link to={"/workspace/"+coll._id} key={i}>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
                                   <span className="glyphicon glyphicon-folder-open"></span>
                                   {' '+coll.name}
                                 </h4>
                               </div>
+                            </Link>
                                                     )
                       }
                     </div>
