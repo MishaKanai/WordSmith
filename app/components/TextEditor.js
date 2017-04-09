@@ -3,14 +3,14 @@ import ReactQuill from 'react-quill';
 import { Overlay, Popover, Button } from 'react-bootstrap';
 import { loremipsum } from '../js/LoremIpsum';
 import insertTargets from '../js/applyClassesToWord';
+import {getDocument} from '../server';
 
 class TextEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             popoverShown: false,
-            word: null,
-            text: loremipsum
+            word: null
         };
     }
     closePopover() {
@@ -51,13 +51,13 @@ class TextEditor extends React.Component {
                 popoverShown: t[1],
             });
         }
-
-
     }
     handleChange(event) {
-        this.setState({text: event});
+        this.props.onChange(event);
     }
-
+    //componentDidMount() {
+    //    getDocument(this.props.docId, (doc) => this.setState({text: doc.text}));
+    //}
     render() {
         return (
                 <div className="texteditor-inner-wrapper"
@@ -66,7 +66,7 @@ class TextEditor extends React.Component {
             className="texteditor-textarea"
             onContextMenu={(e)=>this.rightClick(e)}
             onChange={(e)=>this.handleChange(e)}
-            value={this.state.text}
+            value={this.props.value}
                 />
                 <Overlay
             show={this.state.popoverShown}
@@ -85,6 +85,7 @@ class TextEditor extends React.Component {
                         $(this).replaceWith($(this).text());
                     });
                     this.props.getCategory("rhyme");
+                    this.props.getWord(this.state.word)
                   }}>Rhymes</Button>
                 <Button className="list-group-item" onClick={(e) => {
                   const target_parent = this.state.target_parent;
@@ -93,6 +94,7 @@ class TextEditor extends React.Component {
                   $(".special-target").each(function() {
                       $(this).replaceWith($(this).text());
                   });
+                  this.props.getWord(this.state.word)
                   this.props.getCategory("synonym");
                   }}>Thesaurus</Button>
                 <Button className="list-group-item" onClick={(e) => {
@@ -102,6 +104,7 @@ class TextEditor extends React.Component {
                   $(".special-target").each(function() {
                       $(this).replaceWith($(this).text());
                   });
+                  this.props.getWord(this.state.word)
                   this.props.getCategory("definition");
                   }}>Dictionary</Button>
                 <Button className="list-group-item" onClick={(e) => {
@@ -111,6 +114,7 @@ class TextEditor extends React.Component {
                   $(".special-target").each(function() {
                       $(this).replaceWith($(this).text());
                   });
+                  this.props.getWord(this.state.word)
                   this.props.getCategory("slang");
                   }}>UrbanDictionary</Button>
                 </ul>

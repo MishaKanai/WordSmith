@@ -106,6 +106,16 @@ body, html {
     border-left: 1px solid #D0CEC8;
 
 }
+#saveBtn {
+    margin-top:3px;
+    margin-bottom:-3px;
+    float:right;
+}
+#lastsavedtxt {
+    margin-right: 10px;
+    margin-top: 10px;
+    float:right;
+}
 
 .leftcol {
     border-radius:2px;
@@ -194,3 +204,4 @@ button.list-group-item {
     padding-left:0;
     padding-bottom: 0;
 }
+

@@ -2,6 +2,11 @@ import React from 'react';
 import Suggestion from './Suggestion';
 
 export default class SuggestionsBar extends React.Component{
+  handleClick(e, cat){
+    e.preventDefault();
+    this.props.updateCategory(cat)
+  }
+
   render(){
     return(
     <div>
@@ -11,27 +16,27 @@ export default class SuggestionsBar extends React.Component{
       <div className="col-md-12">
         <ul id="results-options" className="nav nav-pills">
           <li role="presentation" className={this.props.active === "rhyme" ? "active leftMost-li" : "leftMost-li"}>
-            <a href="#"><span>
+            <a href="#" onClick={(e) => {this.handleClick(e,"rhyme")}}><span>
               Rhymes
             </span></a>
           </li>
           <li className="divider-vertical"></li>
           <li role="presentation" className = {this.props.active === "synonym" ? "active" : ""}>
-            <a href="#">
+            <a href="#" onClick={(e) => {this.handleClick(e,"synonym")}}>
               <span>
                 Synonyms
               </span>
             </a></li>
           <li className="divider-vertical"></li>
           <li role="presentation" className = {this.props.active === "definition" ? "active" : ""}>
-            <a href="#">
+            <a href="#" onClick={(e) => {this.handleClick(e,"definition")}}>
               <span>
                 Definitions
               </span>
           </a></li>
           <li className="divider-vertical"></li>
           <li role="presentation" className={this.props.active === "slang" ? "active rightMost-li" : "rightMost-li"}>
-            <a href="#">
+            <a href="#" onClick={(e) => this.handleClick(e,"slang")}>
               <span>
                 Slang
               </span>
@@ -49,7 +54,7 @@ export default class SuggestionsBar extends React.Component{
     <div className="row" >
       <div className="col-md-12" >
         <ul className="list-group">
-          {this.props.allSuggestions.map(n => <Suggestion word={n} />)}
+          {this.props.allSuggestions.map((n,i) => <Suggestion key={i} word={n} />)}
         </ul>
       </div>
     </div>

@@ -16,13 +16,17 @@
     "babel-preset-react": "^6.3.13",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.14.0",
-    "react": "^0.14.6",
+    "history": "^1.17.0",
+    "rasterizehtml": "^1.2.4",
+    "react": "^0.14.8",
     "react-dom": "^0.14.6",
+    "react-router": "^1.0.3",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "quill": "^1.2.0",
+    "react": "^0.14.8",
     "react-bootstrap": "^0.30.7",
     "react-quill": "git+https://github.com/MishaKanai/react-quill.git"
   }
