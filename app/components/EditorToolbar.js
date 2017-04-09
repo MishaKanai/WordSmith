@@ -14,9 +14,9 @@ export default class EditorToolbar extends React.Component{
             <ul id="docbar-list" className="nav navbar-nav pull-right">
               <li className="divider-vertical"> </li>
               <li>
-              <button data-toggle="dropdown" className="dropdown-toggle">
+              <a href="#" data-toggle="dropdown" className="dropdown-toggle" >
                 File
-              </button>
+              </a>
                 <ul className="dropdown-menu">
                   <li><a href="#">New</a></li>
                   <li><a href="#">Open</a></li>
@@ -27,9 +27,9 @@ export default class EditorToolbar extends React.Component{
               </li>
               <li className="divider-vertical"> </li>
               <li>
-              <button data-toggle="dropdown" className="dropdown-toggle">
+              <a href="#" data-toggle="dropdown" className="dropdown-toggle">
                   Edit
-              </button>
+              </a>
                 <ul className="dropdown-menu">
                   <li><a href="#">Undo</a></li>
                   <li><a href="#">Redo</a></li>
@@ -39,26 +39,24 @@ export default class EditorToolbar extends React.Component{
               </li>
               <li className="divider-vertical"> </li>
               <li>
-                <button data-toggle="dropdown" className="dropdown-toggle">
+                <a href="#" data-toggle="dropdown" className="dropdown-toggle">
                   View
-                </button>
+                </a>
                 <ul className= "dropdown-menu">
                   <li><a href="#">Layout</a></li>
                   <li><a href="#">Screen Size</a></li>
                   <li><a href="#">Line Count</a></li>
-                  <li><a href="#">Option4</a></li>
                 </ul>
               </li>
               <li className="divider-vertical"> </li>
               <li>
-                <button data-toggle="dropdown" className="dropdown-toggle">
+                <a href="#" data-toggle="dropdown" className="dropdown-toggle">
                   Share
-                </button>
+                </a>
                 <ul className="dropdown-menu">
                   <li><a href="#">Download</a></li>
                   <li><a href="#">Email</a></li>
                   <li><a href="#">Export</a></li>
-                  <li><a href="#">Option4</a></li>
                 </ul>
               </li>
               <li className="divider-vertical"> </li>
