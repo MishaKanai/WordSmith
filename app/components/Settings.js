@@ -24,14 +24,19 @@ export default class Settings extends React.Component {
     }
 
     handleChange(id, value) {
+        console.log("hc");
         putSettings(this.props.userId, id, value, (settings) => {
-            this.setState(settings)
+            this.setState({
+                settings: settings
+            });
         })
     }
 
     componentDidMount() {
         getUserSettings(this.props.userId, (settings) => {
-            this.setState(settings)
+            this.setState({
+                settings: settings
+            });
         })
     }
 
@@ -90,7 +95,7 @@ export default class Settings extends React.Component {
                     <SettingsElement subject="Display name"><SettingsEditElement onChange={(id, value) => this.handleChange(id, value)} id="displayName" value={data.displayName} /></SettingsElement>
                     <SettingsElement subject="Email"><SettingsEditElement onChange={(id, value) => this.handleChange(id, value)} id="email" value={data.email} /></SettingsElement>
                     <SettingsElement subject="Password">
-                    <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>  
+                    <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>
                     </SettingsElement>
                     <li className="list-group-item bottom-border-only clearfix">
                     <button type="button" className="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteAccount">
