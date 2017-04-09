@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserDocuments, getCollections, postDocumentToUser} from '../server';
+import {getUserDocuments, getCollections, postDocumentToUser,getMostRecentdocument} from '../server';
 import {Link} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -13,7 +13,7 @@ export default class SavedDocuments extends React.Component {
         }
     }
     componentDidMount() {
-        //console.log(this.props.userId);
+
         getCollections(this.props.userId, (colls) => {
             this.setState({
                 collections: colls
@@ -43,23 +43,30 @@ export default class SavedDocuments extends React.Component {
                 return {
                     documents: state.documents.concat([doc]),
                     collections: state.collections
+
                 }
             });
         });
 
+    console.log(getMostRecentdocument(this.props.userId))
+
+        //<Link to={"/workspace/"}></Link>
     }
 
     render() {
         return (
           <div>
-            //
+
           <div className="item  col-lg-1 col-lg-offset-1 add-new-doc-btn" id="documents">
-            <Link to={"/workspace/"}>
+
             <button type="button" className="btn btn-default btn-circle" onClick={() => this.handleNewDocument()}>
               <i className="glyphicon glyphicon-plus" ></i>
           </button>
-          </Link>
+
         </div>
+
+
+
 
             <div className="row list-group" id="documents">
               <ul className="document-list">

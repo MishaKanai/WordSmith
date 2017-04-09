@@ -67,6 +67,12 @@ export function getUserDocuments(userId, cb) {
     emulateServerReturn(documents, cb);
 }
 
+export function getMostRecentUserDocument(userId) {
+    var user = readDocument('users', userId);
+    var mostRecentdocument = user.documents[user.documents.lenth-1]
+    emulateServerReturn(mostRecentdocument);
+}
+
 export function getCollectionDocuments(collectionId, cb) {
     var collection = readDocument('collections', collectionId);
     var documents = collection.documents.map(
