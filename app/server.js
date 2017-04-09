@@ -138,5 +138,6 @@ export function putDocument(docId, title, text, timestamp, cb) {
     document.title = title;
     document.text = text;
     document.timestamp = timestamp;
-    emulateServerReturn(writeDocument('documents', document), cb);
+    writeDocument('documents', document)
+    emulateServerReturn(document, cb);
 }
