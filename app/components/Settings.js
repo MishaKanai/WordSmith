@@ -3,20 +3,22 @@ import {SettingsEditElement} from './SettingsEditElement'
 import {SettingsElement} from './SettingsElement'
 import {SettingsListElements} from './SettingsListElements'
 import {SettingsUpdatePwModal} from './SettingsUpdatePwModal'
-import {getUserSettings, putSettings} from '../server'
+import {getUserSettings, putUserSettings} from '../server'
 
 export default class Settings extends React.Component {
     constructor(props) {
         super(props)
 
             this.state = {
-                "email": "",
-                "displayName": "",
-                "password": "",
-                "settings": {
-                    "theme": "",
-                    "font": "",
-                    "fontSize": ""
+                userSettings: {
+                    "email": "",
+                    "displayName": "",
+                    "password": "",
+                    "settings": {
+                        "theme": "",
+                        "font": "",
+                        "fontSize": ""
+                    }
                 }
             }
 
@@ -24,25 +26,24 @@ export default class Settings extends React.Component {
     }
 
     handleChange(id, value) {
-        console.log("hc");
-        putSettings(this.props.userId, id, value, (settings) => {
+        putUserSettings(this.props.userId, id, value, (settings) => {
             this.setState({
-                settings: settings
-            });
+                userSettings: settings
+            })
         })
     }
 
     componentDidMount() {
         getUserSettings(this.props.userId, (settings) => {
             this.setState({
-                settings: settings
-            });
+                userSettings: settings
+            })
         })
     }
 
     render() {
-        var data = this.state
-
+        var data = this.state.userSettings
+        console.log(data)
             return (
                     <div>
 

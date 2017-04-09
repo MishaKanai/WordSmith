@@ -3,10 +3,6 @@ import React from 'react'
 export class SettingsListElements extends React.Component {
     constructor(props) {
         super(props)
-            this.state = {
-                selected: this.props.selected
-            }
-
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -16,10 +12,10 @@ export class SettingsListElements extends React.Component {
 
     render() {
 			const elementArray = this.props.elementArray.map((oneElement) =>
-				<option key={oneElement}>{oneElement}</option>
+				<option key={oneElement} selected={this.props.selected === oneElement ? "selected" : ""}>{oneElement}</option>
 			)
             return (
-                    <select className="pull-right" id="sel1" defaultValue={this.state.selected} onChange={this.handleChange}>
+                    <select className="pull-right" id="sel1" onChange={this.handleChange}>
                     {elementArray}
                     </select>
                    )
