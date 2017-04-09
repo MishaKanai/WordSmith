@@ -1,187 +1,8 @@
-import React from 'react';
-
-class Element extends React.Component {
-  render() {
-    return (
-      <li className="list-group-item bottom-border-only clearfix">
-      <span className="left-hand-text">{this.props.subject}</span>
-      {this.props.children}
-      </li>
-    )
-  }
-}
-
-class UpdatePwModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      oldPwMatch: false,
-      oldPwValue: "",
-      newPwValid: false,
-      newPwValue: "",
-      newPwMatch: false,
-      newPw2Value: ""
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(value, id) {
-    let icon = null
-    switch(id) {
-      case "oldPwd":
-        if(value === "cat") {
-          this.setState({
-            oldPwValue: value,
-            oldPwMatch: true
-          });
-          icon = <span className="glyphicon glyphicon-ok-circle text-success"></span>;
-          return icon;
-        } else {
-          this.setState({
-            oldPwValue: value,
-            oldPwMatch: false
-          });
-          icon = <span className="glyphicon glyphicon-remove-circle text-danger"></span>;
-          return icon;
-        }
-        break;
-      case "newPwd":
-        if(value === "validPwd") {
-          this.setState({
-            newPwValue: value,
-            newPwValid: true
-          });
-          icon = <span className="glyphicon glyphicon-ok-circle text-success"></span>;
-          return icon;
-        } else {
-          this.setState({
-            newPwValue: value,
-            newPwValid: false
-          });
-          icon = <span className="glyphicon glyphicon-remove-circle text-danger"></span>;
-          return icon;
-        }
-        break;
-      case "newPwd2":
-        if(value === this.state.newPwValue) {
-          this.setState({
-            newPw2Value: value,
-            newPwMatch: true
-          });
-          icon = <span className="glyphicon glyphicon-ok-circle text-success"></span>;
-          return icon;
-        } else {
-          this.setState({
-            newPw2Value: value,
-            newPwMatch: false
-          });
-          icon = <span className="glyphicon glyphicon-remove-circle text-danger"></span>;
-          return icon;
-        }
-        break;
-      default:
-        icon = <span className="glyphicon glyphicon-record"></span>;    
-        return icon;
-        break;
-    }
-  }
-
-  render() {
-    return (
-      <div>
-      <ModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="oldPwd" subject="Old password" id="oldPwd" />
-      <ModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd" subject="New password" id="newPwd" />
-      <ModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd2" subject="Confirm new password" id="newPwd2" /> 
-      </div>
-    );
-  }
-
-}
-
-class ModalElement extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: "",
-      icon: null
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    let newIcon = null
-    newIcon = this.props.modalOnChange(event.target.value, this.props.id);
-    this.setState({
-      value: event.target.value,
-      icon: newIcon
-    });
-  }
-
-  render() {
-
-    return (
-      <li className="list-group-item bottom-border-only clearfix">
-      <div className="form-group">
-      <label for={this.props.forLabel}>{this.props.subject}</label>
-      <input type="password" className="form-control modal-pw-box pull-left" onChange={this.handleChange} id={this.props.id} />
-      <span className="fake-btn pull-right">
-      {this.state.icon}
-      </span>
-      </div>
-      </li> 
-    );
-  }
-}
-
-class ListElements extends React.Component {
-  render() {
-    const elementArray = this.props.elementArray;
-    const listItems = elementArray.map((element) =>
-      <option>{element}</option>
-    );
-    return (
-      <select className="pull-right" id="sel1">
-      {listItems}
-      </select>
-    );
-  }
-}
-
-class EditElement extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      enabled: false,
-      value: this.props.value
-    };
-
-    this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleClick() {
-    this.setState(prevState => ({
-      enabled: !prevState.enabled    
-    }));
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});    
-  }
-
-  render() {
-    return (
-      <div className="right-element pull-right">
-      <input type="text" className="form-control display-name pull-left" value={this.state.value} onChange={this.handleChange} disabled={this.state.enabled ? "" : "disabled"} />
-      <button type="button" onClick={this.handleClick} className="btn btn-default pull-right">
-      <span className={this.state.enabled ? "glyphicon glyphicon-ok text-success" : "glyphicon glyphicon-pencil"}></span>
-      </button>
-      </div>
-    );
-  }
-}
+import React from 'react'
+import {SettingsEditElement} from './SettingsEditElement'
+import {SettingsElement} from './SettingsElement'
+import {SettingsListElements} from './SettingsListElements'
+import {SettingsUpdatePwModal} from './SettingsUpdatePwModal'
 
 export default class Settings extends React.Component {
   render() {
@@ -199,7 +20,7 @@ export default class Settings extends React.Component {
       </div>
       <div className="modal-body">
       <ul className="list-group">
-      <UpdatePwModal />
+      <SettingsUpdatePwModal />
       <li className="list-group-item bottom-border-only">
       <button type="button" className="btn btn-success modal-btn" data-dismiss="modal">Update</button>
       </li>
@@ -234,17 +55,17 @@ export default class Settings extends React.Component {
       <li className="list-group-item bottom-border-only">
       <h3 className="text-center">Wordsmith editor default settings</h3>
       </li>
-      <Element subject="Theme"><ListElements elementArray={['Light', 'Dark']} /></Element>
-      <Element subject="Font"><ListElements elementArray={['Arial', 'Times New Roman']} /></Element>
-      <Element subject="Font size"><ListElements elementArray={['10', '12', '14', '16', '18']} /></Element>
+      <SettingsElement subject="Theme"><SettingsListElements elementArray={['Light', 'Dark']} /></SettingsElement>
+      <SettingsElement subject="Font"><SettingsListElements elementArray={['Arial', 'Times New Roman']} /></SettingsElement>
+      <SettingsElement subject="Font size"><SettingsListElements elementArray={['10', '12', '14', '16', '18']} /></SettingsElement>
       <li className="list-group-item bottom-border-only">
       <h3 className="text-center">Account settings</h3>
       </li>
-      <Element subject="Display name"><EditElement value="Kendrick Lamar" /></Element>
-      <Element subject="Email"><EditElement value="klamar@tde.us" /></Element>
-      <Element subject="Password">
+      <SettingsElement subject="Display name"><SettingsEditElement value="Kendrick Lamar" /></SettingsElement>
+      <SettingsElement subject="Email"><SettingsEditElement value="klamar@tde.us" /></SettingsElement>
+      <SettingsElement subject="Password">
       <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>  
-      </Element>
+      </SettingsElement>
       <li className="list-group-item bottom-border-only clearfix">
       <button type="button" className="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteAccount">
       Delete account
