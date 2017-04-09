@@ -43,7 +43,6 @@ export default class Settings extends React.Component {
 
     render() {
         var data = this.state.userSettings
-        console.log(data)
             return (
                     <div>
 
