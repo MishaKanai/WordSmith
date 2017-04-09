@@ -15,7 +15,8 @@ var initialData = {
             "displayName": "Kendrick Lamar",
             "password" : "thisIsARandomHashWhatAreTheOdds!?",
             "settings" : {
-                "theme" : "indica",
+                "theme" : "Dark",
+                "font" : "Courier-New",
                 "fontSize": 12
             },
             "collections": [1, 2],
@@ -28,7 +29,8 @@ var initialData = {
             "displayName": "Fiddy Cent",
             "password" : "thisIsAlsoRandomHashThisIsIncredible(:)",
             "settings" : {
-                "theme" : "gold",
+                "theme" : "Gold",
+                "font" : "Comic Sans",
                 "fontSize": 16
             },
             "collections": [],
