@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserDocuments, getCollections, postDocumentToUser,getMostRecentdocument} from '../server';
+import {getUserDocuments, getCollections, postDocumentToUser,getMostRecentUserDocument} from '../server';
 import {Link} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -48,7 +48,7 @@ export default class SavedDocuments extends React.Component {
             });
         });
 
-    console.log(getMostRecentdocument(this.props.userId))
+    console.log(getMostRecentUserDocument(this.props.userId))
 
         //<Link to={"/workspace/"}></Link>
     }
