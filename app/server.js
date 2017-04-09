@@ -118,14 +118,17 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var user = readDocument('users', userId);
     user.documents.push(doc._id);
-    emulateServerReturn(removePasswordSync(writeDocument('users', user)), cb);
+    console.log(user);
+    writeDocument('users', user)
+    emulateServerReturn(doc, cb);
 }
 
-export function postDocumentToCollection(collectionId, title, text, timestamp) {
+export function postDocumentToCollection(collectionId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var collection = readDocument('collections', collectionId);
     collection.documents.push(doc._id);
-    emulateServerReturn(writeDocument('collections', collection));
+    writeDocument('collections', collection)
+    emulateServerReturn(doc, cb);
 }
 
 //PUT functions

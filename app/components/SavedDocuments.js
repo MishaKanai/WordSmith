@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserDocuments, getCollections,postDocumentToCollection} from '../server';
+import {getUserDocuments, getCollections,postDocumentToCollection, postDocumentToUser} from '../server';
 import {Link} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -7,8 +7,8 @@ export default class SavedDocuments extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            title:"Untitled",
-            text:"",
+            //title:"Untitled",
+            //text:"",
             documents:[],
             collections:[]
         }
@@ -34,18 +34,26 @@ export default class SavedDocuments extends React.Component {
         });
     }
 
-    handleChange(e) {
+    /*handleChange(e) {
       this.setState({ value: e.target.value });
-    }
+    }*/
 
     handleNewDocument(){
-      const docId = this.props.docId;
-      const title = this.state.title;
-      const text = this.state.text;
-      const now = Date.now();
-      postDocumentToCollection(docId, title, now, text)
+        //const docId = this.props.docId;
+        //const title = this.state.title;
+        //const text = this.state.text;
+        const now = Date.now();
+        //postDocumentToCollection(docId, title, now, text)
+        postDocumentToUser(this.props.userId, 'untitled', 'new doc', now, (doc) => {
+            this.setState((state) => {
+                return {
+                    documents: state.documents.concat([doc]),
+                    collections: state.collections
+                }
+            });
+        });
 
-      
+
     }
     render() {
         return (
