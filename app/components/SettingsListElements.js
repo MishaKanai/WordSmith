@@ -4,7 +4,7 @@ export class SettingsListElements extends React.Component {
     constructor(props) {
         super(props)
             this.state = {
-                selected = this.props.selected
+                selected: this.props.selected
             }
 
         this.handleChange = this.handleChange.bind(this)
@@ -12,7 +12,7 @@ export class SettingsListElements extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({selected: event.target.value})
+        this.props.onChange(this.props.id, event.target.value)
     }
 
     loadElement(value, index, arr) {
@@ -23,13 +23,9 @@ export class SettingsListElements extends React.Component {
         }
     }
 
-    componentDidMount() {
-        
-        }
-
     render() {
         var elementArray = this.props.elementArray
-            elementArray.forEach(loadElement)
+            elementArray.forEach(this.loadElement)
             return (
                     <select className="pull-right" id="sel1">
                     {elementArray}
