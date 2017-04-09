@@ -37,7 +37,6 @@ export default class Settings extends React.Component {
 
     render() {
         var data = this.state
-            console.log(data)
 
             return (
                     <div>

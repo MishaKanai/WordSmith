@@ -141,9 +141,9 @@ export function putDocument(docId, title, text, timestamp, cb) {
 export function putSettings(userId, settingsId, value, cb) {
 	var user = readDocument('users', userId)
 	if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
-		user.settingsId = value
+		user[settingsId] = value
 	} else {
-		user.settings.settingsId = value
+		user.settings[settingsId] = value
 	}
 	emulateServerReturn(writeDocument('users', user), cb)
 }
