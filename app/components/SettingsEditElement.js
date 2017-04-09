@@ -6,20 +6,27 @@ export class SettingsEditElement extends React.Component {
     this.state = {
       enabled: false,
       value: this.props.value
-    };
+    }
 
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleClick() {
+	if(this.state.enabled === true) {
+		this.props.onChange(this.props.id, this.state.value)  
+	}
     this.setState(prevState => ({
       enabled: !prevState.enabled	  
     }));
   }
 
   handleChange(event) {
-    this.props.onChange(this.props.id, event.target.value)   
+	  this.setState({value: event.target.value})
+  }
+  
+  componentWillReceiveProps(nextProps) {
+	  this.setState({value: nextProps.value})
   }
 
   render() {

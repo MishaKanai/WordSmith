@@ -28,6 +28,14 @@ class SavedDocumentsPage extends React.Component {
 
 }
 
+class SettingsPage extends React.Component {
+    render() {
+        return (
+            <Settings userId={1}/>
+        )    
+    }    
+}
+
 
 
 /**
@@ -41,7 +49,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar userId={1}/>
                 {this.props.children}
             </div>
         )
@@ -54,6 +62,7 @@ if (document.getElementById('app') !== null) {
               <Route path="/" component={App}>
                 <IndexRoute component={SavedDocumentsPage} />
                 <Route path="workspace/:id" component={WorkspacePage} />
+                <Route path="settings/:id" component={SettingsPage} />
               </Route>
             </Router>
     ),document.getElementById('app'));

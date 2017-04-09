@@ -3,20 +3,22 @@ import {SettingsEditElement} from './SettingsEditElement'
 import {SettingsElement} from './SettingsElement'
 import {SettingsListElements} from './SettingsListElements'
 import {SettingsUpdatePwModal} from './SettingsUpdatePwModal'
-import {getUserSettings, putSettings} from '../server'
+import {getUserSettings, putUserSettings} from '../server'
 
 export default class Settings extends React.Component {
     constructor(props) {
         super(props)
 
             this.state = {
-                "email": "",
-                "displayName": "",
-                "password": "",
-                "settings": {
-                    "theme": "",
-                    "font": "",
-                    "fontSize": ""
+                userSettings: {
+                    "email": "",
+                    "displayName": "",
+                    "password": "",
+                    "settings": {
+                        "theme": "",
+                        "font": "",
+                        "fontSize": ""
+                    }
                 }
             }
 
@@ -24,21 +26,23 @@ export default class Settings extends React.Component {
     }
 
     handleChange(id, value) {
-        putSettings(this.props.userId, id, value, (settings) => {
-            this.setState(settings)
+        putUserSettings(this.props.userId, id, value, (settings) => {
+            this.setState({
+                userSettings: settings
+            })
         })
     }
 
     componentDidMount() {
         getUserSettings(this.props.userId, (settings) => {
-            this.setState(settings)
+            this.setState({
+                userSettings: settings
+            })
         })
     }
 
     render() {
-        var data = this.state
-            console.log(data)
-
+        var data = this.state.userSettings
             return (
                     <div>
 
@@ -81,16 +85,16 @@ export default class Settings extends React.Component {
                     <li className="list-group-item bottom-border-only">
                     <h3 className="text-center">Wordsmith editor default settings</h3>
                     </li>
-                    <SettingsElement subject="Theme"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="settings.theme" elementArray={['Light', 'Dark', 'Gold']} selected={data.settings.theme} /></SettingsElement>
-                    <SettingsElement subject="Font"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="settings.font" elementArray={['Arial', 'Comic-Sans', 'Courier-New', 'Times New Roman']} selected={data.settings.font} /></SettingsElement>
-                    <SettingsElement subject="Font size"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="settings.fontSize" elementArray={['10', '12', '14', '16', '18']} selected={data.settings.fontSize} /></SettingsElement>
+                    <SettingsElement subject="Theme"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="theme" elementArray={['Light', 'Dark', 'Gold']} selected={data.settings.theme} /></SettingsElement>
+                    <SettingsElement subject="Font"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="font" elementArray={['Arial', 'Comic-Sans', 'Courier-New', 'Times New Roman']} selected={data.settings.font} /></SettingsElement>
+                    <SettingsElement subject="Font size"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="fontSize" elementArray={['10', '12', '14', '16', '18']} selected={data.settings.fontSize} /></SettingsElement>
                     <li className="list-group-item bottom-border-only">
                     <h3 className="text-center">Account settings</h3>
                     </li>
                     <SettingsElement subject="Display name"><SettingsEditElement onChange={(id, value) => this.handleChange(id, value)} id="displayName" value={data.displayName} /></SettingsElement>
                     <SettingsElement subject="Email"><SettingsEditElement onChange={(id, value) => this.handleChange(id, value)} id="email" value={data.email} /></SettingsElement>
                     <SettingsElement subject="Password">
-                    <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>  
+                    <button type="button" className="btn btn-default right-element pull-right" data-toggle="modal" data-target="#updatePassword">Update</button>
                     </SettingsElement>
                     <li className="list-group-item bottom-border-only clearfix">
                     <button type="button" className="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteAccount">
