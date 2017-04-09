@@ -21,7 +21,7 @@ if (document.getElementById('workspace') !== null) {
   );
 
 } else if (document.getElementById('settings') !== null) {
-  ReactDOM.render( <Settings />,
+  ReactDOM.render( <Settings userId={1}/>,
   document.getElementById('settings')
 );
 

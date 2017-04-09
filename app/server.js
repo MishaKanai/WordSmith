@@ -141,3 +141,15 @@ export function putDocument(docId, title, text, timestamp, cb) {
     writeDocument('documents', document)
     emulateServerReturn(document, cb);
 }
+
+export function putSettings(userId, settingsId, value, cb) {
+    console.log(userId);
+    var user = readDocument('users', userId);
+    if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
+	user.settingsId = value;
+    } else {
+	user.settings.settingsId = value;
+    }
+    writeDocument('users', user);
+    emulateServerReturn(user, cb);
+}
