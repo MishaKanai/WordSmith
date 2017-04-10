@@ -49,6 +49,23 @@ function addDocumentSync(title, text, timestamp) {
     return doc;
 }
 
+function addCollectionSync(title, list) {
+    var coll = {
+        "name": title,
+        "documents": list
+
+    };
+    coll = addDocument('collection', coll);
+    return coll;
+}
+
+ function postCollection(userId, collectionName,cb) {
+  var collection = addCollectionSync(collectionName,[]);
+  var user = readDocument('users', userId);
+  user.collections.push(collection._id);
+  writeDocument('users', user);
+  emulateServerReturn(collection, cb);
+}
 // GET functions
 
 export function getCollections(userId, cb) {
@@ -128,13 +145,26 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
     emulateServerReturn(doc, cb);
 }
 
-export function postDocumentToCollection(collectionId, title, text, timestamp, cb) {
-    var doc = addDocumentSync(title, text, timestamp);
-    var collection = readDocument('collections', collectionId);
-    collection.documents.push(doc._id);
-    writeDocument('collections', collection)
-    emulateServerReturn(doc, cb);
+
+
+export function postCollectionToUser(userId, name, documents, cb) {
+    var coll = addCollectionSync(name, documents);
+    var user = readDocument('users', userId);
+    user.collection.push(coll._id);
+    writeDocument('users', user)
+    emulateServerReturn(coll, cb);
 }
+
+
+export function postDocumentToCollection(userId, title, text, timestamp, cb) {
+  var doc = addDocumentSync(title, text, timestamp);
+  var user = readDocument('users', userId);
+  user.documents.push(doc._id);
+  writeDocument('users', user)
+  emulateServerReturn(doc, cb);
+}
+
+
 
 //PUT functions
 
