@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 
 export default class EditorToolbar extends React.Component{
@@ -12,8 +11,8 @@ export default class EditorToolbar extends React.Component{
           <div className="navbar-header pull-left">
             <ul id="docbar-list" className="nav navbar-nav pull-right">
               <li className="divider-vertical"> </li>
-              <li>
-              <a href="#" data-toggle="dropdown" className="dropdown-toggle" >
+              <li className="dropdown">
+              <a href="#" data-toggle="dropdown" className="dropdown-toggle">
                 File
               </a>
                 <ul className="dropdown-menu">
@@ -67,9 +66,3 @@ export default class EditorToolbar extends React.Component{
     );
   }
 }
-
-
-ReactDOM.render
-(
-  <EditorToolbar />, document.getElementById('docbar')
-);
