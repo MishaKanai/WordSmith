@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { IndexRoute, Router, Route, browserHistory, Link } from 'react-router'
+import { IndexRoute, Router, Route, browserHistory} from 'react-router'
 
 import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
 import SavedDocuments from './components/SavedDocuments';
+import EditorToolbar from './components/EditorToolbar';
 
 
 
 class WorkspacePage extends React.Component {
     render() {
         return (
+          <div>
+                <EditorToolbar />
                 <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word=' docId={this.props.params.id} />
+          </div>
         );
     }
 }
