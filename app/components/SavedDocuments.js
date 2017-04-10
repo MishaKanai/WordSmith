@@ -1,6 +1,6 @@
 import React from 'react';
-import {getUserDocuments, getCollections, postDocumentToUser,
-  postCollectionToUser,getMostRecentUserDocument} from '../server';
+import {getUserDocuments, getCollections,
+  postCollection,postDocumentToUser} from '../server';
 import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -58,12 +58,10 @@ import rasterizeHTML from 'rasterizehtml';
     }
     handleNewCollection(){
 
-        postCollectionToUser(this.props.userId, 'untitled collection', [],(coll) => {
-            this.setState((state) => {
-                return {
-                    collections: state.collections.concat([coll])
-                }
-            });
+        postCollection(this.props.userId, 'untitled collection',(coll) => {
+            this.setState({
+                    collections: this.state.collections.concat([coll])
+                  });
         });
 
 

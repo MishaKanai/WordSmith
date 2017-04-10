@@ -55,17 +55,10 @@ function addCollectionSync(title, list) {
         "documents": list
 
     };
-    coll = addDocument('collection', coll);
+    coll = addDocument('collections', coll);
     return coll;
 }
 
- function postCollection(userId, collectionName,cb) {
-  var collection = addCollectionSync(collectionName,[]);
-  var user = readDocument('users', userId);
-  user.collections.push(collection._id);
-  writeDocument('users', user);
-  emulateServerReturn(collection, cb);
-}
 // GET functions
 
 export function getCollections(userId, cb) {
@@ -146,16 +139,6 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
 }
 
 
-
-export function postCollectionToUser(userId, name, documents, cb) {
-    var coll = addCollectionSync(name, documents);
-    var user = readDocument('users', userId);
-    user.collection.push(coll._id);
-    writeDocument('users', user)
-    emulateServerReturn(coll, cb);
-}
-
-
 export function postDocumentToCollection(userId, title, text, timestamp, cb) {
   var doc = addDocumentSync(title, text, timestamp);
   var user = readDocument('users', userId);
@@ -164,6 +147,14 @@ export function postDocumentToCollection(userId, title, text, timestamp, cb) {
   emulateServerReturn(doc, cb);
 }
 
+
+export function postCollection(userId, collectionName,cb) {
+ var collection = addCollectionSync(collectionName,[]);
+ var user = readDocument('users', userId);
+ user.collections.push(collection._id);
+ writeDocument('users', user);
+ emulateServerReturn(collection, cb);
+}
 
 
 //PUT functions

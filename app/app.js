@@ -32,6 +32,17 @@ class SavedDocumentsPage extends React.Component {
     }
 
 }
+class CollectionsPage extends React.Component {
+    render() {
+        return (
+                <div>
+                <br/>
+                <SavedDocuments userID={1} collId={this.props.params.id}/>
+            </div>
+        );
+    }
+
+}
 
 class SettingsPage extends React.Component {
     render() {
@@ -68,6 +79,7 @@ if (document.getElementById('app') !== null) {
                 <IndexRoute component={SavedDocumentsPage} />
                 <Route path="workspace/:id" component={WorkspacePage} />
                 <Route path="settings/:id" component={SettingsPage} />
+                <Route path="collections/:id" component={CollectionsPage} />
               </Route>
             </Router>
     ),document.getElementById('app'));
