@@ -6,12 +6,7 @@ import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
 import SavedDocuments from './components/SavedDocuments';
-import EditorToolbar from './components/EditorToolbar';
 
-ReactDOM.render
-(
-  <EditorToolbar />, document.getElementById('docbar')
-);
 
 
 class WorkspacePage extends React.Component {
