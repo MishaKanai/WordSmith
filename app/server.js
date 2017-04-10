@@ -148,7 +148,6 @@ export function putDocument(docId, title, text, timestamp, cb) {
     emulateServerReturn(document, cb);
 }
 
-
 export function putUserSettings(userId, settingsId, value, cb) {
     var user = readDocument('users', userId);
 	if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
