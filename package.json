@@ -20,7 +20,7 @@
     "rasterizehtml": "^1.2.4",
     "react": "^0.14.8",
     "react-dom": "^0.14.6",
-    "react-router": "^1.0.3",
+    "react-router": "2.8.1",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },

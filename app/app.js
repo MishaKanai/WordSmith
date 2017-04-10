@@ -5,7 +5,7 @@ import { IndexRoute, Router, Route, browserHistory, Link } from 'react-router'
 import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
-import SavedDocuments from './components/SavedDocuments';
+import {SavedDocuments} from './components/SavedDocuments';
 
 
 class WorkspacePage extends React.Component {
@@ -21,7 +21,7 @@ class SavedDocumentsPage extends React.Component {
         return (
                 <div>
                 <br/>
-                <SavedDocuments  userId={1}/>
+                <SavedDocuments userId={1}/>
             </div>
         );
     }

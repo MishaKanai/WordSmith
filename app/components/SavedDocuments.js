@@ -1,9 +1,11 @@
 import React from 'react';
-import {getUserDocuments, getCollections, postDocumentToUser,getMostRecentUserDocument} from '../server';
-import {Link,Route} from 'react-router';
+import {getUserDocuments, getCollections, postDocumentToUser,
+  postCollectionToUser,getMostRecentUserDocument} from '../server';
+import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
-export default class SavedDocuments extends React.Component {
+ class SavedDocumentsI extends React.Component {
+
     constructor(props) {
         super(props);
         this.state={
@@ -12,6 +14,7 @@ export default class SavedDocuments extends React.Component {
             collections:[]
         }
     }
+
     componentDidMount() {
 
         getCollections(this.props.userId, (colls) => {
@@ -38,6 +41,7 @@ export default class SavedDocuments extends React.Component {
 
     handleNewDocument(){
         const now = Date.now();
+
         postDocumentToUser(this.props.userId, 'untitled', 'new doc', now, (doc) => {
             this.setState((state) => {
                 return {
@@ -46,14 +50,25 @@ export default class SavedDocuments extends React.Component {
 
                 }
             });
+
+            this.props.router.push('/workspace/'+doc._id);
         });
 
 
     }
-    handleToNewDocument(){
-      //<Link to={"/workspace/"+ getMostRecentUserDocument(this.props.userId)}></Link>
+    handleNewCollection(){
+
+        postCollectionToUser(this.props.userId, 'untitled collection', [],(coll) => {
+            this.setState((state) => {
+                return {
+                    collections: state.collections.concat([coll])
+                }
+            });
+        });
+
 
     }
+
     render() {
         return (
           <div>
@@ -66,7 +81,6 @@ export default class SavedDocuments extends React.Component {
                     <div className="row">
                       <div className="col-sm-4">
                         <button type="button" className="btn btn-primary" onClick={() => this.handleNewCollection()}>New Collection</button>
-
                       </div>
                       </div>
                     </div>
@@ -101,7 +115,7 @@ export default class SavedDocuments extends React.Component {
                   <div className="item  col-xs-4 col-lg-4" key={this.state.documents.length + 1}>
                     <div className="thumbnail">
                       {
-                          this.state.collections.map((coll, i) =>  <Link to={"/workspace/"+coll.documents} key={i}>
+                          this.state.collections.map((coll, i) =>  <Link to={"/collections/"+coll._id} key={i}>
 
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
@@ -122,3 +136,10 @@ export default class SavedDocuments extends React.Component {
         )
     }
 }
+
+export var SavedDocuments = withRouter(SavedDocumentsI);
+SavedDocumentsI.propTypes = {
+  router: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired
+  }).isRequired
+};
