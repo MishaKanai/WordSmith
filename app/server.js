@@ -124,7 +124,6 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var user = readDocument('users', userId);
     user.documents.push(doc._id);
-    console.log(user);
     writeDocument('users', user)
     emulateServerReturn(doc, cb);
 }

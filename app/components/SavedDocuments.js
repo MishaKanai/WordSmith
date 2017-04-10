@@ -1,6 +1,6 @@
 import React from 'react';
 import {getUserDocuments, getCollections, postDocumentToUser,getMostRecentUserDocument} from '../server';
-import {Link} from 'react-router';
+import {Link,Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
 export default class SavedDocuments extends React.Component {
@@ -48,22 +48,32 @@ export default class SavedDocuments extends React.Component {
             });
         });
 
-    //console.log(getMostRecentUserDocument(this.props.userId))
 
-        //<Link to={"/workspace/"}></Link>
     }
+    handleToNewDocument(){
+      //<Link to={"/workspace/"+ getMostRecentUserDocument(this.props.userId)}></Link>
 
+    }
     render() {
         return (
           <div>
 
-          <div className="item  col-lg-1 col-lg-offset-1 add-new-doc-btn" id="documents">
+          <div className="item  col-lg-3 col-lg-offset-1 add-new-doc-btn" id="documents">
+            <div className="row">
+              <div classNameName="col-sm-4">
+                <button type="button" className="btn btn-primary" onClick={() => this.handleNewDocument()}>New Document</button>
+                <p></p>
+                    <div className="row">
+                      <div className="col-sm-4">
+                        <button type="button" className="btn btn-primary" onClick={() => this.handleNewCollection()}>New Collection</button>
 
-            <button type="button" className="btn btn-default btn-circle" onClick={() => this.handleNewDocument()}>
-              <i className="glyphicon glyphicon-plus" ></i>
-          </button>
+                      </div>
+                      </div>
+                    </div>
 
-        </div>
+                  </div>
+          </div>
+          <p></p>
 
 
 
@@ -91,7 +101,8 @@ export default class SavedDocuments extends React.Component {
                   <div className="item  col-xs-4 col-lg-4" key={this.state.documents.length + 1}>
                     <div className="thumbnail">
                       {
-                          this.state.collections.map((coll, i) =>  <Link to={"/workspace/"+coll._id} key={i}>
+                          this.state.collections.map((coll, i) =>  <Link to={"/workspace/"+coll.documents} key={i}>
+
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
                                   <span className="glyphicon glyphicon-folder-open"></span>
