@@ -98,9 +98,9 @@ export function getCollectionDocuments(collectionId, cb) {
     emulateServerReturn(documents, cb);
 }
 
-export function getUserSettings(userId) {
+export function getUserSettings(userId, cb) {
     var user = readDocument('users', userId);
-    emulateServerReturn(user.settings);
+    emulateServerReturn(user, cb);
 }
 
 //falls back to user settings if document settings not set
@@ -177,14 +177,13 @@ export function putDocument(docId, title, text, timestamp, cb) {
     emulateServerReturn(document, cb);
 }
 
-export function putSettings(userId, settingsId, value, cb) {
-    console.log(userId);
+export function putUserSettings(userId, settingsId, value, cb) {
     var user = readDocument('users', userId);
-    if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
-	user.settingsId = value;
-    } else {
-	user.settings.settingsId = value;
-    }
+	if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
+	    user[settingsId] = value;
+	} else {
+	    user.settings[settingsId] = value;
+	}
     writeDocument('users', user);
     emulateServerReturn(user, cb);
 }

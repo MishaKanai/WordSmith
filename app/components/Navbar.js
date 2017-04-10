@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 export default class NavBar extends React.Component {
     constructor(props) {
@@ -47,7 +48,7 @@ export default class NavBar extends React.Component {
             <li className="dropdown">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kendrick Lamar <span className="caret"></span></a>
               <ul className="dropdown-menu">
-                <li><a href="#">Settings</a></li>
+                <li><Link to={`settings/${this.props.userId}`}>Settings</Link></li>
                 <li role="separator" className="divider"></li>
                 <li><a href="#">Log Out</a></li>
               </ul>

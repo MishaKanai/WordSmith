@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { IndexRoute, Router, Route, browserHistory, Link } from 'react-router'
+import { IndexRoute, Router, Route, browserHistory} from 'react-router'
 
 import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
 import {SavedDocuments} from './components/SavedDocuments';
+import EditorToolbar from './components/EditorToolbar';
+
 
 
 class WorkspacePage extends React.Component {
     render() {
         return (
+          <div>
+                <EditorToolbar />
                 <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word=' docId={this.props.params.id} />
+          </div>
         );
     }
 }
@@ -28,6 +33,14 @@ class SavedDocumentsPage extends React.Component {
 
 }
 
+class SettingsPage extends React.Component {
+    render() {
+        return (
+            <Settings userId={1}/>
+        )
+    }
+}
+
 
 
 /**
@@ -41,7 +54,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar userId={1}/>
                 {this.props.children}
             </div>
         )
@@ -54,6 +67,7 @@ if (document.getElementById('app') !== null) {
               <Route path="/" component={App}>
                 <IndexRoute component={SavedDocumentsPage} />
                 <Route path="workspace/:id" component={WorkspacePage} />
+                <Route path="settings/:id" component={SettingsPage} />
               </Route>
             </Router>
     ),document.getElementById('app'));

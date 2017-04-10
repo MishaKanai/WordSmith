@@ -5,13 +5,16 @@ export class SettingsUpdatePwModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      oldPwMatch: false,
-      oldPwValue: "",
-      newPwValid: false,
-      newPwValue: "",
-      newPwMatch: false,
-      newPw2Value: "",
-	  updateEnabled: false
+		oldPwMatch: false,
+		oldPwValue: "",
+		oldPwIcon: <span className='glyphicon glyphicon-record'></span>,
+		newPwValid: false,
+		newPwValue: "",
+		newPwIcon: <span className='glyphicon glyphicon-record'></span>,
+		newPwMatch: false,
+		newPw2Value: "",
+		newPw2Icon: <span className='glyphicon glyphicon-record'></span>,
+		updateEnabled: false
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -23,95 +26,87 @@ export class SettingsUpdatePwModal extends React.Component {
 	  this.setState({
 		oldPwMatch: false,
 		oldPwValue: "",
+		oldPwIcon: <span className='glyphicon glyphicon-record'></span>,
 		newPwValid: false,
 		newPwValue: "",
+		newPwIcon: <span className='glyphicon glyphicon-record'></span>,
 		newPwMatch: false,
 		newPw2Value: "",
+		newPw2Icon: <span className='glyphicon glyphicon-record'></span>,
 		updateEnabled: false
 	  })
   }
 
   handleChange(value, id) {
-    let icon = null
     switch(id) {
       case "oldPwd":
         if(value === this.props.oldPwd) {
           this.setState({
             oldPwValue: value,
-            oldPwMatch: true
+            oldPwMatch: true,
+			oldPwIcon: <span className='glyphicon glyphicon-ok-circle text-success'></span>
           });
-          icon = <span className="glyphicon glyphicon-ok-circle text-success"></span>;
-          return icon;
         } else {
           this.setState({
             oldPwValue: value,
-            oldPwMatch: false
+            oldPwMatch: false,
+			oldPwIcon: <span className='glyphicon glyphicon-remove-circle text-danger'></span>
+
           });
-          icon = <span className="glyphicon glyphicon-remove-circle text-danger"></span>;
-          return icon;
         }
         break;
       case "newPwd":
         if(value !== "" && value !== this.state.oldPwValue) {
           this.setState({
             newPwValue: value,
-            newPwValid: true
+            newPwValid: true,
+			newPwIcon: <span className='glyphicon glyphicon-ok-circle text-success'></span>
           });
-          icon = <span className="glyphicon glyphicon-ok-circle text-success"></span>;
-          return icon;
         } else {
           this.setState({
             newPwValue: value,
-            newPwValid: false
+            newPwValid: false,
+			newPwIcon: <span className='glyphicon glyphicon-remove-circle text-danger'></span>
           });
-          icon = <span className="glyphicon glyphicon-remove-circle text-danger"></span>;
-          return icon;
         }
         break;
       case "newPwd2":
         if(value === this.state.newPwValue && this.state.newPwValid === true) {
           this.setState({
             newPw2Value: value,
-            newPwMatch: true
+            newPwMatch: true,
+			newPw2Icon: <span className='glyphicon glyphicon-ok-circle text-success'></span>
           });
-          icon = <span className="glyphicon glyphicon-ok-circle text-success"></span>;
-          return icon;
         } else {
           this.setState({
             newPw2Value: value,
-            newPwMatch: false
+            newPwMatch: false,
+			newPw2Icon: <span className='glyphicon glyphicon-remove-circle text-danger'></span>
           });
-          icon = <span className="glyphicon glyphicon-remove-circle text-danger"></span>;
-          return icon;
-        }
+		}
         break;
       default:
-        icon = <span className="glyphicon glyphicon-record"></span>;    
-        return icon;
         break;
     }
-	if(this.state.oldPwMatch === true && this.state.newPwValid === true && this.state.newPwMatch === true) {
-		this.setState({updateEnabled: true})
-	}
   }
   
   handleClick() {
 	  if(this.state.oldPwMatch === true && this.state.newPwValid === true && this.state.newPwMatch === true) {
-		this.props.onChange(this.props.id, newPwValue)
+		this.props.onChange(this.props.id, this.state.newPwValue)
 	  }
-	  resetState()
+	  this.resetState()
   }
 
   render() {
     return (
 	  <div className="modal-body">
-2     <ul className="list-group">
-      <SettingsModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="oldPwd" subject="Old password" id="oldPwd" />
-      <SettingsModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd" subject="New password" id="newPwd" />
-      <SettingsModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd2" subject="Confirm new password" id="newPwd2" />
+      <ul className="list-group">
+      <SettingsModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="oldPwd" subject="Old password" id="oldPwd" value={this.state.oldPwValue} icon={this.state.oldPwIcon} />
+      <SettingsModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd" subject="New password" id="newPwd" value={this.state.newPwValue} icon={this.state.newPwIcon} />
+      <SettingsModalElement modalOnChange={(value, id) => this.handleChange(value, id)} forLabel="newPwd2" subject="Confirm new password" id="newPwd2" value={this.state.newPw2Value} icon={this.state.newPw2Icon} />
 	  <li className="list-group-item bottom-border-only">
-2     <button type="button" className="btn btn-success modal-btn" data-dismiss="modal" onClick={this.handleClick} disabled={this.state.updateEnabled ? "" : "disabled"} >Update</button>
-2     </li>
+      <button type="button" className="btn btn-success modal-btn" data-dismiss="modal" onClick={this.handleClick} disabled={this.state.oldPwMatch === true && this.state.newPwValid === true && this.state.newPwMatch === true ? "" : "disabled"} >Update</button>
+      </li>
 	  </ul>
       </div>
     );
