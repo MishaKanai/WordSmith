@@ -6,6 +6,7 @@ import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
 import {SavedDocuments} from './components/SavedDocuments';
+import {SavedCollections} from './components/SavedCollections';
 import EditorToolbar from './components/EditorToolbar';
 
 
@@ -37,7 +38,7 @@ class CollectionsPage extends React.Component {
         return (
                 <div>
                 <br/>
-                <SavedDocuments userID={1} collId={this.props.params.id}/>
+                <SavedCollections userID={1} collId={this.props.params.id}/>
             </div>
         );
     }

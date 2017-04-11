@@ -134,17 +134,17 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
     var doc = addDocumentSync(title, text, timestamp);
     var user = readDocument('users', userId);
     user.documents.push(doc._id);
-    writeDocument('users', user)
+    writeDocument('users', user);
     emulateServerReturn(doc, cb);
 }
 
 
-export function postDocumentToCollection(userId, title, text, timestamp, cb) {
-  var doc = addDocumentSync(title, text, timestamp);
-  var user = readDocument('users', userId);
-  user.documents.push(doc._id);
-  writeDocument('users', user)
-  emulateServerReturn(doc, cb);
+export function postDocumentToCollection(collId, title, text, timestamp, cb) {
+    var doc = addDocumentSync(title, text, timestamp);
+    var coll = readDocument('collections', collId);
+    coll.documents.push(doc._id);
+    writeDocument('collections', coll);
+    emulateServerReturn(doc, cb);
 }
 
 
