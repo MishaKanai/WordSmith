@@ -13,13 +13,6 @@ body {
   overflow: hidden;
 }
 
-.white-box {
-  margin-bottom: -9999px;
-  padding-bottom: 9999px;
-  background-color: white;
-  border-radius: 5px;
-}
-
 .pwd-box {
     width: 300px;
 }

@@ -100,7 +100,7 @@ import rasterizeHTML from 'rasterizehtml';
                                            <canvas id={'canvas_'+doc._id} className="group list-group-image"></canvas>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
-                                  <span className="glyphicon glyphicon-file"></span>
+                                  <span className="glyphicon glyphicon-file" id="saved-docs-glyphicon"></span>
                                   {doc.title}
                                 </h4>
                               </div>
@@ -117,7 +117,7 @@ import rasterizeHTML from 'rasterizehtml';
 
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
-                                  <span className="glyphicon glyphicon-folder-open"></span>
+                                  <span className="glyphicon glyphicon-folder-open" id="saved-docs-glyphicon"></span>
                                   {' '+coll.name}
                                 </h4>
                               </div>

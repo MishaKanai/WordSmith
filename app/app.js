@@ -47,7 +47,10 @@ class CollectionsPage extends React.Component {
 class SettingsPage extends React.Component {
     render() {
         return (
+            <div>
+            <br/>
             <Settings userId={1}/>
+            </div>
         )
     }
 }

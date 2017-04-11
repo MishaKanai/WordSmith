@@ -38,7 +38,8 @@ h4:hover
 }
 
 
-.glyphicon { margin-right:5px; }
+#saved-docs-glyphicon { margin-right:5px; }
+
 .thumbnail
 {
     margin-bottom: 20px;
@@ -88,12 +89,12 @@ h4:hover
 	display: none;
 }
 
-.list-group-item .glyphicon
+.list-group-item #saved-docs-glyphicon
 {
 	display:" ";
 }
 
-.grid-group-item .glyphicon
+.grid-group-item #saved-docs-glyphicon
 {
 	display: none;
 }

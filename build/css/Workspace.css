@@ -165,13 +165,13 @@ textarea {
   margin-left: 0px;
 }
 
-.list-group {
+#workspace-list {
     margin:0;
     height:39em;
     overflow-y:scroll;
 }
 
-.list-group-item {
+#workspace-list > .list-group-item {
 
     border-radius:0 !important;
     margin-left: 0;
