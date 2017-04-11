@@ -4,10 +4,8 @@ import React from 'react';
 export default class EditorToolbar extends React.Component{
   render() {
     return (
-      <div>
-      {/* Editor Toolbar */}
+
       <div className="navbar navbar-default" id="docbar">
-        <div className="container">
           <div className="navbar-header pull-left">
             <ul id="docbar-list" className="nav navbar-nav pull-right">
               <li className="divider-vertical"> </li>
@@ -60,9 +58,8 @@ export default class EditorToolbar extends React.Component{
               <li className="divider-vertical"> </li>
             </ul>
           </div>
-        </div>
       </div>
-    </div>
+
     );
   }
 }
