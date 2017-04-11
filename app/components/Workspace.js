@@ -111,6 +111,11 @@ class Workspace extends React.Component {
         else
             this.setState({text: event, justSaved: false});
     }
+
+  handleTitleChange(event) {
+    this.setState({title: event.target.value})
+  }
+
     saveDoc() {
         const docId = this.props.docId;
         const title = this.state.title;
@@ -126,12 +131,6 @@ class Workspace extends React.Component {
         });
     }
 
-    changeTitle(title){
-      this.setState({title});
-
-    }
-
-
     render() {
         return (<div className='workspace-inner-wrapper container'>
 
@@ -140,7 +139,7 @@ class Workspace extends React.Component {
                 <div className='col-md-8 leftcol'>
                 <row>
 
-                <h3 id='doc-title'> {' '+this.state.title}</h3>
+                <h3 id="doc-title" onChange={this.handleTitleChange} contentEditable="true">{" "+this.state.title}</h3>
 
                 {this.state.justSaved? <span id='lastsavedtxt'>{'last saved: '} {new Date(this.state.lastSaved).toLocaleString()}</span>:
                  <span id='saveBtn' onClick={() => this.saveDoc()} className='btn'>save</span>}
