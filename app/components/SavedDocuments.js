@@ -100,10 +100,27 @@ import rasterizeHTML from 'rasterizehtml';
                                   </h4>
                                 </div>
                               </Link>
-                              <span className="btn del-btn" onClick={() => this.deleteDocument(doc._id)}>
+                                           <span className="btn del-btn" data-toggle="modal" data-target={"#deleteWorkspace"+doc._id} >
                                 <span className="glyphicon glyphicon-remove"></span>
                               </span>
                             </div>
+
+
+
+                                           {/* MODAL DELETE WORKSPACE */}
+                                           <div id={"deleteWorkspace"+doc._id} className="modal fade del-doc-modal" role="dialog">
+                                           <div className="modal-dialog">
+                                           <div className="modal-content">
+                                           <div className="modal-header">
+                                           <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                           <h4 className="modal-title">Are you sure you want to delete the document "{doc.title}"?</h4>
+                                           </div>
+                                           <div className="modal-body del-doc-modal-body">
+                                           <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteDocument(doc._id)}>Delete Document</button>
+                                           </div>
+                                           </div>
+                                           </div>
+                                           </div>
                           </div>
                                           )
               }
@@ -127,6 +144,8 @@ import rasterizeHTML from 'rasterizehtml';
               }
               </ul>
             </div>
+
+
           </div>
 
         )

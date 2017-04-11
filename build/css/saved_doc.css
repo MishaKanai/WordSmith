@@ -149,3 +149,14 @@ h4:hover
    -webkit-text-stroke-color: white;
     
 }
+
+.del-doc-modal {
+    margin-top:10%;
+}
+
+.del-doc-modal-body {
+    text-align: center;
+}
+.del-doc-modal-btn {
+    width: 40%;
+}
