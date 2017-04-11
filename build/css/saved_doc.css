@@ -119,3 +119,17 @@ h4:hover
     background-color: #75DDDD;
 		color: #09BC8A;
 }
+
+#new-item-button-row {
+    margin-left: 40px;
+    margin-bottom: 10px;
+}
+
+#new-item-button-row .btn {
+    margin-right: 15px;
+    background-color: #E8EDDF;
+}
+
+#documents {
+    margin-right: 15px;
+}

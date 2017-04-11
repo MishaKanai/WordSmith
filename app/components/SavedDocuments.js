@@ -71,24 +71,12 @@ import rasterizeHTML from 'rasterizehtml';
         return (
           <div>
 
-          <div className="item  col-lg-3 col-lg-offset-1 add-new-doc-btn" id="documents">
+          <div className="item col-md-12 add-new-doc-btn" id="new-item-button-row">
             <div className="row">
-              <div classNameName="col-sm-4">
-                <button type="button" className="btn btn-primary" onClick={() => this.handleNewDocument()}>New Document</button>
-                <p></p>
-                    <div className="row">
-                      <div className="col-sm-4">
-                        <button type="button" className="btn btn-primary" onClick={() => this.handleNewCollection()}>New Collection</button>
-                      </div>
-                      </div>
-                    </div>
-
-                  </div>
+                <button type="button" className="btn" onClick={() => this.handleNewDocument()}>New Document</button>
+                <button type="button" className="btn" onClick={() => this.handleNewCollection()}>New Collection</button>
+            </div>
           </div>
-          <p></p>
-
-
-
 
             <div className="row list-group" id="documents">
               <ul className="document-list">
