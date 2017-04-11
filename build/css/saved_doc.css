@@ -160,3 +160,17 @@ h4:hover
 .del-doc-modal-btn {
     width: 40%;
 }
+
+.newDocTitleInput {
+    width: 100%;
+    margin-bottom: .7em;
+}
+
+.newDocForm {
+    padding: 1em;
+    text-align: right;
+}
+
+#newDocModal {
+    margin-top:10%;
+}

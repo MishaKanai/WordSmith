@@ -3,6 +3,7 @@ import {getUserDocuments, getCollections,
         postCollection,postDocumentToUser, deleteUserDocument} from '../server';
 import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
+import NewDocForm from './newDocForm'
 
  class SavedDocumentsI extends React.Component {
 
@@ -45,10 +46,9 @@ import rasterizeHTML from 'rasterizehtml';
          });
      }
 
-    handleNewDocument(){
+     handleNewDocument(documentName){
         const now = Date.now();
-
-        postDocumentToUser(this.props.userId, 'untitled', 'new doc', now, (doc) => {
+        postDocumentToUser(this.props.userId, documentName, '', now, (doc) => {
             this.setState((state) => {
                 return {
                     documents: state.documents.concat([doc]),
@@ -56,7 +56,7 @@ import rasterizeHTML from 'rasterizehtml';
 
                 }
             });
-
+            console.log(doc._id);
             this.props.router.push('/workspace/'+doc._id);
         });
 
@@ -79,7 +79,7 @@ import rasterizeHTML from 'rasterizehtml';
 
           <div className="item col-md-12 add-new-doc-btn" id="new-item-button-row">
             <div className="row">
-                <button type="button" className="btn" onClick={() => this.handleNewDocument()}>New Document</button>
+                <button type="button" className="btn" data-toggle="modal" data-target='#newDocModal'>New Document</button>
                 <button type="button" className="btn" onClick={() => this.handleNewCollection()}>New Collection</button>
             </div>
           </div>
@@ -145,6 +145,19 @@ import rasterizeHTML from 'rasterizehtml';
               </ul>
             </div>
 
+
+                <div id="newDocModal" className="modal fade" role="dialog">
+
+                <div className="modal-dialog pwd-box">
+                <div className="modal-content">
+                <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                <h4 className="modal-title">Name Document</h4>
+                </div>
+                <NewDocForm id='newDocForm' onSubmit={(value) => {this.handleNewDocument(value)}} />
+                </div>
+                </div>
+                </div>
 
           </div>
 
