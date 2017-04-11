@@ -1,4 +1,4 @@
-import {readDocument, writeDocument, addDocument} from './database.js';
+import {readDocument, writeDocument, addDocument, removeDocument } from './database.js';
 
 /**
  * Emulates how a REST call is *asynchronous* -- it calls your function back
@@ -177,4 +177,20 @@ export function putUserSettings(userId, settingsId, value, cb) {
 	}
     writeDocument('users', user);
     emulateServerReturn(user, cb);
+}
+
+
+
+/* DELETE */
+
+export function deleteUserDocument(userId, docId, cb) {
+    var user = readDocument('users', userId);
+    user.documents = user.documents.filter(val => val!== docId);
+    writeDocument('users', user);
+
+    removeDocument('documents', readDocument('documents', docId));
+    var remainingDocs = user.documents.map(
+        (did) => readDocument('documents', did)
+    );
+    return emulateServerReturn(remainingDocs, cb);
 }

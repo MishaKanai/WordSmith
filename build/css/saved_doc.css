@@ -133,3 +133,19 @@ h4:hover
 #documents {
     margin-right: 15px;
 }
+
+.del-btn {
+    font-size: 20px;
+    color: #D9534F;
+    position:absolute;
+    top:0;
+    right:.8em;
+    padding:0;
+    padding-left: .1em;
+    margin-bottom:0;
+    border-radius:0;
+   -webkit-text-fill-color: #D9534F; /* Will override color (regardless of order) */
+   -webkit-text-stroke-width: 2px;
+   -webkit-text-stroke-color: white;
+    
+}

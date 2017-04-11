@@ -132,6 +132,14 @@ export function addDocument(collectionName, newDoc) {
   return newDoc;
 }
 
+export function removeDocument(collectionName, rmDoc) {
+    var collection = data[collectionName];
+    var keys = Object.keys(collection);
+    delete collection[keys.filter((key) => collection[key]._id === rmDoc._id)];
+    data[collection] = collection;
+    localStorage.setItem(startupName, JSON.stringify(data));
+}
+
 /**
  * Reset our browser-local database.
  */

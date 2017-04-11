@@ -1,6 +1,6 @@
 import React from 'react';
 import {getUserDocuments, getCollections,
-  postCollection,postDocumentToUser} from '../server';
+        postCollection,postDocumentToUser, deleteUserDocument} from '../server';
 import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 
@@ -37,7 +37,13 @@ import rasterizeHTML from 'rasterizehtml';
         });
     }
 
-
+     deleteDocument(docId) {
+         deleteUserDocument(this.props.userId, docId, (documents) => {
+             this.setState({
+                 documents: documents
+             });
+         });
+     }
 
     handleNewDocument(){
         const now = Date.now();
@@ -82,19 +88,23 @@ import rasterizeHTML from 'rasterizehtml';
               <ul className="document-list">
               {
                   this.state.documents.map((doc, i)=>
-                                           <Link to={"/workspace/"+doc._id} key={i}>
-                          <div className="item  col-xs-4 col-lg-4">
+
+                          <div className="item  col-xs-4 col-lg-4" key={i}>
                             <div className="thumbnail">
-                                           <canvas id={'canvas_'+doc._id} className="group list-group-image"></canvas>
-                              <div className="caption">
-                                <h4 className="group inner list-group-item-heading">
-                                  <span className="glyphicon glyphicon-file" id="saved-docs-glyphicon"></span>
-                                  {doc.title}
-                                </h4>
-                              </div>
+                              <Link to={"/workspace/"+doc._id} >
+                                           <canvas id={'canvas_'+doc._id} key ={999+doc._id} className="group list-group-image"></canvas>
+                                <div className="caption">
+                                  <h4 className="group inner list-group-item-heading">
+                                    <span className="glyphicon glyphicon-file" id="saved-docs-glyphicon"></span>
+                                    {doc.title}
+                                  </h4>
+                                </div>
+                              </Link>
+                              <span className="btn del-btn" onClick={() => this.deleteDocument(doc._id)}>
+                                <span className="glyphicon glyphicon-remove"></span>
+                              </span>
                             </div>
                           </div>
-                        </Link>
                                           )
               }
               {
