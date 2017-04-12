@@ -1,6 +1,11 @@
 import React from 'react';
-import {getUserDocuments, getCollections,
-        postCollection,postDocumentToUser, deleteUserDocument} from '../server';
+import {
+    getUserDocuments, getCollections,
+    postCollection,postDocumentToUser,
+    getCollectionDocuments, postDocumentToCollection,
+    deleteUserDocument, deleteCollectionDocument
+} from '../server';
+
 import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
 import NewDocForm from './newDocForm'
@@ -17,17 +22,26 @@ import NewDocForm from './newDocForm'
     }
 
     componentDidMount() {
-
-        getCollections(this.props.userId, (colls) => {
-            this.setState({
-                collections: colls
+        if (this.props.collId) {
+            //collection view
+            getCollectionDocuments(this.props.collId, (docs)=> {
+                this.setState({
+                    documents: docs
+                });
             });
-        });
-        getUserDocuments(this.props.userId, (docs)=> {
-            this.setState({
-                documents: docs
+        } else {
+            //user level view
+            getCollections(this.props.userId, (colls) => {
+                this.setState({
+                    collections: colls
+                });
             });
-        });
+            getUserDocuments(this.props.userId, (docs)=> {
+                this.setState({
+                    documents: docs
+                });
+            });
+        }
     }
 
     componentDidUpdate() {
@@ -39,30 +53,51 @@ import NewDocForm from './newDocForm'
     }
 
      deleteDocument(docId) {
-         deleteUserDocument(this.props.userId, docId, (documents) => {
+         const cb = (documents) => {
              this.setState({
                  documents: documents
              });
-         });
+         };
+         if (this.props.collId){
+             deleteCollectionDocument(this.props.userId, this.props.collId, docId, cb);
+         } else {
+             deleteUserDocument(this.props.userId, docId, cb);
+         }
      }
 
      handleNewDocument(documentName){
-        const now = Date.now();
-        postDocumentToUser(this.props.userId, documentName, '', now, (doc) => {
-            this.setState((state) => {
-                return {
-                    documents: state.documents.concat([doc]),
-                    collections: state.collections
+         const now = Date.now();
+         if (this.props.collId) {
+             //Collection view
+             postDocumentToCollection(this.props.collId, documentName, '', now, (doc) => {
+                 this.setState((state) => {
+                     return {
+                         documents: state.documents.concat([doc]),
+                     }
+                 });
+                 this.props.router.push('/workspace/'+doc._id);
+             });
+         } else {
+             //user view
+             postDocumentToUser(this.props.userId, documentName, '', now, (doc) => {
+                 this.setState((state) => {
+                     return {
+                         documents: state.documents.concat([doc]),
+                         collections: state.collections
 
-                }
-            });
-            console.log(doc._id);
-            this.props.router.push('/workspace/'+doc._id);
-        });
-
+                     }
+                 });
+                 console.log(doc._id);
+                 this.props.router.push('/workspace/'+doc._id);
+             });
+         }
 
     }
     handleNewCollection(){
+        if (this.props.collId) {
+            console.log('error: NO NESTED COLLECTIONS. aborting function call');
+            return;
+        }
 
         postCollection(this.props.userId, 'untitled collection',(coll) => {
             this.setState({
@@ -80,7 +115,9 @@ import NewDocForm from './newDocForm'
           <div className="item col-md-12 add-new-doc-btn" id="new-item-button-row">
             <div className="row">
                 <button type="button" className="btn" data-toggle="modal" data-target='#newDocModal'>New Document</button>
-                <button type="button" className="btn" onClick={() => this.handleNewCollection()}>New Collection</button>
+                {this.props.collId? null:
+                 <button type="button" className="btn" onClick={() => this.handleNewCollection()}>New Collection</button>
+                }
             </div>
           </div>
 
@@ -124,7 +161,7 @@ import NewDocForm from './newDocForm'
                           </div>
                                           )
               }
-              {
+            {this.props.collId? null:
                   <div className="item  col-xs-4 col-lg-4" key={this.state.documents.length + 1}>
                     <div className="thumbnail">
                       {

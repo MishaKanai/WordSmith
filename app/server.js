@@ -194,3 +194,16 @@ export function deleteUserDocument(userId, docId, cb) {
     );
     return emulateServerReturn(remainingDocs, cb);
 }
+
+export function deleteCollectionDocument(userId, collectionId, docId, cb) {
+    //todo: authenticate user first
+    var coll = readDocument('collections', collectionId);
+    coll.documents = coll.documents.filter(val => val!== docId);
+    writeDocument('collections', coll);
+
+    removeDocument('documents', readDocument('documents', docId));
+    var remainingDocs = coll.documents.map(
+        (did) => readDocument('documents', did)
+    );
+    return emulateServerReturn(remainingDocs, cb);
+}

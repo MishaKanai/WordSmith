@@ -27,7 +27,7 @@ class SavedDocumentsPage extends React.Component {
         return (
                 <div>
                 <br/>
-                <SavedDocuments userId={1}/>
+                <SavedDocuments userId={1} collId={null}/>
             </div>
         );
     }
@@ -38,7 +38,7 @@ class CollectionsPage extends React.Component {
         return (
                 <div>
                 <br/>
-                <SavedCollections userID={1} collId={this.props.params.id}/>
+                <SavedDocuments userID={1} collId={this.props.params.id}/>
             </div>
         );
     }
