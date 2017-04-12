@@ -20,7 +20,7 @@ var initialData = {
                 "fontSize": 12
             },
             "collections": [1, 2],
-            "documents": [1, 2, 3, 4]
+            "documents": [4]
         },
         "2": {
             "_id": 2,
@@ -34,7 +34,7 @@ var initialData = {
                 "fontSize": 16
             },
             "collections": [],
-            "documents": [3]
+            "documents": []
         }
     },
     "collections": {
