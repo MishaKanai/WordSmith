@@ -40,6 +40,7 @@ body, html {
     margin-left: 1em;
     margin-bottom:.5em;
     color:#352035;
+    outline: none;
 }
 
 #docbar .divider-vertical {

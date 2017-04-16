@@ -15,6 +15,9 @@ class Workspace extends React.Component {
             justSaved: true
         }
         this.firstTextChange = true;
+
+      this.handleTitleChange = this.handleTitleChange.bind(this)
+      this.updateTitle = this.updateTitle.bind(this)
     }
     getRhymes(word) {
         $.ajax({
@@ -113,7 +116,15 @@ class Workspace extends React.Component {
     }
 
   handleTitleChange(event) {
-    this.setState({title: event.target.value})
+    this.setState({justSaved: false});
+    if (event.which == 13) {
+      event.preventDefault()
+      event.target.blur()
+    }
+  }
+
+  updateTitle(event) {
+    this.setState({title: this.refs.title.innerHTML});
   }
 
     saveDoc() {
@@ -139,9 +150,9 @@ class Workspace extends React.Component {
                 <div className='col-md-8 leftcol'>
                 <row>
 
-                <h3 id="doc-title" onChange={this.handleTitleChange} contentEditable="true">{" "+this.state.title}</h3>
+                <h3 id="doc-title" ref="title" onBlur={this.updateTitle} onKeyPress={this.handleTitleChange} contentEditable="true">{" "+this.state.title}</h3>
 
-                {this.state.justSaved? <span id='lastsavedtxt'>{'last saved: '} {new Date(this.state.lastSaved).toLocaleString()}</span>:
+                {this.state.justSaved ? <span id='lastsavedtxt'>{'last saved: '} {new Date(this.state.lastSaved).toLocaleString()}</span>:
                  <span id='saveBtn' onClick={() => this.saveDoc()} className='btn'>save</span>}
                 </row>
                 <TextEditor
