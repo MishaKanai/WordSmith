@@ -116,10 +116,18 @@ class Workspace extends React.Component {
     }
 
   handleTitleChange(event) {
-    this.setState({justSaved: false});
-    if (event.which == 13) {
-      event.preventDefault()
-      event.target.blur()
+    if (this.refs.title.innerHTML.length >= 26) {
+      if (!(window.getSelection().toString().length > 0) || !(this.refs.title.isSameNode(window.getSelection().getRangeAt(0).startContainer.parentNode))) {
+        if (event.which != 8 && event.which != 46) {
+          event.preventDefault()
+        }
+      }
+    } else {
+      this.setState({justSaved: false});
+      if (event.which == 13) {
+        event.preventDefault()
+        event.target.blur()
+      }
     }
   }
 
