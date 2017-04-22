@@ -1,4 +1,4 @@
-export var loremipsum1 = (`<h2>Look,</h2> if you had, one shot, or one opportunity
+var loremipsum1 = (`<h2>Look,</h2> if you had, one shot, or one opportunity
 To seize everything you ever wanted. In one moment
 Would you capture it, or just let it slip?
 Yo
@@ -85,7 +85,7 @@ This may be the only opportunity that I got
 
 You can do anything you set your mind to, man`).split("\n").join("<br>");
 
-export var loremipsum2= (`
+var loremipsum2= (`
 Dig if you will the picture
 Of you and I engaged in a kiss
 The sweat of your body covers me

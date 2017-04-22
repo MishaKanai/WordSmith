@@ -1,5 +1,82 @@
+LoremIpsum = require('./LoremIpsum.js');
+loremipsum1 = LoremIpsum.loremipsum1;
+loremipsum2 = LoremIpsum.loremipsum2;
+
 // Your startup's initial mock objects go here
 var initialData = {
+    "users": {
+        "1": {
+            "_id": 1,
+            "username": "klamar",
+            "email": "klamar@gmail.com",
+            "displayName": "Kendrick Lamar",
+            "password" : "thisIsARandomHashWhatAreTheOdds!?",
+            "settings" : {
+                "theme" : "Dark",
+                "font" : "Courier-New",
+                "fontSize": 12
+            },
+            "collections": [1, 2],
+            "documents": [4]
+        },
+        "2": {
+            "_id": 2,
+            "username": "fiddy",
+            "email": "50@gmail.com",
+            "displayName": "Fiddy Cent",
+            "password" : "thisIsAlsoRandomHashThisIsIncredible(:)",
+            "settings" : {
+                "theme" : "Gold",
+                "font" : "Comic Sans",
+                "fontSize": 16
+            },
+            "collections": [],
+            "documents": []
+        }
+    },
+    "collections": {
+        "1": {
+            "_id": 1,
+            "name": "my raps",
+            "documents": [1, 2]
+        },
+        "2": {
+            "_id": 2,
+            "name": "ballads",
+            "documents": [3]
+        }
+    },
+    "documents": {
+        "1": {
+            "_id": 1,
+            "title": "work in progress",
+            "text": loremipsum1,
+            "timestamp": 1453668480000,
+            "settings": {
+                "theme": "patriotic colors",
+                "fontSize": 15
+            }
+        },
+        "2": {
+            "_id": 2,
+            "title": "When Doves Cry",
+            "text": loremipsum2,
+            "timestamp": 1453668480005
+        },
+        "3": {
+            "_id": 3,
+            "title": "song3",
+            "text": "<p>This is wysiwyg text for song 3. Does the canvas adjust so we can see overflow? only YOU know!</p>",
+            "timestamp": 1453668480066
+        },
+        "4": {
+            "_id": 4,
+            "title": "song4",
+            "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 4</b></p>",
+            "timestamp": 1453668480060
+        }
+
+    }
 
 };
 

@@ -9,6 +9,8 @@ import {SavedDocuments} from './components/SavedDocuments';
 import {SavedCollections} from './components/SavedCollections';
 import EditorToolbar from './components/EditorToolbar';
 
+import ErrorBanner from './components/errorbanner';
+
 
 
 class WorkspacePage extends React.Component {
@@ -69,6 +71,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
+                <ErrorBanner />
                 <NavBar userId={1}/>
                 {this.props.children}
             </div>
