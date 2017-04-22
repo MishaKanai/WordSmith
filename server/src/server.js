@@ -78,7 +78,7 @@ app.post('/resetdb', function(req, res) {
     res.send();
 });
 
-app.get('/user/:userid/collection', function(req, res) {
+app.get('/user/:userid/collections', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var collectionOwner = parseInt(req.params.userid, 10);
 
@@ -94,7 +94,7 @@ app.get('/user/:userid/collection', function(req, res) {
     }
 });
 
-app.get('/user/:userid/document', function(req, res) {
+app.get('/user/:userid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var documentOwner = parseInt(req.params.userid, 10);
 
@@ -107,6 +107,52 @@ app.get('/user/:userid/document', function(req, res) {
     } else {
         //unauthorized
         res.status(401).end();
+    }
+});
+
+app.get('/collection/:collectionid/documents', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var collectionid = parseInt(req.params.collectionid, 10);
+    var user = readDocument('users', sender);
+    if (user.collections.indexOf(collectionid) === -1) {
+        res.status(401).end();
+    }
+    else {
+            var collection = readDocument('collections', collectionid);
+            var documents = collection.documents.map(
+                (did) => readDocument('documents', did)
+            );
+            res.send(documents);
+    }
+});
+
+app.get('/document/:docid', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var allDocs = [];
+    //resolve all documents owned by user
+    var user = readDocument('users', sender);
+    allDocs = allDocs.concat(user.documents);
+    var collDocs = user.collections.map(
+        (cid) => readDocument('collections', cid).documents
+    );
+    collDocs.forEach((docs) => allDocs = allDocs.concat(docs));
+
+    var docid = parseInt(req.params.docid, 10);
+    if (allDocs.indexOf(docid) !== -1) {
+        var doc = readDocument('documents', docid);
+        res.send(doc);
+    } else {
+        //figure out which error code to throw
+        var documents = getCollection('documents');
+        for (var dockey in documents) {
+            if (documents[dockey]._id === docid) {
+                //resource exists: unauthorized.
+                res.status(401).end();
+                return;
+            }
+        }
+        //not found
+        res.status(404).end();
     }
 });
 

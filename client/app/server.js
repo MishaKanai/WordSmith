@@ -2,30 +2,37 @@ import {readDocument, writeDocument, addDocument, removeDocument } from './datab
 
 
 export function getCollections(userId, cb) {
-    sendXHR('GET', '/user/'+userId+'/collection', undefined, (xhr) => {
+    sendXHR('GET', '/user/'+userId+'/collections', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
 
 export function getUserDocuments(userId, cb) {
-    sendXHR('GET', '/user/'+userId+'/document', undefined, (xhr) => {
+    sendXHR('GET', '/user/'+userId+'/documents', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
 
+/*
 export function getMostRecentUserDocument(userId) {
     var user = readDocument('users', userId);
-    var mostRecentdocument = user.documents[user.documents.lenth-1]
+    var mostRecentdocument = user.documents[user.documents.length-1]
     emulateServerReturn(mostRecentdocument);
-}
+}*/
 
 export function getCollectionDocuments(collectionId, cb) {
-    var collection = readDocument('collections', collectionId);
-    var documents = collection.documents.map(
-        (did) => readDocument('documents', did)
-    );
-    emulateServerReturn(documents, cb);
+    sendXHR('GET', '/collection/'+collectionId+'/documents', undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
 }
+
+export function getDocument(docId, cb) {
+    sendXHR('GET', '/document/'+docId, undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
+}
+
+
 
 export function getUserSettings(userId, cb) {
     var user = readDocument('users', userId);
@@ -43,9 +50,7 @@ export function getDocumentSettings(userId, docId, cb) {
     emulateServerReturn(settings, cb);
 }
 
-export function getDocument(docId, cb) {
-    emulateServerReturn(readDocument('documents', docId), cb);
-}
+
 
 // POST functions
 export function postUser(username, email, displayName, password, cb) {
