@@ -92,8 +92,23 @@ app.get('/user/:userid/collection', function(req, res) {
         //unauthorized
         res.status(401).end();
     }
-})
+});
 
+app.get('/user/:userid/document', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var documentOwner = parseInt(req.params.userid, 10);
+
+    if (sender === documentOwner) {
+        var user = readDocument('users', documentOwner);
+        var documents = user.documents.map(
+            (did) => readDocument('documents', did)
+        );
+        res.send(documents);
+    } else {
+        //unauthorized
+        res.status(401).end();
+    }
+});
 
 
 app.use(express.static('../client/build'));

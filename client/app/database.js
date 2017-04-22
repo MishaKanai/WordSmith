@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loremipsum1, loremipsum2 } from './js/LoremIpsum';
-
+//import { loremipsum1, loremipsum2 } from './js/LoremIpsum';
+var loremipsum1 = '';
+var loremipsum2 = '';
 // Modify with your startup's name!
 var startupName = "WordSmith";
 
