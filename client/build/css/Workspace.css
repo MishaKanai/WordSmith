@@ -4,11 +4,15 @@ body, html {
 }
 
 #results-box {
-    height: 100%;
+    height: 46.5em;
     width: 100%;
     background-color: white;
 }
 
+#results-scroll {
+  overflow-y: scroll;
+  height: 38.5em;
+}
 
 #docbar {
     min-height:32px !important;
@@ -67,9 +71,7 @@ body, html {
 .texteditor-textarea {
     height: 40em;
 }
-#results-box {
-    height:100%;
-}
+
 #results-options {
     background-color: #E8EDDF;
 }
@@ -205,4 +207,3 @@ button.list-group-item {
     padding-left:0;
     padding-bottom: 0;
 }
-
