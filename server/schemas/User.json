@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {},
+    "id": "http://wordsmith/user",
+    "properties": {
+        "_id": {
+            "id": "/properties/_id",
+            "type": "integer"
+        },
+        "collections": {
+            "id": "/properties/collections",
+            "items": {
+                "id": "/properties/collections/items",
+                "type": "integer"
+            },
+            "type": "array"
+        },
+        "displayName": {
+            "id": "/properties/displayName",
+            "type": "string"
+        },
+        "documents": {
+            "id": "/properties/documents",
+            "items": {
+                "id": "/properties/documents/items",
+                "type": "integer"
+            },
+            "type": "array"
+        },
+        "email": {
+            "id": "/properties/email",
+            "type": "string"
+        },
+        "password": {
+            "id": "/properties/password",
+            "type": "string"
+        },
+        "settings": {
+            "id": "/properties/settings",
+            "properties": {
+                "font": {
+                    "id": "/properties/settings/properties/font",
+                    "type": "string"
+                },
+                "fontSize": {
+                    "id": "/properties/settings/properties/fontSize",
+                    "type": "integer"
+                },
+                "theme": {
+                    "id": "/properties/settings/properties/theme",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "username": {
+            "id": "/properties/username",
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

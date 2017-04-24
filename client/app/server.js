@@ -67,8 +67,12 @@ export function postUser(username, email, displayName, password, cb) {
         "collections": [],
         "documents": []
     };
-    newUser = removePasswordSync(addDocument('users', newUser));
-    emulateServerReturn(newUser, cb);
+    sendXHR('POST', '/users', newUser, (xhr) =>
+      // Return the new status update.
+      cb(JSON.parse(xhr.responseText));
+    );
+    //newUser = removePasswordSync(addDocument('users', newUser));
+    //emulateServerReturn(newUser, cb);
 }
 
 export function postDocumentToUser(userId, title, text, timestamp, cb) {
