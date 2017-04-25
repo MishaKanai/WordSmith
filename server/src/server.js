@@ -191,6 +191,19 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
     }
 });
 
+app.put('/documents/:docId', function(req, res) {
+  var sender = getUserIdFromAuth(req.get('Authorization'));
+  var docId = parseInt(req.params.docId, 10);
+  var body = req.body;
+
+  var doc = readDocument('documents', docId);
+  doc.title = body.title;
+  doc.text = body.text;
+  doc.timestamp = body.timestamp;
+  writeDocument('documents', doc);
+  res.send(doc);
+})
+
 app.use(express.static('../client/build'));
 
 /**

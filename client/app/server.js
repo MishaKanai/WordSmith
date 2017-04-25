@@ -104,12 +104,19 @@ export function postCollection(userId, collectionName,cb) {
 //PUT functions
 
 export function putDocument(docId, title, text, timestamp, cb) {
-    var document = readDocument('documents', docId);
-    document.title = title;
-    document.text = text;
-    document.timestamp = timestamp;
-    writeDocument('documents', document)
-    emulateServerReturn(document, cb);
+    // var document = readDocument('documents', docId);
+    // document.title = title;
+    // document.text = text;
+    // document.timestamp = timestamp;
+    // writeDocument('documents', document)
+    // emulateServerReturn(document, cb);
+    sendXHR('PUT', '/documents/'+docId, {
+      title: title,
+      text: text,
+      timestamp: timestamp
+    }, (xhr) => {
+      cb(JSON.parse(xhr.responseText));
+    })
 }
 
 export function putUserSettings(userId, settingsId, value, cb) {
