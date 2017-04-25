@@ -131,8 +131,11 @@ import NewDocForm from './NewDocForm'
     }
 
     render() {
-        document.body.style.backgroundColor = this.getThemeColor(this.state.theme)
-        
+        var themeColor = this.getThemeColor(this.state.theme)
+
+        document.body.style.backgroundColor = themeColor
+        document.documentElement.style.backgroundColor = themeColor 
+
         return (
           <div>
 
