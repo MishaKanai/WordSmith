@@ -7,6 +7,8 @@ var deleteDocument = database.deleteDocument;
 var getCollection = database.getCollection;
 var resetDatabase = database.resetDatabase;
 
+var UserSettingsSchema = require('../schemas/UserSettings.json');
+
 var validate = require('express-jsonschema').validate;
 var bodyParser = require('body-parser');
 
@@ -162,6 +164,26 @@ app.get('/user/:userid', function(req, res) {
 
     if (sender === userId) {
         var user = readDocument('users', userId);
+        res.send(user);
+    } else {
+        //unauthorized
+        res.status(401).end();
+    }
+});
+
+app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var userId = parseInt(req.params.userid, 10);
+    var body = req.body;
+
+    if (sender === userId) {
+        var user = readDocument('users', userId);
+	    if (body.settingsId === 'email' || body.settingsId === 'displayName' || body.settingsId === 'password') {
+	        user[body.settingsId] = body.value;
+	    } else {
+	        user.settings[body.settingsId] = body.value;
+	    }
+        writeDocument('users', user);
         res.send(user);
     } else {
         //unauthorized

@@ -8,7 +8,7 @@ import {
 
 import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
-import NewDocForm from './newDocForm'
+import NewDocForm from './NewDocForm'
 
  class SavedDocumentsI extends React.Component {
 

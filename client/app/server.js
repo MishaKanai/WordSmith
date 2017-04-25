@@ -113,14 +113,12 @@ export function putDocument(docId, title, text, timestamp, cb) {
 }
 
 export function putUserSettings(userId, settingsId, value, cb) {
-    var user = readDocument('users', userId);
-	if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
-	    user[settingsId] = value;
-	} else {
-	    user.settings[settingsId] = value;
-	}
-    writeDocument('users', user);
-    emulateServerReturn(user, cb);
+    sendXHR('PUT', '/user/'+userId, {
+        settingsId: settingsId,
+        value: value
+    }, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    }); 
 }
 
 

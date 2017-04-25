@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {},
+    "id": "http://example.com/example.json",
+    "properties": {
+        "settingsId": {
+            "id": "/properties/settingsId",
+            "type": "string"
+        },
+        "value": {
+            "id": "/properties/value",
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
