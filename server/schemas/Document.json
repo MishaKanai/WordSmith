@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {},
+    "id": "http://example.com/example.json",
+    "properties": {
+        "_id": {
+            "id": "/properties/_id",
+            "type": "integer"
+        },
+        "settings": {
+            "id": "/properties/settings",
+            "properties": {
+                "fontSize": {
+                    "id": "/properties/settings/properties/fontSize",
+                    "type": "integer"
+                },
+                "theme": {
+                    "id": "/properties/settings/properties/theme",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "text": {
+            "id": "/properties/text",
+            "type": "object"
+        },
+        "timestamp": {
+            "id": "/properties/timestamp",
+            "type": "integer"
+        },
+        "title": {
+            "id": "/properties/title",
+            "type": "string"
+        }
+    },
+    "type": "object"
+}

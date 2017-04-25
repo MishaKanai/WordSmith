@@ -8,6 +8,7 @@ var getCollection = database.getCollection;
 var resetDatabase = database.resetDatabase;
 
 var UserSettingsSchema = require('../schemas/UserSettings.json');
+var DocumentSchema = require('../schemas/Document.json');
 
 var validate = require('express-jsonschema').validate;
 var bodyParser = require('body-parser');
@@ -190,6 +191,19 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
         res.status(401).end();
     }
 });
+
+app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, res) {
+  //var sender = getUserIdFromAuth(req.get('Authorization'));
+  var docId = parseInt(req.params.docId, 10);
+  var body = req.body;
+
+  var doc = readDocument('documents', docId);
+  doc.title = body.title;
+  doc.text = body.text;
+  doc.timestamp = body.timestamp;
+  writeDocument('documents', doc);
+  res.send(doc);
+})
 
 app.use(express.static('../client/build'));
 
