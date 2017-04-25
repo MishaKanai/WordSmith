@@ -54,7 +54,10 @@ export default class SuggestionsBar extends React.Component{
     <div className="row" >
       <div className="col-md-12" >
         <ul className="list-group" id="results-scroll">
-          {this.props.allSuggestions.map((n,i) => <Suggestion key={i} word={n} />)}
+          {this.props.allSuggestions.map((n,i) => {
+              return (<Suggestion key={i} word={n} />);
+            })
+          }
         </ul>
       </div>
     </div>
