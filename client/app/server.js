@@ -40,13 +40,16 @@ export function getUserSettings(userId, cb) {
 
 //falls back to user settings if document settings not set
 export function getDocumentSettings(userId, docId, cb) {
-    var doc = readDocument('documents', docId);
-    var settings;
-    if (doc.hasOwnProperty('settings'))
-        settings = doc.settings;
-    else
-        settings = readDocument('users', userId).settings;
-    emulateServerReturn(settings, cb);
+    // var doc = readDocument('documents', docId);
+    // var settings;
+    // if (doc.hasOwnProperty('settings'))
+    //     settings = doc.settings;
+    // else
+    //     settings = readDocument('users', userId).settings;
+    // emulateServerReturn(settings, cb);
+    sendXHR('GET', '/document/'+docId+'/settings', undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
 }
 
 

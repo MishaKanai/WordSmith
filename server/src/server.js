@@ -172,6 +172,18 @@ app.get('/user/:userid', function(req, res) {
     }
 });
 
+app.get('/document/:docid/settings', function(req, res){
+  var sender = getUserIdFromAuth(req.get('Authorization'));
+  var docid = parseInt(req.params.docid, 10);
+  var doc = readDocument('documents', docid);
+  if(doc.hasOwnProperty('settings')){
+    res.send(doc.settings)
+  }else{
+    var user = readDocument('users', sender);
+    res.send(user.settings)
+  }
+});
+
 app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var userId = parseInt(req.params.userid, 10);
