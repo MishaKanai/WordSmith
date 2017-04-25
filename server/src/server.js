@@ -172,6 +172,62 @@ app.get('/user/:userid', function(req, res) {
     }
 });
 
+app.post('/documents', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    //var userId = parseInt(req.body.userId, 10);
+    try {
+        var user = readDocument('users', sender);
+        var doc = {
+            "title": req.body.title,
+            "text": req.body.text,
+            "timestamp": req.body.timestamp
+        };
+        doc = addDocument('documents', doc);
+
+        user.documents.push(doc._id);
+        writeDocument('users', user);
+        res.send(doc);
+    } catch(e) {
+        res.status(404).end();
+    }
+
+});
+
+app.post('/collections', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    //var userId = parseInt(req.body.userId, 10);
+    var user = readDocument('users', sender);
+    var doc = {
+        "title": req.body.title,
+        "text": req.body.text,
+        "timestamp": req.body.timestamp
+    };
+    doc = addDocument('documents', doc);
+    var coll = readDocument('collections', req.body.collId);
+    coll.documents.push(doc._id);
+    writeDocument('collections', coll);
+    res.send(doc);
+
+});
+
+app.delete('/documents/:docId', function(req, res) {
+
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var docId = parseInt(req.params.docId, 10);
+    //var userId = parseInt(req.body.userId, 10);
+
+    var user = readDocument('users', sender);
+    user.documents = user.documents.filter(val => val!== docId);
+    writeDocument('users', user);
+
+    deleteDocument('documents', docId);
+    var remainingDocs = user.documents.map(
+        (did) => readDocument('documents', did)
+    );
+    res.send(remainingDocs);
+
+});
+
 app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var userId = parseInt(req.params.userid, 10);

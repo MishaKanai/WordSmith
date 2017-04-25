@@ -88,7 +88,7 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
 
 
 export function postDocumentToCollection(collId, title, text, timestamp, cb) {
-  sendXHR('POST', '/documents', {
+  sendXHR('POST', '/collections', {
       collId: collId,
       title: title,
       text: text,
@@ -101,7 +101,7 @@ export function postDocumentToCollection(collId, title, text, timestamp, cb) {
 
 
 export function postCollection(userId, collectionName,cb) {
- sendXHR('POST', '/documents', {
+ sendXHR('POST', '/user/'+userId+'/collections', {
      userId: userId,
      collectionName: collectionName
    }, (xhr) => {
@@ -143,15 +143,9 @@ export function putUserSettings(userId, settingsId, value, cb) {
 /* DELETE */
 
 export function deleteUserDocument(userId, docId, cb) {
-    var user = readDocument('users', userId);
-    user.documents = user.documents.filter(val => val!== docId);
-    writeDocument('users', user);
-
-    removeDocument('documents', readDocument('documents', docId));
-    var remainingDocs = user.documents.map(
-        (did) => readDocument('documents', did)
-    );
-    return emulateServerReturn(remainingDocs, cb);
+    sendXHR('DELETE', '/documents/'+docId, undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
 }
 
 export function deleteCollectionDocument(userId, collectionId, docId, cb) {
