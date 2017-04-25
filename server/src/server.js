@@ -241,7 +241,6 @@ app.delete('/documents/:docId', function(req, res) {
 
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var docId = parseInt(req.params.docId, 10);
-    //var userId = parseInt(req.body.userId, 10);
 
     var user = readDocument('users', sender);
     if (user.documents.indexOf(docId) === -1) {
@@ -261,6 +260,34 @@ app.delete('/documents/:docId', function(req, res) {
         (did) => readDocument('documents', did)
     );
     res.send(remainingDocs);
+});
+
+app.delete('/collection/:collId/documents/:docId', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var docId = parseInt(req.params.docId, 10);
+    var collId = parseInt(req.params.collId, 10);
+
+    var user = readDocument('users', sender);
+    if (user.collections.indexOf(collId) === -1) {
+        try {
+            readDocument('collections', collId);
+            readDocument('documents', docId);
+            res.status(401).end();
+        } catch (e) {
+            res.status(404).end();
+        }
+    }
+
+    var coll = readDocument('collections', collId);
+    coll.documents = coll.documents.filter(val => val!== docId);
+    writeDocument('collections', coll);
+
+    deleteDocument('documents', docId);
+    var remainingDocs = coll.documents.map(
+        (did) => readDocument('documents', did)
+    );
+    res.send(remainingDocs);
+
 });
 
 app.get('/document/:docid/settings', function(req, res){
