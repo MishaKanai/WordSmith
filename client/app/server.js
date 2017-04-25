@@ -32,11 +32,10 @@ export function getDocument(docId, cb) {
     });
 }
 
-
-
 export function getUserSettings(userId, cb) {
-    var user = readDocument('users', userId);
-    emulateServerReturn(user, cb);
+    sendXHR('GET', '/user/'+userId, undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
 }
 
 //falls back to user settings if document settings not set
@@ -67,10 +66,10 @@ export function postUser(username, email, displayName, password, cb) {
         "collections": [],
         "documents": []
     };
-    sendXHR('POST', '/users', newUser, (xhr) =>
+    sendXHR('POST', '/users', newUser, (xhr) => {
       // Return the new status update.
       cb(JSON.parse(xhr.responseText));
-    );
+    })
     //newUser = removePasswordSync(addDocument('users', newUser));
     //emulateServerReturn(newUser, cb);
 }
@@ -114,14 +113,12 @@ export function putDocument(docId, title, text, timestamp, cb) {
 }
 
 export function putUserSettings(userId, settingsId, value, cb) {
-    var user = readDocument('users', userId);
-	if (settingsId === 'email' || settingsId === 'displayName' || settingsId === 'password') {
-	    user[settingsId] = value;
-	} else {
-	    user.settings[settingsId] = value;
-	}
-    writeDocument('users', user);
-    emulateServerReturn(user, cb);
+    sendXHR('PUT', '/user/'+userId, {
+        settingsId: settingsId,
+        value: value
+    }, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
 }
 
 
