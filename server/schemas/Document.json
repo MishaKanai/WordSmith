@@ -23,7 +23,7 @@
         },
         "text": {
             "id": "/properties/text",
-            "type": "object"
+            "type": "string"
         },
         "timestamp": {
             "id": "/properties/timestamp",

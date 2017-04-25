@@ -203,7 +203,7 @@ app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, re
   doc.timestamp = body.timestamp;
   writeDocument('documents', doc);
   res.send(doc);
-})
+});
 
 app.use(express.static('../client/build'));
 
