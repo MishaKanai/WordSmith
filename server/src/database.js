@@ -12,7 +12,7 @@ var initialData = {
             "displayName": "Kendrick Lamar",
             "password" : "thisIsARandomHashWhatAreTheOdds!?",
             "settings" : {
-                "theme" : "Dark",
+                "theme" : "WordSmith",
                 "font" : "Courier-New",
                 "fontSize": 12
             },
