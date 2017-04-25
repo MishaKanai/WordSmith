@@ -9,7 +9,7 @@ class Workspace extends React.Component {
             //we will store info returned from api here.
             title: "...",
             info: [],
-            category:"rhyme",
+            category:"",
             word:"",
             text: "...",
             justSaved: true
@@ -34,12 +34,13 @@ class Workspace extends React.Component {
         });
     }
     getSuggestions(word, category){
-      var api = this.props.rhymeAPIprefix
+      var api = ""
       switch(category){
         case "rhyme":
+          api = this.props.rhymeAPIprefix;
           break;
         case "synonym":
-          api = this.props.synonymAPIprefix
+          api = this.props.synonymAPIprefix;
           break;
         case "slang":
         case "definition":
@@ -59,6 +60,7 @@ class Workspace extends React.Component {
                 data = data[0].map((x) => x.defs)
               }
               this.setState({info: data});
+              //alert(JSON.stringify(data));
           }.bind(this),
           error: function(xhr, status, err) {
               console.error(this.props.url, status, err.toString());
@@ -92,11 +94,11 @@ class Workspace extends React.Component {
         }
     }
 
-    getWord(w) {
+    getWord(tuple) {
+      var w = tuple.word;
+      var cat = tuple.category;
       this.setState({word:w})
-      if(this.state.category==="rhyme"){
-        this.getRhymes(w)
-      }
+      this.getSuggestions(w, cat);
     }
     componentDidMount() {
         getDocument(this.props.docId, (doc) => this.setState({

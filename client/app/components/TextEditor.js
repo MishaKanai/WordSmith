@@ -83,8 +83,8 @@ class TextEditor extends React.Component {
                     $(".special-target").each(function() {
                         $(this).replaceWith($(this).text());
                     });
-                    this.props.getCategory("rhyme");
-                    this.props.getWord(this.state.word)
+                    //this.props.getCategory("rhyme");
+                    this.props.getWord({word: this.state.word, category: "rhyme"});
                   }}>Rhymes</Button>
                 <Button className="list-group-item" onClick={(e) => {
                   const target_parent = this.state.target_parent;
@@ -93,8 +93,7 @@ class TextEditor extends React.Component {
                   $(".special-target").each(function() {
                       $(this).replaceWith($(this).text());
                   });
-                  this.props.getWord(this.state.word)
-                  this.props.getCategory("synonym");
+                  this.props.getWord({word: this.state.word, category: "synonym"});
                   }}>Thesaurus</Button>
                 <Button className="list-group-item" onClick={(e) => {
                   const target_parent = this.state.target_parent;
@@ -103,8 +102,7 @@ class TextEditor extends React.Component {
                   $(".special-target").each(function() {
                       $(this).replaceWith($(this).text());
                   });
-                  this.props.getWord(this.state.word)
-                  this.props.getCategory("definition");
+                  this.props.getWord({word: this.state.word, category: "definition"});
                   }}>Dictionary</Button>
                 <Button className="list-group-item" onClick={(e) => {
                   const target_parent = this.state.target_parent;
@@ -113,8 +111,7 @@ class TextEditor extends React.Component {
                   $(".special-target").each(function() {
                       $(this).replaceWith($(this).text());
                   });
-                  this.props.getWord(this.state.word)
-                  this.props.getCategory("slang");
+                  this.props.getWord({word: this.state.word, category: "slang"});
                   }}>UrbanDictionary</Button>
                 </ul>
                 <Button id="close-popover" className="pull-right" onClick={(e) => {
