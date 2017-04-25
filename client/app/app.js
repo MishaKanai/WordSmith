@@ -21,7 +21,7 @@ class WorkspacePage extends React.Component {
                 <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word='
                   synonymAPIprefix = 'http://api.datamuse.com/words?ml='
                   definitionAPIprefix = 'http://api.datamuse.com/words?md=d&&sp='
-                   docId={this.props.params.id} />
+                  docId={this.props.params.id} />
           </div>
         );
     }

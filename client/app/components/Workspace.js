@@ -43,6 +43,7 @@ class Workspace extends React.Component {
           api = this.props.synonymAPIprefix;
           break;
         case "slang":
+          break;
         case "definition":
           api = this.props.definitionAPIprefix
           break;
@@ -56,11 +57,10 @@ class Workspace extends React.Component {
           success: function(data) {
               //this.setState({info: JSON.stringify(data)});
 
-              if(category === "defintion"){
+              if(category === "definition"){
                 data = data[0].map((x) => x.defs)
               }
               this.setState({info: data});
-              //alert(JSON.stringify(data));
           }.bind(this),
           error: function(xhr, status, err) {
               console.error(this.props.url, status, err.toString());
@@ -179,7 +179,7 @@ class Workspace extends React.Component {
                     active={this.state.category}
                     updateCategory={(x) => this.getCategory(x)}
                     allSuggestions={this.state.category==="definition" ?
-                      this.state.info.map((x) => JSON.stringify(x).split("\t")[1]) :
+                      this.state.info.map((x) => JSON.stringify(x).split("\\t"))[1] :
                       this.state.info.map((x) => x.word)}
                 />
 
