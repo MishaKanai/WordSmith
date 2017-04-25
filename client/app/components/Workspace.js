@@ -9,7 +9,7 @@ class Workspace extends React.Component {
             //we will store info returned from api here.
             title: "...",
             info: [],
-            category:"",
+            category:"rhyme",
             word:"",
             text: "...",
             justSaved: true
@@ -58,7 +58,11 @@ class Workspace extends React.Component {
               //this.setState({info: JSON.stringify(data)});
 
               if(category === "definition"){
-                data = data[0].map((x) => x.defs)
+                if(!data[0].hasOwnProperty('defs')){
+                  data = ["asdf\\tN/A"]
+                }else{
+                  data = data[0].defs
+                }
               }
               this.setState({info: data});
           }.bind(this),
@@ -97,7 +101,7 @@ class Workspace extends React.Component {
     getWord(tuple) {
       var w = tuple.word;
       var cat = tuple.category;
-      this.setState({word:w})
+      this.setState({word:w, category:cat})
       this.getSuggestions(w, cat);
     }
     componentDidMount() {
@@ -179,7 +183,7 @@ class Workspace extends React.Component {
                     active={this.state.category}
                     updateCategory={(x) => this.getCategory(x)}
                     allSuggestions={this.state.category==="definition" ?
-                      this.state.info.map((x) => JSON.stringify(x).split("\\t"))[1] :
+                      this.state.info.map((x) => JSON.stringify(x).split("\\t")[1].slice(0,-1)) :
                       this.state.info.map((x) => x.word)}
                 />
 

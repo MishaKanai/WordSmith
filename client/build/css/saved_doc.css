@@ -49,6 +49,12 @@ h4:hover
     border-radius: 0px;
 }
 
+.collection-thumbnail
+{
+	position:relative;
+    right:.2em;
+}
+
 .item.list-group-item
 {
     float: none;
@@ -147,7 +153,22 @@ h4:hover
    -webkit-text-fill-color: #D9534F; /* Will override color (regardless of order) */
    -webkit-text-stroke-width: 2px;
    -webkit-text-stroke-color: white;
-    
+
+}
+.del-btn-coll {
+    font-size: 20px;
+    color: #D9534F;
+    position:absolute;
+    top:0;
+    right:0em;
+    padding:0;
+    padding-left: .1em;
+    margin-bottom:0;
+    border-radius:0;
+   -webkit-text-fill-color: #D9534F; /* Will override color (regardless of order) */
+   -webkit-text-stroke-width: 2px;
+   -webkit-text-stroke-color: white;
+
 }
 
 .del-doc-modal {

@@ -50,79 +50,63 @@ class TextEditor extends React.Component {
         popoverShown: t[1],
       });
     }
-  }
-  handleChange(event) {
-    this.props.onChange(event);
-  }
-  //componentDidMount() {
-  //    getDocument(this.props.docId, (doc) => this.setState({text: doc.text}));
-  //}
 
-  render() {
-    return (
-      <div className="texteditor-inner-wrapper"
-      onContextMenu={(e)=>this.rightClick(e)}>
-      <QuillBar rightClick={(e) => this.rightClick(e)} handleChange={(e) => this.handleChange(e)} value={this.props.value}/>
-      <Overlay
-      show={this.state.popoverShown}
-      target={this.state.target}
-      placement='right'
-      container={this}
-      containerPadding={20}
-      >
-      <Popover id="popover-contained" title={this.state.word}>
-      <ul>
-      <Button className="list-group-item" onClick={(e) => {
-        const target_parent = this.state.target_parent;
-        const target = this.state.target;
-        this.closePopover();
-        $(".special-target").each(function() {
+    handleChange(event) {
+        this.props.onChange(event);
+    }
+    //componentDidMount() {
+    //    getDocument(this.props.docId, (doc) => this.setState({text: doc.text}));
+    //}
+    handlePopoverClick(cat){
+      const target_parent = this.state.target_parent;
+      const target = this.state.target;
+      this.closePopover();
+      $(".special-target").each(function() {
           $(this).replaceWith($(this).text());
-        });
-        //this.props.getCategory("rhyme");
-        this.props.getWord({word: this.state.word, category: "rhyme"});
-      }}>Rhymes</Button>
-      <Button className="list-group-item" onClick={(e) => {
-        const target_parent = this.state.target_parent;
-        const target = this.state.target;
-        this.closePopover();
-        $(".special-target").each(function() {
-          $(this).replaceWith($(this).text());
-        });
-        this.props.getWord({word: this.state.word, category: "synonym"});
-      }}>Thesaurus</Button>
-      <Button className="list-group-item" onClick={(e) => {
-        const target_parent = this.state.target_parent;
-        const target = this.state.target;
-        this.closePopover();
-        $(".special-target").each(function() {
-          $(this).replaceWith($(this).text());
-        });
-        this.props.getWord({word: this.state.word, category: "definition"});
-      }}>Dictionary</Button>
-      <Button className="list-group-item" onClick={(e) => {
-        const target_parent = this.state.target_parent;
-        const target = this.state.target;
-        this.closePopover();
-        $(".special-target").each(function() {
-          $(this).replaceWith($(this).text());
-        });
-        this.props.getWord({word: this.state.word, category: "slang"});
-      }}>UrbanDictionary</Button>
-      </ul>
-      <Button id="close-popover" className="pull-right" onClick={(e) => {
-        const target_parent = this.state.target_parent;
-        const target = this.state.target;
-        this.closePopover();
-        $(".special-target").each(function() {
-          $(this).replaceWith($(this).text());
-        });
-      }}>Close</Button>
-      </Popover>
-      </Overlay>
-      </div>
-    );
-  }
+      });
+      this.props.getWord({word: this.state.word, category: cat});
+    }
+
+    render() {
+        return (
+                <div className="texteditor-inner-wrapper"
+            onContextMenu={(e)=>this.rightClick(e)}>
+            <QuillBar rightClick={(e) => this.rightClick(e)} handleChange={(e) => this.handleChange(e)} value={this.props.value}/>
+                <Overlay
+            show={this.state.popoverShown}
+            target={this.state.target}
+            placement='right'
+            container={this}
+            containerPadding={20}
+                >
+                <Popover id="popover-contained" title={this.state.word}>
+                <ul>
+                <Button className="list-group-item" onClick={(e) => {
+                  this.handlePopoverClick("rhyme");
+                  }}>Rhymes</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                  this.handlePopoverClick("synonym");
+                  }}>Thesaurus</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                  this.handlePopoverClick("definition");
+                  }}>Dictionary</Button>
+                <Button className="list-group-item" onClick={(e) => {
+                  this.handlePopoverClick("slang");
+                  }}>UrbanDictionary</Button>
+                </ul>
+                <Button id="close-popover" className="pull-right" onClick={(e) => {
+                    const target_parent = this.state.target_parent;
+                    const target = this.state.target;
+                    this.closePopover();
+                    $(".special-target").each(function() {
+                        $(this).replaceWith($(this).text());
+                    });
+                }}>Close</Button>
+            </Popover>
+                </Overlay>
+                </div>
+        );
+    }
 }
 
 export default TextEditor;
