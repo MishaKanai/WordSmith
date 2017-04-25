@@ -156,6 +156,18 @@ app.get('/document/:docid', function(req, res) {
     }
 });
 
+app.get('/user/:userid', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var userId = parseInt(req.params.userid, 10);
+
+    if (sender === userId) {
+        var user = readDocument('users', userId);
+        res.send(user);
+    } else {
+        //unauthorized
+        res.status(401).end();
+    }
+});
 
 app.use(express.static('../client/build'));
 
