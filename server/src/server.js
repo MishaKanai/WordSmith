@@ -8,6 +8,7 @@ var getCollection = database.getCollection;
 var resetDatabase = database.resetDatabase;
 
 var UserSettingsSchema = require('../schemas/UserSettings.json');
+var DocumentSchema = require('../schemas/Document.json');
 
 var validate = require('express-jsonschema').validate;
 var bodyParser = require('body-parser');
@@ -192,7 +193,7 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
 });
 
 //validation coming soon!
-app.put('/documents/:docId', function(req, res) {
+app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, res) {
   //var sender = getUserIdFromAuth(req.get('Authorization'));
   var docId = parseInt(req.params.docId, 10);
   var body = req.body;
