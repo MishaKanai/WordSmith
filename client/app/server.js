@@ -34,7 +34,7 @@ export function getDocument(docId, cb) {
 
 export function getUserSettings(userId, cb) {
     sendXHR('GET', '/user/'+userId, undefined, (xhr) => {
-        cb(JSON.parse(xhr.responseText));    
+        cb(JSON.parse(xhr.responseText));
     });
 }
 
@@ -69,7 +69,7 @@ export function postUser(username, email, displayName, password, cb) {
     sendXHR('POST', '/users', newUser, (xhr) => {
       // Return the new status update.
       cb(JSON.parse(xhr.responseText));
-    });
+    })
     //newUser = removePasswordSync(addDocument('users', newUser));
     //emulateServerReturn(newUser, cb);
 }
