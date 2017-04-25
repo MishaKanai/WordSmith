@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    getUserSettings,
     getUserDocuments, getCollections,
     postCollection,postDocumentToUser,
     getCollectionDocuments, postDocumentToCollection,
@@ -17,8 +18,11 @@ import NewDocForm from './NewDocForm'
         this.state={
 
             documents:[],
-            collections:[]
+            collections:[],
+            theme: "WordSmith"
         }
+
+      this.getThemeColor = this.getThemeColor.bind(this)
     }
 
     componentDidMount() {
@@ -42,6 +46,9 @@ import NewDocForm from './NewDocForm'
                 });
             });
         }
+        getUserSettings(this.props.userId, (settings) => this.setState({
+            theme: settings.settings.theme,
+        }));
     }
 
     componentDidUpdate() {
@@ -111,7 +118,21 @@ import NewDocForm from './NewDocForm'
 
     }
 
+    getThemeColor(theme) {
+        if (theme === "Dark") {
+            return "#333366"    
+        } else if (theme === "Light") {
+            return "#ffffcc"
+        } else if (theme === "Gold") {
+            return "#D4AF37"
+        } else {
+            return "#553555"
+        }
+    }
+
     render() {
+        document.body.style.backgroundColor = this.getThemeColor(this.state.theme)
+        
         return (
           <div>
 
