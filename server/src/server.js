@@ -209,6 +209,33 @@ app.post('/collections', function(req, res) {
     res.send(doc);
 
 });
+//DELETE   /user/:userId/collections/:collId
+app.delete('/user/:userId/collections/:collId', function(req, res) {
+
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var collId = parseInt(req.params.collId, 10);
+    //var userId = parseInt(req.body.userId, 10);
+
+    var user = readDocument('users', sender);
+    if (user.collections.indexOf(collId) === -1) {
+        try {
+            readDocument('documents', collId);
+            res.status(401).end();
+        } catch (e) {
+            res.status(404).end();
+        }
+    }
+
+    user.collections = user.collections.filter(val => val!== collId);
+    writeDocument('users', user);
+
+    deleteDocument('collections', collId);
+    var remainingDocs = user.collections.map(
+        (did) => readDocument('collections', did)
+    );
+    res.send(remainingDocs);
+});
+
 
 app.delete('/documents/:docId', function(req, res) {
 

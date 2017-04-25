@@ -159,9 +159,11 @@ export function deleteCollectionDocument(userId, collectionId, docId, cb) {
     );
     return emulateServerReturn(remainingDocs, cb);
 }
-
-export function deleteCollection(userId,collectionId,cb){
-
+///user/:userId/collections/:collId
+export function deleteUserCollection(userId,collectionId,cb){
+  sendXHR('DELETE','user/'+userId+'/collections/'+collectionId, undefined, (xhr) => {
+      cb(JSON.parse(xhr.responseText));
+  });
 
 
 }

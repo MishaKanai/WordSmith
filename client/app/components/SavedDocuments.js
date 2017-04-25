@@ -4,7 +4,7 @@ import {
     getUserDocuments, getCollections,
     postCollection,postDocumentToUser,
     getCollectionDocuments, postDocumentToCollection,
-    deleteUserDocument, deleteCollectionDocument,deleteCollection
+    deleteUserDocument, deleteCollectionDocument,deleteUserCollection
 } from '../server';
 
 import {Link, withRouter, Route} from 'react-router';
@@ -78,9 +78,8 @@ import NewDocForm from './NewDocForm'
                  collections: collections
              });
          };
-         if (this.props.collId){
-             deleteCollection(this.props.userId, collId, cb);
-         }
+        deleteUserCollection(this.props.userId, collId, cb);
+
      }
 
 
@@ -228,7 +227,7 @@ import NewDocForm from './NewDocForm'
                                                           <div className="modal-content">
                                                           <div className="modal-header">
                                                           <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                                          <h4 className="modal-title">Are you sure you want to delete the document "{coll.name}"?</h4>
+                                                          <h4 className="modal-title">Are you sure you want to delete the collection "{coll.name}"?</h4>
                                                           </div>
                                                           <div className="modal-body del-doc-modal-body">
                                                           <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteCollection(coll._id)}>Delete Collection</button>
