@@ -4,7 +4,7 @@ import {
     getUserDocuments, getCollections,
     postCollection,postDocumentToUser,
     getCollectionDocuments, postDocumentToCollection,
-    deleteUserDocument, deleteCollectionDocument
+    deleteUserDocument, deleteCollectionDocument,deleteCollection
 } from '../server';
 
 import {Link, withRouter, Route} from 'react-router';
@@ -69,6 +69,17 @@ import NewDocForm from './NewDocForm'
              deleteCollectionDocument(this.props.userId, this.props.collId, docId, cb);
          } else {
              deleteUserDocument(this.props.userId, docId, cb);
+         }
+     }
+
+     deleteCollection(collId) {
+         const cb = (collections) => {
+             this.setState({
+                 collections: collections
+             });
+         };
+         if (this.props.collId){
+             deleteCollection(this.props.userId, collId, cb);
          }
      }
 
@@ -206,13 +217,13 @@ import NewDocForm from './NewDocForm'
                                 </h4>
                               </div>
                             </Link>
-                            <span className="btn del-btn-coll" data-toggle="modal" data-target={"#deleteWorkspace"+coll._id} >
+                            <span className="btn del-btn-coll" data-toggle="modal" data-target={"#deleteCollection"+coll._id} >
                               <span className="glyphicon glyphicon-remove"></span>
                             </span>
 
 
-                                                          {/* MODAL DELETE WORKSPACE */}
-                                                          <div id={"deleteWorkspace"+coll._id} className="modal fade del-doc-modal" role="dialog">
+                                                          {/* MODAL DELETE Collection */}
+                                                          <div id={"deleteCollection"+coll._id} className="modal fade del-doc-modal" role="dialog">
                                                           <div className="modal-dialog">
                                                           <div className="modal-content">
                                                           <div className="modal-header">
@@ -220,7 +231,7 @@ import NewDocForm from './NewDocForm'
                                                           <h4 className="modal-title">Are you sure you want to delete the document "{coll.name}"?</h4>
                                                           </div>
                                                           <div className="modal-body del-doc-modal-body">
-                                                          <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteCollectionDocument(coll._id)}>Delete Collection</button>
+                                                          <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteCollection(coll._id)}>Delete Collection</button>
                                                           </div>
                                                           </div>
                                                           </div>

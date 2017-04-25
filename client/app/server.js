@@ -81,7 +81,6 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
       text: text,
       timestamp: timestamp
     }, (xhr) => {
-      // Return the new status update.
       cb(JSON.parse(xhr.responseText));
     });
 }
@@ -94,7 +93,6 @@ export function postDocumentToCollection(collId, title, text, timestamp, cb) {
       text: text,
       timestamp: timestamp
     }, (xhr) => {
-      // Return the new status update.
       cb(JSON.parse(xhr.responseText));
     });
 }
@@ -105,7 +103,6 @@ export function postCollection(userId, collectionName,cb) {
      userId: userId,
      collectionName: collectionName
    }, (xhr) => {
-     // Return the new status update.
      cb(JSON.parse(xhr.responseText));
    });
 }
@@ -139,7 +136,6 @@ export function putUserSettings(userId, settingsId, value, cb) {
 }
 
 
-
 /* DELETE */
 
 export function deleteUserDocument(userId, docId, cb) {
@@ -165,6 +161,12 @@ export function deleteCollectionDocument(userId, collectionId, docId, cb) {
         (did) => readDocument('documents', did)
     );
     return emulateServerReturn(remainingDocs, cb);
+}
+
+export function deleteCollection(userId,collectionId,cb){
+
+
+
 }
 
 
