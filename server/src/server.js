@@ -217,6 +217,15 @@ app.delete('/documents/:docId', function(req, res) {
     //var userId = parseInt(req.body.userId, 10);
 
     var user = readDocument('users', sender);
+    if (user.documents.indexOf(docId) === -1) {
+        try {
+            readDocument('documents', docId);
+            res.status(401).end();
+        } catch (e) {
+            res.status(404).end();
+        }
+    }
+
     user.documents = user.documents.filter(val => val!== docId);
     writeDocument('users', user);
 
@@ -225,6 +234,7 @@ app.delete('/documents/:docId', function(req, res) {
         (did) => readDocument('documents', did)
     );
     res.send(remainingDocs);
+});
 
 app.get('/document/:docid/settings', function(req, res){
   var sender = getUserIdFromAuth(req.get('Authorization'));
