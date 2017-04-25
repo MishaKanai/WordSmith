@@ -120,7 +120,7 @@ import NewDocForm from './NewDocForm'
 
     getThemeColor(theme) {
         if (theme === "Dark") {
-            return "#333366"    
+            return "#333366"
         } else if (theme === "Light") {
             return "#ffffcc"
         } else if (theme === "Gold") {
@@ -134,7 +134,7 @@ import NewDocForm from './NewDocForm'
         var themeColor = this.getThemeColor(this.state.theme)
 
         document.body.style.backgroundColor = themeColor
-        document.documentElement.style.backgroundColor = themeColor 
+        document.documentElement.style.backgroundColor = themeColor
 
         return (
           <div>
@@ -196,8 +196,8 @@ import NewDocForm from './NewDocForm'
                       {
                           this.state.collections.map((coll, i) =>
 
-                          <div className="row">
-                            <div className="col-sm-4">
+                          <div className="collection-thumbnail">
+
                           <Link to={"/collections/"+coll._id} key={i}>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
@@ -205,32 +205,27 @@ import NewDocForm from './NewDocForm'
                                   {' '+coll.name}
                                 </h4>
                               </div>
-
                             </Link>
-                            </div>
-                            <div className="col-sm-4 col-sm-offset-2">
-                              <span className="btn del-btn" data-toggle="modal" data-target={"#deleteWorkspace"+coll._id} >
-                 <span className="glyphicon glyphicon-remove"></span>
-               </span>
-               {/* MODAL DELETE COLLECTION */}
-               <div id={"deleteWorkspace"+coll._id} className="modal fade del-doc-modal" role="dialog">
-               <div className="modal-dialog">
-               <div className="modal-content">
-               <div className="modal-header">
-               <button type="button" className="close" data-dismiss="modal">&times;</button>
-               <h4 className="modal-title">Are you sure you want to delete the collection "{coll.name}"?</h4>
-               </div>
-               <div className="modal-body del-doc-modal-body">
-               <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteDocument(coll._id)}>Delete Collection</button>
-               </div>
-               </div>
-               </div>
-               </div>
-                 </div>
+                            <span className="btn del-btn-coll" data-toggle="modal" data-target={"#deleteWorkspace"+coll._id} >
+                              <span className="glyphicon glyphicon-remove"></span>
+                            </span>
 
+
+                                                          {/* MODAL DELETE WORKSPACE */}
+                                                          <div id={"deleteWorkspace"+coll._id} className="modal fade del-doc-modal" role="dialog">
+                                                          <div className="modal-dialog">
+                                                          <div className="modal-content">
+                                                          <div className="modal-header">
+                                                          <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                                          <h4 className="modal-title">Are you sure you want to delete the document "{coll.name}"?</h4>
+                                                          </div>
+                                                          <div className="modal-body del-doc-modal-body">
+                                                          <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteCollectionDocument(coll._id)}>Delete Collection</button>
+                                                          </div>
+                                                          </div>
+                                                          </div>
+                                                          </div>
                           </div>
-
-
 
                   )
                       }
