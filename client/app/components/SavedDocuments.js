@@ -8,7 +8,7 @@ import {
 
 import {Link, withRouter, Route} from 'react-router';
 import rasterizeHTML from 'rasterizehtml';
-import NewDocForm from './NewDocForm'
+import NewDocForm from './newDocForm'
 
  class SavedDocumentsI extends React.Component {
 
@@ -65,6 +65,7 @@ import NewDocForm from './NewDocForm'
          }
      }
 
+
      handleNewDocument(documentName){
          const now = Date.now();
          if (this.props.collId) {
@@ -93,6 +94,8 @@ import NewDocForm from './NewDocForm'
          }
 
     }
+
+
     handleNewCollection(){
         if (this.props.collId) {
             console.log('error: NO NESTED COLLECTIONS. aborting function call');
@@ -185,7 +188,7 @@ import NewDocForm from './NewDocForm'
                               <span className="btn del-btn" data-toggle="modal" data-target={"#deleteWorkspace"+coll._id} >
                  <span className="glyphicon glyphicon-remove"></span>
                </span>
-               {/* MODAL DELETE WORKSPACE */}
+               {/* MODAL DELETE COLLECTION */}
                <div id={"deleteWorkspace"+coll._id} className="modal fade del-doc-modal" role="dialog">
                <div className="modal-dialog">
                <div className="modal-content">

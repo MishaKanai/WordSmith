@@ -75,29 +75,39 @@ export function postUser(username, email, displayName, password, cb) {
 }
 
 export function postDocumentToUser(userId, title, text, timestamp, cb) {
-    var doc = addDocumentSync(title, text, timestamp);
-    var user = readDocument('users', userId);
-    user.documents.push(doc._id);
-    writeDocument('users', user);
-    emulateServerReturn(doc, cb);
+  sendXHR('POST', '/documents', {
+      userId: userId,
+      title: title,
+      text: text,
+      timestamp: timestamp
+    }, (xhr) => {
+      // Return the new status update.
+      cb(JSON.parse(xhr.responseText));
+    });
 }
 
 
 export function postDocumentToCollection(collId, title, text, timestamp, cb) {
-    var doc = addDocumentSync(title, text, timestamp);
-    var coll = readDocument('collections', collId);
-    coll.documents.push(doc._id);
-    writeDocument('collections', coll);
-    emulateServerReturn(doc, cb);
+  sendXHR('POST', '/documents', {
+      collId: collId,
+      title: title,
+      text: text,
+      timestamp: timestamp
+    }, (xhr) => {
+      // Return the new status update.
+      cb(JSON.parse(xhr.responseText));
+    });
 }
 
 
 export function postCollection(userId, collectionName,cb) {
- var collection = addCollectionSync(collectionName,[]);
- var user = readDocument('users', userId);
- user.collections.push(collection._id);
- writeDocument('users', user);
- emulateServerReturn(collection, cb);
+ sendXHR('POST', '/documents', {
+     userId: userId,
+     collectionName: collectionName
+   }, (xhr) => {
+     // Return the new status update.
+     cb(JSON.parse(xhr.responseText));
+   });
 }
 
 
@@ -118,7 +128,7 @@ export function putUserSettings(userId, settingsId, value, cb) {
         value: value
     }, (xhr) => {
         cb(JSON.parse(xhr.responseText));
-    }); 
+    });
 }
 
 
