@@ -192,7 +192,6 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
     }
 });
 
-//validation coming soon!
 app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, res) {
   //var sender = getUserIdFromAuth(req.get('Authorization'));
   var docId = parseInt(req.params.docId, 10);
