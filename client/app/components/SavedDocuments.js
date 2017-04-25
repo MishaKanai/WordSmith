@@ -118,6 +118,8 @@ import NewDocForm from './NewDocForm'
                 {this.props.collId? null:
                  <button type="button" className="btn" onClick={() => this.handleNewCollection()}>New Collection</button>
                 }
+
+
             </div>
           </div>
 
@@ -165,16 +167,45 @@ import NewDocForm from './NewDocForm'
                   <div className="item  col-xs-4 col-lg-4" key={this.state.documents.length + 1}>
                     <div className="thumbnail">
                       {
-                          this.state.collections.map((coll, i) =>  <Link to={"/collections/"+coll._id} key={i}>
+                          this.state.collections.map((coll, i) =>
 
+                          <div className="row">
+                            <div className="col-sm-4">
+                          <Link to={"/collections/"+coll._id} key={i}>
                               <div className="caption">
                                 <h4 className="group inner list-group-item-heading">
                                   <span className="glyphicon glyphicon-folder-open" id="saved-docs-glyphicon"></span>
                                   {' '+coll.name}
                                 </h4>
                               </div>
+
                             </Link>
-                                                    )
+                            </div>
+                            <div className="col-sm-4 col-sm-offset-2">
+                              <span className="btn del-btn" data-toggle="modal" data-target={"#deleteWorkspace"+coll._id} >
+                 <span className="glyphicon glyphicon-remove"></span>
+               </span>
+               {/* MODAL DELETE WORKSPACE */}
+               <div id={"deleteWorkspace"+coll._id} className="modal fade del-doc-modal" role="dialog">
+               <div className="modal-dialog">
+               <div className="modal-content">
+               <div className="modal-header">
+               <button type="button" className="close" data-dismiss="modal">&times;</button>
+               <h4 className="modal-title">Are you sure you want to delete the collection "{coll.name}"?</h4>
+               </div>
+               <div className="modal-body del-doc-modal-body">
+               <button type="button" className="btn btn-danger del-doc-modal-btn" data-dismiss="modal" onClick={() => this.deleteDocument(coll._id)}>Delete Collection</button>
+               </div>
+               </div>
+               </div>
+               </div>
+                 </div>
+
+                          </div>
+
+
+
+                  )
                       }
                     </div>
                   </div>
