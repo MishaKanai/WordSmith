@@ -1,9 +1,19 @@
 import React from 'react';
 import {Link} from 'react-router';
+import { getUserSettings } from '../server';
 
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            userName : "..."
+        }
+    }
+
+    componentDidMount() {
+        getUserSettings(this.props.userId, (user) => this.setState({
+            userName: user.displayName
+        }));
     }
 
     render() {
@@ -46,7 +56,7 @@ export default class NavBar extends React.Component {
             <li><a href="#">Home</a></li>
             <li className="divider-vertical"></li>
             <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kendrick Lamar <span className="caret"></span></a>
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.userName}<span className="caret"></span></a>
               <ul className="dropdown-menu">
                 <li><Link to={`settings/${this.props.userId}`}>Settings</Link></li>
                 <li role="separator" className="divider"></li>
