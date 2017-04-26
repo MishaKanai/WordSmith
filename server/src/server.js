@@ -212,7 +212,7 @@ app.post('/collections', function(req, res) {
 
 
 //Post New Collection
-app.post('/collections', function(req, res) {
+app.post('user/:userId/collections', function(req, res) {
 var sender = getUserIdFromAuth(req.get('Authorization'));
 var collec = {
   "name": req.body.name,
