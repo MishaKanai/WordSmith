@@ -90,8 +90,7 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
 
 
 export function postDocumentToCollection(collId, title, text, timestamp, cb) {
-  sendXHR('POST', '/collections', {
-      collId: collId,
+  sendXHR('POST', '/collections/'+collId+'/documents', {
       title: title,
       text: text,
       timestamp: timestamp
@@ -100,10 +99,9 @@ export function postDocumentToCollection(collId, title, text, timestamp, cb) {
     });
 }
 
-export function postCollection(userId, collectionName,cb) {
+export function postCollection(userId, collectionName, cb) {
  sendXHR('POST', '/user/'+userId+'/collections', {
-     userId: userId,
-     collectionName: collectionName
+     name: collectionName
    }, (xhr) => {
      cb(JSON.parse(xhr.responseText));
    });
@@ -146,12 +144,15 @@ export function deleteUserDocument(userId, docId, cb) {
 }
 
 export function deleteCollectionDocument(userId, collectionId, docId, cb) {
-
+    sendXHR('DELETE', '/documents/'+docId, undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
+/*
     sendXHR('DELETE', '/collection/'+collectionId+'/documents/'+docId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 
-    return emulateServerReturn(remainingDocs, cb);
+    return emulateServerReturn(remainingDocs, cb);*/
 }
 ///user/:userId/collections/:collId
 export function deleteUserCollection(userId,collectionId,cb){

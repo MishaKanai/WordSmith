@@ -121,11 +121,11 @@ app.get('/collection/:collectionid/documents', function(req, res) {
         res.status(401).end();
     }
     else {
-            var collection = readDocument('collections', collectionid);
-            var documents = collection.documents.map(
-                (did) => readDocument('documents', did)
-            );
-            res.send(documents);
+        var collection = readDocument('collections', collectionid);
+        var documents = collection.documents.map(
+            (did) => readDocument('documents', did)
+        );
+        res.send(documents);
     }
 });
 
@@ -193,8 +193,9 @@ app.post('/documents', function(req, res) {
 
 });
 
-app.post('/collections', function(req, res) {
+app.post('/collections/:collId/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
+    var collId = parseInt(req.params.collId, 10);
     //var userId = parseInt(req.body.userId, 10);
     var user = readDocument('users', sender);
     var doc = {
@@ -203,7 +204,7 @@ app.post('/collections', function(req, res) {
         "timestamp": req.body.timestamp
     };
     doc = addDocument('documents', doc);
-    var coll = readDocument('collections', req.body.collId);
+    var coll = readDocument('collections', collId);
     coll.documents.push(doc._id);
     writeDocument('collections', coll);
     res.send(doc);
@@ -212,17 +213,23 @@ app.post('/collections', function(req, res) {
 
 
 //Post New Collection
-app.post('user/:userId/collections', function(req, res) {
-var sender = getUserIdFromAuth(req.get('Authorization'));
-var collec = {
-  "name": req.body.name,
-  "documents": req.body.documents
-};
-collec = addDocument('collections', collec);
-var coll = readDocument('collections', req.body.collId);
-coll.documents.push(collec._id);
-writeDocument('collections', coll);
-res.send(collec);
+app.post('/user/:userId/collections', function(req, res) {
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var userId = parseInt(req.params.userId, 10);
+    if (sender === userId) {
+        var user = readDocument('users', sender);
+        var coll = {
+            "name": req.body.name,
+            "documents": []
+        };
+
+        coll = addDocument('collections', coll);
+        user.collections.push(coll._id);
+        writeDocument('users', user);
+        res.send(coll);
+    } else {
+        res.status(401).end();
+    }
 });
 
 //DELETE   /user/:userId/collections/:collId
@@ -247,7 +254,7 @@ app.delete('/user/:userId/collections/:collId', function(req, res) {
 
     deleteDocument('collections', collId);
     var remainingDocs = user.collections.map(
-        (did) => readDocument('collections', did)
+        (cid) => readDocument('collections', cid)
     );
     res.send(remainingDocs);
 });
@@ -261,34 +268,53 @@ app.delete('/documents/:docId', function(req, res) {
 
     var user = readDocument('users', sender);
     if (user.documents.indexOf(docId) === -1) {
-        try {
-            readDocument('documents', docId);
-            res.status(401).end();
-        } catch (e) {
-            res.status(404).end();
+        var userCollections = user.collections.map(
+            (cid) => readDocument('collections', cid)
+        );
+        var collDocuments = userCollections.map((coll) => coll.documents).reduce(
+            (a, b) => a.concat(b)
+        );
+        if (collDocuments.indexOf(docId) !== -1) {
+            userCollections.forEach((coll) => {
+                var docIndex = coll.documents.indexOf(docId);
+                if (docIndex !== -1) {
+                    coll.documents.splice(docIndex, 1);
+                    writeDocument('collections', coll);
+                    res.send(coll.documents.map(
+                        (did) => readDocument('documents', did)
+                    ));
+                }
+            });
+        } else {
+            try {
+                readDocument('documents', docId);
+                res.status(401).end();
+            } catch (e) {
+                res.status(404).end();
+            }
         }
+    } else {
+        user.documents = user.documents.filter(val => val!== docId);
+        writeDocument('users', user);
+
+        deleteDocument('documents', docId);
+        var remainingDocs = user.documents.map(
+            (did) => readDocument('documents', did)
+        );
+        res.send(remainingDocs);
     }
-
-    user.documents = user.documents.filter(val => val!== docId);
-    writeDocument('users', user);
-
-    deleteDocument('documents', docId);
-    var remainingDocs = user.documents.map(
-        (did) => readDocument('documents', did)
-    );
-    res.send(remainingDocs);
 });
 
 app.get('/document/:docid/settings', function(req, res){
-  var sender = getUserIdFromAuth(req.get('Authorization'));
-  var docid = parseInt(req.params.docid, 10);
-  var doc = readDocument('documents', docid);
-  if(doc.hasOwnProperty('settings')){
-    res.send(doc.settings)
-  }else{
-    var user = readDocument('users', sender);
-    res.send(user.settings)
-  }
+    var sender = getUserIdFromAuth(req.get('Authorization'));
+    var docid = parseInt(req.params.docid, 10);
+    var doc = readDocument('documents', docid);
+    if(doc.hasOwnProperty('settings')){
+        res.send(doc.settings)
+    }else{
+        var user = readDocument('users', sender);
+        res.send(user.settings)
+    }
 
 });
 
@@ -299,11 +325,11 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
 
     if (sender === userId) {
         var user = readDocument('users', userId);
-	    if (body.settingsId === 'email' || body.settingsId === 'displayName' || body.settingsId === 'password') {
-	        user[body.settingsId] = body.value;
-	    } else {
-	        user.settings[body.settingsId] = body.value;
-	    }
+	if (body.settingsId === 'email' || body.settingsId === 'displayName' || body.settingsId === 'password') {
+	    user[body.settingsId] = body.value;
+	} else {
+	    user.settings[body.settingsId] = body.value;
+	}
         writeDocument('users', user);
         res.send(user);
     } else {
@@ -313,16 +339,16 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
 });
 
 app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, res) {
-  //var sender = getUserIdFromAuth(req.get('Authorization'));
-  var docId = parseInt(req.params.docId, 10);
-  var body = req.body;
+    //var sender = getUserIdFromAuth(req.get('Authorization'));
+    var docId = parseInt(req.params.docId, 10);
+    var body = req.body;
 
-  var doc = readDocument('documents', docId);
-  doc.title = body.title;
-  doc.text = body.text;
-  doc.timestamp = body.timestamp;
-  writeDocument('documents', doc);
-  res.send(doc);
+    var doc = readDocument('documents', docId);
+    doc.title = body.title;
+    doc.text = body.text;
+    doc.timestamp = body.timestamp;
+    writeDocument('documents', doc);
+    res.send(doc);
 });
 
 app.use(express.static('../client/build'));

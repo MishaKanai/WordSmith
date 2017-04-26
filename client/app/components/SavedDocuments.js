@@ -108,7 +108,7 @@ class SavedDocumentsI extends React.Component {
             console.log('error: NO NESTED COLLECTIONS. aborting function call');
             return;
         }
-        postCollection(this.props.userId, collectionName,'', (coll) => {
+        postCollection(this.props.userId, collectionName, (coll) => {
             this.setState({
                 collections: this.state.collections.concat([coll])
             });
