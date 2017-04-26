@@ -159,8 +159,12 @@ export function deleteUserCollection(userId,collectionId,cb){
   sendXHR('DELETE','user/'+userId+'/collections/'+collectionId, undefined, (xhr) => {
       cb(JSON.parse(xhr.responseText));
   });
+}
 
-
+export function resetDatabase(cb) {
+    sendXHR('POST', 'resetdb', undefined, (xhr) => {
+        cb(JSON.parse(xhr.responseText));
+    });
 }
 
 

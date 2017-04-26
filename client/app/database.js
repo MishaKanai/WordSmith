@@ -145,8 +145,10 @@ export function removeDocument(collectionName, rmDoc) {
  * Reset our browser-local database.
  */
 export function resetDatabase() {
+    /*
   localStorage.setItem(startupName, JSON.stringify(initialData));
   data = JSONClone(initialData);
+*/
 }
 
 /**

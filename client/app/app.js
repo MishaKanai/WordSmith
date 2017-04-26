@@ -8,6 +8,7 @@ import Settings from './components/Settings';
 import {SavedDocuments} from './components/SavedDocuments';
 import {SavedCollections} from './components/SavedCollections';
 import EditorToolbar from './components/EditorToolbar';
+import {resetDatabase} from './server';
 
 import ErrorBanner from './components/errorbanner';
 
@@ -117,3 +118,20 @@ else if (document.getElementById('workspace') !== null) {
   document.getElementById('documents')
 );
 }
+
+class ResetDatabase extends React.Component {
+    render() {
+        return (
+                <button className="btn btn-default" type="button" onClick={() => {
+                    resetDatabase((msg) => console.log(msg));
+                    window.alert("Database reset! Refreshing the page now...");
+                    document.location.reload(false);
+                }}>Reset Mock DB</button>
+        );
+    }
+}
+
+ReactDOM.render(
+        <ResetDatabase />,
+    document.getElementById('db-reset')
+);
