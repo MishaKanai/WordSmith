@@ -100,7 +100,6 @@ export function postDocumentToCollection(collId, title, text, timestamp, cb) {
     });
 }
 
-
 export function postCollection(userId, collectionName,cb) {
  sendXHR('POST', '/user/'+userId+'/collections', {
      userId: userId,
@@ -112,7 +111,6 @@ export function postCollection(userId, collectionName,cb) {
 
 
 //PUT functions
-
 export function putDocument(docId, title, text, timestamp, cb) {
     // var document = readDocument('documents', docId);
     // document.title = title;

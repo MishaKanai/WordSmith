@@ -195,3 +195,18 @@ h4:hover
 #newDocModal {
     margin-top:10%;
 }
+
+
+.newCollTitleInput {
+    width: 100%;
+    margin-bottom: .7em;
+}
+
+.newCollForm {
+    padding: 1em;
+    text-align: right;
+}
+
+#newCollModal {
+    margin-top:10%;
+}
