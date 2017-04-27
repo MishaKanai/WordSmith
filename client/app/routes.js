@@ -7,7 +7,6 @@ import NavBar from './components/Navbar';
 import Workspace from './components/Workspace';
 import Settings from './components/Settings';
 import {SavedDocuments} from './components/SavedDocuments';
-import {SavedCollections} from './components/SavedCollections';
 import EditorToolbar from './components/EditorToolbar';
 import {resetDatabase} from './server';
 import ErrorBanner from './components/errorbanner';
