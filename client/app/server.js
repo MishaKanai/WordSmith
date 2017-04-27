@@ -198,7 +198,8 @@ function sendXHR(verb, resource, body, cb) {
   xhr.timeout = 10000;
 
   // Network failure: Could not connect to server.
-  xhr.addEventListener('error', function() {
+    xhr.addEventListener('error', function(e) {
+        console.log(e);
     WordSmithError('Could not ' + verb + " " + resource +
 	              ": Could not connect to the server.");
   });

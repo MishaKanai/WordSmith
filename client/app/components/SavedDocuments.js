@@ -13,7 +13,7 @@ import {
 } from '../server';
 
 import {Link, withRouter, Route} from 'react-router';
-import rasterizeHTML from 'rasterizehtml';
+//import rasterizeHTML from 'rasterizehtml';
 import NewDocForm from './NewDocForm'
 import NewCollectionModal from './NewCollectionModal'
 
@@ -26,6 +26,9 @@ class SavedDocumentsI extends React.Component {
             documents: [],
             collections: [],
             theme: "WordSmith"
+        }
+        if (typeof document !== 'undefined') {
+            this.rasterizeHTML = require('rasterizehtml');
         }
 
         this.getThemeColor = this.getThemeColor.bind(this)
@@ -50,9 +53,11 @@ class SavedDocumentsI extends React.Component {
     }
 
     componentDidUpdate() {
-        this.state.documents.forEach((doc) => {
-            rasterizeHTML.drawHTML(doc.text, document.getElementById('canvas_' + doc._id));
-        });
+        const rasterizeHTML = this.rasterizeHTML;
+        if (rasterizeHTML)
+            this.state.documents.forEach((doc) => {
+                rasterizeHTML.drawHTML(doc.text, document.getElementById('canvas_' + doc._id));
+            });
     }
 
     deleteDocument(docId) {
@@ -130,9 +135,10 @@ class SavedDocumentsI extends React.Component {
 
     render() {
         var themeColor = this.getThemeColor(this.state.theme)
-
-        document.body.style.backgroundColor = themeColor
-        document.documentElement.style.backgroundColor = themeColor
+        if (typeof document !== 'undefined') {
+            document.body.style.backgroundColor = themeColor
+            document.documentElement.style.backgroundColor = themeColor
+        }
 
         return (
             <div>

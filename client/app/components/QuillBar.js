@@ -20,7 +20,7 @@ export class QuillBar extends React.Component {
       'list', 'bullet', 'indent',
       'link'
     ]
-    
+
     return (
       <div>
       <ReactQuill theme="snow"
@@ -36,3 +36,4 @@ export class QuillBar extends React.Component {
   }
 
 }
+module.exports = QuillBar;
