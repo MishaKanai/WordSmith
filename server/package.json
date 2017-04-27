@@ -5,12 +5,32 @@
   "main": "index.js",
   "author": "",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/server.js --exec babel-node --presets es2015,stage-2,react --content-base build/"
+  },
   "dependencies": {
+    "babel-preset-react-hmre": "^1.1.1",
     "body-parser": "^1.15.0",
+    "ejs": "^2.5.1",
     "express": "^4.13.4",
-    "express-jsonschema": "^1.1.0"
+    "express-jsonschema": "^1.1.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "history": "^1.17.0",
+    "quill": "^1.2.0",
+    "rasterizehtml": "^1.2.4",
+    "react-bootstrap": "^0.30.7",
+    "webpack": "^1.12.12"
   },
   "devDependencies": {
+    "babel-cli": "*",
+    "react-hot-loader": "^1.3.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "nodemon": "^1.11.0",
+    "babel": "^6.3.26",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.24.1",
     "eslint": "^2.4.0",
     "eslint-plugin-node": "^1.0.0"
   }

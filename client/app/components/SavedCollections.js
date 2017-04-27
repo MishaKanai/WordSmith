@@ -2,7 +2,7 @@ import React from 'react';
 import {getCollectionDocuments, postDocumentToCollection, getCollections,
   postCollection,postDocumentToUser} from '../server';
 import {Link, withRouter, Route} from 'react-router';
-import rasterizeHTML from 'rasterizehtml';
+//import rasterizeHTML from 'rasterizehtml';
 
  class SavedCollectionsI extends React.Component {
 
@@ -20,12 +20,12 @@ import rasterizeHTML from 'rasterizehtml';
         });
     }
 
-    componentDidUpdate() {
+    componentDidUpdate() {/*
         this.state.documents.forEach((doc) => {
             rasterizeHTML.drawHTML(doc.text,
                                    document.getElementById('canvas_'+doc._id)
                                   );
-        });
+        });*/
     }
 
 

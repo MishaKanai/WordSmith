@@ -1,3 +1,10 @@
+import path from 'path';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
+import routes from '../../client/app/routes';
+import NotFoundPage from '../../client/app/components/NotFoundPage';
+
 var database = require('./database.js')
 
 var readDocument = database.readDocument;
@@ -16,6 +23,10 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 
+app.use(express.static(path.join(__dirname, '../../client/build')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../../client/views/'));
+//app.use(express.static('../client/build'));
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 
@@ -351,7 +362,41 @@ app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, re
     res.send(doc);
 });
 
-app.use(express.static('../client/build'));
+// universal routing and rendering
+app.get('*', (req, res) => {
+
+    if (req.url.slice((req.url.lastIndexOf(".") - 1 >>> 0) + 2) === "css")
+        console.log("statics being missed");
+    match(
+        { routes, location: req.url },
+        (err, redirectLocation, renderProps) => {
+
+            // in case of error display the error message
+            if (err) {
+                return res.status(500).send(err.message);
+            }
+
+            // in case of redirect propagate the redirect to the browser
+            if (redirectLocation) {
+                return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+            }
+
+            // generate the React markup for the current route
+            let markup;
+            if (renderProps) {
+                // if the current route matched we have renderProps
+                markup = renderToString(<RouterContext {...renderProps}/>);
+            } else {
+                // otherwise we can render a 404 page
+                markup = renderToString(<NotFoundPage/>);
+                res.status(404);
+            }
+
+            // render the index template with the embedded React markup
+            return res.render('index', { markup });
+        }
+    );
+});
 
 /**
  * Translate JSON Schema Validation failures into error 400s.
