@@ -1,6 +1,3 @@
-import {readDocument, writeDocument, addDocument, removeDocument } from './database.js';
-
-
 export function getCollections(userId, cb) {
     sendXHR('GET', '/user/'+userId+'/collections', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
