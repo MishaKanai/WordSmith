@@ -24,8 +24,8 @@
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
-    "dependencies": {
-        "rasterizehtml": "^1.2.4",
+  "dependencies": {
+    "rasterizehtml": "^1.2.4",
     "quill": "^1.2.0",
     "react": "^0.14.8",
     "react-bootstrap": "^0.30.7",
