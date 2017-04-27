@@ -1,17 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { IndexRoute, Router, Route, browserHistory} from 'react-router'
-
-import NavBar from './components/Navbar';
-import Workspace from './components/Workspace';
-import Settings from './components/Settings';
-import {SavedDocuments} from './components/SavedDocuments';
-import {SavedCollections} from './components/SavedCollections';
-import EditorToolbar from './components/EditorToolbar';
 import {resetDatabase} from './server';
-
 import routes from './routes';
-
 import ErrorBanner from './components/errorbanner';
 
 
