@@ -54,7 +54,7 @@ class SettingsPage extends React.Component {
         return (
             <div>
             <br/>
-            <Settings userId={1}/>
+            <Settings userId={this.props.params.id}/>
             </div>
         )
     }
