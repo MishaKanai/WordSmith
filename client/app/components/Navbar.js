@@ -28,16 +28,17 @@ export default class NavBar extends React.Component {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">WordSmith</a>
+                <Link to={"/"}><div className="navbar-brand">WordSmith</div></Link>
         </div>
 
 
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav">
             <li className="divider-vertical"></li>
-            <li><a href="#">My Docs <span className="sr-only">(current)</span></a></li>
-            <li className="divider-vertical"></li>
-          </ul>
+                <li><Link to={"/"}><div>My Docs <span className="sr-only">(current)</span></div></Link></li>
+                {/*<li className="divider-vertical"></li>*/}
+                </ul>
+                {/*
           <form className="navbar-form navbar-left">
             <div className="input-group">
               <input type="text" className="form-control" placeholder="Search" list="searchResults">
@@ -51,14 +52,15 @@ export default class NavBar extends React.Component {
               </datalist>
               <span className="input-group-btn"><button type="submit" className="btn btn-default"><span className="glyphicon glyphicon-search"></span></button></span></input>
             </div>
-          </form>
+                        </form>
+               */ }
           <ul className="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
+                <li><Link to={"/"}><div>Home</div></Link></li>
             <li className="divider-vertical"></li>
             <li className="dropdown">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.userName}<span className="caret"></span></a>
               <ul className="dropdown-menu">
-                <li><Link to={`settings/${this.props.userId}`}>Settings</Link></li>
+                <li><Link to={`/settings/${this.props.userId}`}>Settings</Link></li>
                 <li role="separator" className="divider"></li>
                 <li><a href="#">Log Out</a></li>
               </ul>
