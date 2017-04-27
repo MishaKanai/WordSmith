@@ -44,7 +44,7 @@
                 },
                 "fontSize": {
                     "id": "/properties/settings/properties/fontSize",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "theme": {
                     "id": "/properties/settings/properties/theme",

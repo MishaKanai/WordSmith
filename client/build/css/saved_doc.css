@@ -1,4 +1,6 @@
-
+body {
+  background-color: #553555;
+}
 #profile-temp {
 	width: 25px;
 	height: 25px;
@@ -20,10 +22,6 @@ hr.style1{
     height: 50px;
    */
     height: 100%;
-}
-body{
-background-color: #553555;
-
 }
 
 h4{

@@ -60,8 +60,8 @@ export function postUser(username, email, displayName, password, cb) {
         "password": password,
         "settings": {
             //default settings
-            "theme": "light",
-            "fontSize": 12
+            "theme": "WordSmith",
+            "fontSize": "Normal"
         },
         "collections": [],
         "documents": []

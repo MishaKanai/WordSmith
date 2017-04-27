@@ -84,7 +84,7 @@ export default class Settings extends React.Component {
                     </li>
                     <SettingsElement subject="Theme"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="theme" elementArray={['Light', 'Dark', 'Gold', 'WordSmith']} selected={data.settings.theme} /></SettingsElement>
                     <SettingsElement subject="Font"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="font" elementArray={['Arial', 'Comic-Sans', 'Courier-New', 'Times New Roman']} selected={data.settings.font} /></SettingsElement>
-                    <SettingsElement subject="Font size"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="fontSize" elementArray={['10', '12', '14', '16', '18']} selected={data.settings.fontSize} /></SettingsElement>
+                    <SettingsElement subject="Font size"><SettingsListElements onChange={(id, value) => this.handleChange(id, value)} id="fontSize" elementArray={['Small', 'Normal', 'Large', 'Huge']} selected={data.settings.fontSize} /></SettingsElement>
                     <li className="list-group-item bottom-border-only">
                     <h3 className="text-center">Account settings</h3>
                     </li>

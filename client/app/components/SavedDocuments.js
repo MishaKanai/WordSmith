@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    getUserSettings,
     getUserDocuments,
     getCollections,
     postCollection,
@@ -22,16 +21,12 @@ class SavedDocumentsI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
             documents: [],
             collections: [],
-            theme: "WordSmith"
         }
         if (typeof document !== 'undefined') {
             this.rasterizeHTML = require('rasterizehtml');
         }
-
-        this.getThemeColor = this.getThemeColor.bind(this)
     }
 
     componentDidMount() {
@@ -49,7 +44,6 @@ class SavedDocumentsI extends React.Component {
                 this.setState({documents: docs});
             });
         }
-        getUserSettings(this.props.userId, (settings) => this.setState({theme: settings.settings.theme}));
     }
 
     componentDidUpdate() {
@@ -121,25 +115,7 @@ class SavedDocumentsI extends React.Component {
 
     }
 
-    getThemeColor(theme) {
-        if (theme === "Dark") {
-            return "#333366"
-        } else if (theme === "Light") {
-            return "#ffffcc"
-        } else if (theme === "Gold") {
-            return "#D4AF37"
-        } else {
-            return "#553555"
-        }
-    }
-
     render() {
-        var themeColor = this.getThemeColor(this.state.theme)
-        if (typeof document !== 'undefined') {
-            document.body.style.backgroundColor = themeColor
-            document.documentElement.style.backgroundColor = themeColor
-        }
-
         return (
             <div>
 
