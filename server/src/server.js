@@ -25,8 +25,8 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, '../../client/build')));
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../../client/views/'));
-//app.use(express.static('../client/build'));
+app.set('views', path.join(__dirname, '../../client/build'));
+
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 
@@ -364,9 +364,6 @@ app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, re
 
 // universal routing and rendering
 app.get('*', (req, res) => {
-
-    if (req.url.slice((req.url.lastIndexOf(".") - 1 >>> 0) + 2) === "css")
-        console.log("statics being missed");
     match(
         { routes, location: req.url },
         (err, redirectLocation, renderProps) => {
