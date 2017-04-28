@@ -3,7 +3,88 @@ var ObjectID = require('mongodb').ObjectID;
 // Put your startup's name here (only letters and numbers -- no spaces, apostrophes, or special characters!)
 var databaseName = null;
 // Put the initial mock objects here.
-var initialData = null;
+var initialData = {
+    "users": {
+        "1": {
+            "_id": new ObjectID("000000000000000000000001"),
+            "username": "klamar",
+            "email": "klamar@gmail.com",
+            "displayName": "Kendrick Lamar",
+            "password" : "thisIsARandomHashWhatAreTheOdds!?",
+            "settings" : {
+                "theme" : "WordSmith",
+                "font" : "Courier-New",
+                "fontSize": 12
+            },
+            "collections": [new ObjectID("000000000000000000000001"), new ObjectID("000000000000000000000002")],
+            "documents": [new ObjectID("000000000000000000000004")]
+        },
+        "2": {
+            "_id": new ObjectID("000000000000000000000002"),
+            "username": "fiddy",
+            "email": "50@gmail.com",
+            "displayName": "Fiddy Cent",
+            "password" : "thisIsAlsoRandomHashThisIsIncredible(:)",
+            "settings" : {
+                "theme" : "Gold",
+                "font" : "Comic Sans",
+                "fontSize": 16
+            },
+            "collections": [],
+            "documents": [new ObjectID("000000000000000000000005")]
+        }
+    },
+    "collections": {
+        "1": {
+            "_id": new ObjectID("000000000000000000000001"),
+            "name": "my raps",
+            "documents": [new ObjectID("000000000000000000000001"), new ObjectID("000000000000000000000002"),]
+        },
+        "2": {
+            "_id": new ObjectID("000000000000000000000002"),
+            "name": "ballads",
+            "documents": [new ObjectID("000000000000000000000003")]
+        }
+    },
+    "documents": {
+        "1": {
+            "_id": new ObjectID("000000000000000000000001"),
+            "title": "work in progress",
+            "text": loremipsum1,
+            "timestamp": 1453668480000,
+            "settings": {
+                "theme": "patriotic colors",
+                "fontSize": 15
+            }
+        },
+        "2": {
+            "_id": new ObjectID("000000000000000000000002"),
+            "title": "When Doves Cry",
+            "text": loremipsum2,
+            "timestamp": 1453668480005
+        },
+        "3": {
+            "_id": new ObjectID("000000000000000000000003"),
+            "title": "song3",
+            "text": "<p>This is wysiwyg text for song 3. Does the canvas adjust so we can see overflow? only YOU know!</p>",
+            "timestamp": 1453668480066
+        },
+        "4": {
+            "_id": new ObjectID("000000000000000000000001"),
+            "title": "song4",
+            "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 4</b></p>",
+            "timestamp": 1453668480060
+        },
+        "5": {
+            "_id": new ObjectID("000000000000000000000005"),
+            "title": "song5",
+            "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 5</b></p>",
+            "timestamp": 1453668480066
+        }
+
+    }
+
+};
 
 /**
  * Resets a collection.
