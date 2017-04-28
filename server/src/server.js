@@ -73,7 +73,7 @@ function getUserObjFromAuth(authHeader) {
 
 function getUserIdFromAuth(authHeader) {
     var userObj = getUserObjFromAuth(authHeader);
-    if (userObj.hasOwnProperty('id') && typeof userObj['id'] === 'number') {
+    if (userObj.hasOwnProperty('id') && typeof userObj['id'] === 'string') {
         //all good
         return userObj['id'];
     } else {
@@ -94,7 +94,7 @@ app.post('/resetdb', function(req, res) {
 
 app.get('/user/:userid/collections', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collectionOwner = parseInt(req.params.userid, 10);
+    var collectionOwner = req.params.userid;
 
     if (sender === collectionOwner) {
         var user = readDocument('users', collectionOwner);
@@ -110,7 +110,7 @@ app.get('/user/:userid/collections', function(req, res) {
 
 app.get('/user/:userid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var documentOwner = parseInt(req.params.userid, 10);
+    var documentOwner = req.params.userid;
 
     if (sender === documentOwner) {
         var user = readDocument('users', documentOwner);
@@ -126,7 +126,7 @@ app.get('/user/:userid/documents', function(req, res) {
 
 app.get('/collection/:collectionid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collectionid = parseInt(req.params.collectionid, 10);
+    var collectionid = req.params.collectionid;
     var user = readDocument('users', sender);
     if (user.collections.indexOf(collectionid) === -1) {
         res.status(401).end();
@@ -151,7 +151,7 @@ app.get('/document/:docid', function(req, res) {
     );
     collDocs.forEach((docs) => allDocs = allDocs.concat(docs));
 
-    var docid = parseInt(req.params.docid, 10);
+    var docid = req.params.docid;
     if (allDocs.indexOf(docid) !== -1) {
         var doc = readDocument('documents', docid);
         res.send(doc);
@@ -172,7 +172,7 @@ app.get('/document/:docid', function(req, res) {
 
 app.get('/user/:userid', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var userId = parseInt(req.params.userid, 10);
+    var userId = req.params.userid;
 
     if (sender === userId) {
         var user = readDocument('users', userId);
@@ -206,7 +206,7 @@ app.post('/documents', function(req, res) {
 
 app.post('/collections/:collId/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collId = parseInt(req.params.collId, 10);
+    var collId = req.params.collId;
     //var userId = parseInt(req.body.userId, 10);
     var user = readDocument('users', sender);
     var doc = {
@@ -226,7 +226,7 @@ app.post('/collections/:collId/documents', function(req, res) {
 //Post New Collection
 app.post('/user/:userId/collections', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var userId = parseInt(req.params.userId, 10);
+    var userId = req.params.userId;
     if (sender === userId) {
         var user = readDocument('users', sender);
         var coll = {
@@ -247,7 +247,7 @@ app.post('/user/:userId/collections', function(req, res) {
 app.delete('/user/:userId/collections/:collId', function(req, res) {
 
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collId = parseInt(req.params.collId, 10);
+    var collId = req.params.collId;
     //var userId = parseInt(req.body.userId, 10);
 
     var user = readDocument('users', sender);
@@ -274,7 +274,7 @@ app.delete('/user/:userId/collections/:collId', function(req, res) {
 app.delete('/documents/:docId', function(req, res) {
 
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var docId = parseInt(req.params.docId, 10);
+    var docId = req.params.docId;
     //var userId = parseInt(req.body.userId, 10);
 
     var user = readDocument('users', sender);
@@ -318,7 +318,7 @@ app.delete('/documents/:docId', function(req, res) {
 
 app.get('/document/:docid/settings', function(req, res){
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var docid = parseInt(req.params.docid, 10);
+    var docid = req.params.docid;
     var doc = readDocument('documents', docid);
     if(doc.hasOwnProperty('settings')){
         res.send(doc.settings)
@@ -331,7 +331,7 @@ app.get('/document/:docid/settings', function(req, res){
 
 app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var userId = parseInt(req.params.userid, 10);
+    var userId = req.params.userid;
     var body = req.body;
 
     if (sender === userId) {
@@ -351,7 +351,7 @@ app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, r
 
 app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, res) {
     //var sender = getUserIdFromAuth(req.get('Authorization'));
-    var docId = parseInt(req.params.docId, 10);
+    var docId = req.params.docId;
     var body = req.body;
 
     var doc = readDocument('documents', docId);
