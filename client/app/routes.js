@@ -54,7 +54,7 @@ class SettingsPage extends React.Component {
         return (
             <div>
             <br/>
-            <Settings userId={this.props.params.id}/>
+                <Settings userId={"000000000000000000000001"}/>
             </div>
         )
     }
@@ -87,7 +87,7 @@ const routes = (
         <Route path="/" component={App}>
         <IndexRoute component={SavedDocumentsPage} />
         <Route path="workspace/:id" component={WorkspacePage} />
-        <Route path="settings/:id" component={SettingsPage} />
+        <Route path="settings" component={SettingsPage} />
         <Route path="collections/:id" component={CollectionsPage} />
         <Route path="*" component={NotFoundPage}/>
         </Route>
