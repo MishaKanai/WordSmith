@@ -6,7 +6,7 @@ var loremipsum2 = LoremIpsum.loremipsum2;
 var initialData = {
     "users": {
         "1": {
-            "_id": 1,
+            "_id": new ObjectID("000000000000000000000001"),
             "username": "klamar",
             "email": "klamar@gmail.com",
             "displayName": "Kendrick Lamar",
@@ -16,11 +16,11 @@ var initialData = {
                 "font" : "Courier-New",
                 "fontSize": 12
             },
-            "collections": [1, 2],
-            "documents": [4]
+            "collections": [new ObjectID("000000000000000000000001"), new ObjectID("000000000000000000000002")],
+            "documents": [new ObjectID("000000000000000000000004")]
         },
         "2": {
-            "_id": 2,
+            "_id": new ObjectID("000000000000000000000002"),
             "username": "fiddy",
             "email": "50@gmail.com",
             "displayName": "Fiddy Cent",
@@ -31,24 +31,24 @@ var initialData = {
                 "fontSize": 16
             },
             "collections": [],
-            "documents": [5]
+            "documents": [new ObjectID("000000000000000000000005")]
         }
     },
     "collections": {
         "1": {
-            "_id": 1,
+            "_id": new ObjectID("000000000000000000000001"),
             "name": "my raps",
-            "documents": [1, 2]
+            "documents": [new ObjectID("000000000000000000000001"), new ObjectID("000000000000000000000002"),]
         },
         "2": {
-            "_id": 2,
+            "_id": new ObjectID("000000000000000000000002"),
             "name": "ballads",
-            "documents": [3]
+            "documents": [new ObjectID("000000000000000000000003")]
         }
     },
     "documents": {
         "1": {
-            "_id": 1,
+            "_id": new ObjectID("000000000000000000000001"),
             "title": "work in progress",
             "text": loremipsum1,
             "timestamp": 1453668480000,
@@ -58,25 +58,25 @@ var initialData = {
             }
         },
         "2": {
-            "_id": 2,
+            "_id": new ObjectID("000000000000000000000002"),
             "title": "When Doves Cry",
             "text": loremipsum2,
             "timestamp": 1453668480005
         },
         "3": {
-            "_id": 3,
+            "_id": new ObjectID("000000000000000000000003"),
             "title": "song3",
             "text": "<p>This is wysiwyg text for song 3. Does the canvas adjust so we can see overflow? only YOU know!</p>",
             "timestamp": 1453668480066
         },
         "4": {
-            "_id": 4,
+            "_id": new ObjectID("000000000000000000000001"),
             "title": "song4",
             "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 4</b></p>",
             "timestamp": 1453668480060
         },
         "5": {
-            "_id": 5,
+            "_id": new ObjectID("000000000000000000000005"),
             "title": "song5",
             "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 5</b></p>",
             "timestamp": 1453668480066
