@@ -31,7 +31,7 @@ class SavedDocumentsPage extends React.Component {
         return (
                 <div>
                 <br/>
-                <SavedDocuments userId={1} collId={null}/>
+                <SavedDocuments userId={"000000000000000000000001"} collId={null}/>
             </div>
         );
     }
@@ -42,7 +42,7 @@ class CollectionsPage extends React.Component {
         return (
                 <div>
                 <br/>
-                <SavedDocuments userId={1} collId={this.props.params.id}/>
+                <SavedDocuments userId={"000000000000000000000001"} collId={this.props.params.id}/>
             </div>
         );
     }
@@ -74,7 +74,7 @@ class App extends React.Component {
         return (
             <div>
                 <ErrorBanner />
-                <NavBar userId={1}/>
+                <NavBar userId={"000000000000000000000001"}/>
                 {this.props.children}
             </div>
         )
