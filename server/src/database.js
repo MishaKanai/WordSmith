@@ -1,3 +1,5 @@
+var ObjectID = require('mongodb').ObjectID;
+
 var LoremIpsum = require('./LoremIpsum.js');
 var loremipsum1 = LoremIpsum.loremipsum1;
 var loremipsum2 = LoremIpsum.loremipsum2;

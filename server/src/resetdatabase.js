@@ -1,8 +1,14 @@
 var ObjectID = require('mongodb').ObjectID;
 
 // Put your startup's name here (only letters and numbers -- no spaces, apostrophes, or special characters!)
-var databaseName = null;
+var databaseName = 'wordsmith';
 // Put the initial mock objects here.
+
+
+var LoremIpsum = require('./LoremIpsum.js');
+var loremipsum1 = LoremIpsum.loremipsum1;
+var loremipsum2 = LoremIpsum.loremipsum2;
+
 var initialData = {
     "users": {
         "1": {
