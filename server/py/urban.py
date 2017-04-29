@@ -9,10 +9,7 @@ import json
 def main (args):
     p = 'http://www.urbandictionary.com/'+ str(args)
     words = get_word(p) 
-    meaning = range(len(words))
-
-    for m, w in zip(meaning, words):
-        print 'Meaning {0}:  {1}'.format(m, w)
+    print str(words)
         
 #Returns a list of meanings from given word
 def get_meaning(path):
@@ -96,9 +93,24 @@ def get_word(path):
     html = urlopen(path).read()
     soup = BeautifulSoup(html, "html5lib")
     words = soup.findAll("div", { "class" : "meaning" })
-    result = {x.get_text().strip() for x in words}
+    meaning_list = []
     
-    return result
+    #This block analyzes each word in 'words' and cleans it
+    #returning a cleaned list of 'meanings'
+    i= 1
+    data = {}
+    result = {x.get_text().strip() for x in words}
+    while i < len(result):
+        m = 'Meaning ' +str(i)
+        w = result.pop()
+        if len(data) is 0:
+            data = {m:w}
+        else:
+            data.update({m:w})
+        
+        i = i +1
+  
+    return data
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1]))
