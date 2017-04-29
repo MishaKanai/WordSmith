@@ -12,7 +12,9 @@
     "body-parser": "^1.15.0",
     "ejs": "^2.5.1",
     "express": "^4.13.4",
-    "express-jsonschema": "^1.1.0"
+    "express-jsonschema": "^1.1.0",
+    "mongo-express": "^0.39.2",
+    "mongodb": "^2.2.26"
   },
   "devDependencies": {
     "react": "^0.14.8",
