@@ -165,7 +165,7 @@ export function resetDatabase(cb) {
 }
 
 
-var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNCJ9';
+var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9';
 
 /** TAKEN FROM WORKSHOP 9
  * Properly configure+send an XMLHttpRequest with error handling,

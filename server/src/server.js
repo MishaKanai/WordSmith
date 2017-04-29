@@ -186,13 +186,34 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
+    function getUser(userId, callback) {
+        db.collection('users').findOne({
+            _id: new ObjectID(userId)
+        }, function(err, userData) {
+            if (err) {
+                return callback(err);
+            } else if (userData === null) {
+                return callback(null, null);
+            } else {
+                callback(null, userData);
+            }
+        })
+    }
+
     app.get('/user/:userid', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var userId = req.params.userid;
-
+        console.log(sender);
         if (sender === userId) {
-            var user = readDocument('users', userId);
-            res.send(user);
+            getUser(userId, (err, userData) => {
+                if (err)
+                    res.status(500).end();
+                else if (userData === null) {
+                    res.status(404).end();
+                } else {
+                    res.send(userData);
+                }
+            });
         } else {
             //unauthorized
             res.status(401).end();
