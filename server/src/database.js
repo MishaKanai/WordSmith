@@ -1,6 +1,6 @@
-LoremIpsum = require('./LoremIpsum.js');
-loremipsum1 = LoremIpsum.loremipsum1;
-loremipsum2 = LoremIpsum.loremipsum2;
+var LoremIpsum = require('./LoremIpsum.js');
+var loremipsum1 = LoremIpsum.loremipsum1;
+var loremipsum2 = LoremIpsum.loremipsum2;
 
 // Your startup's initial mock objects go here
 var initialData = {
@@ -14,7 +14,7 @@ var initialData = {
             "settings" : {
                 "theme" : "WordSmith",
                 "font" : "Courier-New",
-                "fontSize": 12
+                "fontSize": "Normal"
             },
             "collections": [1, 2],
             "documents": [4]
@@ -28,7 +28,7 @@ var initialData = {
             "settings" : {
                 "theme" : "Gold",
                 "font" : "Comic Sans",
-                "fontSize": 16
+                "fontSize": "Large"
             },
             "collections": [],
             "documents": [5]
@@ -54,7 +54,7 @@ var initialData = {
             "timestamp": 1453668480000,
             "settings": {
                 "theme": "patriotic colors",
-                "fontSize": 15
+                "fontSize": "Normal"
             }
         },
         "2": {

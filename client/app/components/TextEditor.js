@@ -1,6 +1,6 @@
 import React from 'react';
 import { Overlay, Popover, Button } from 'react-bootstrap';
-import {QuillBar} from './QuillBar';
+//import {QuillBar} from './QuillBar';
 import insertTargets from '../js/applyClassesToWord';
 import {getDocument} from '../server';
 
@@ -11,6 +11,11 @@ class TextEditor extends React.Component {
       popoverShown: false,
       word: null
     };
+
+      if (typeof document !== 'undefined') {
+          this.quill = require('react-quill');
+          this.quillbar = require('./QuillBar.js');
+      }
   }
   closePopover() {
     this.setState({
@@ -68,8 +73,11 @@ class TextEditor extends React.Component {
     this.props.getWord({word: this.state.word, category: cat});
   }
 
-  render() {
-    return (
+    render() {
+        const Quill = this.quill;
+        const QuillBar = this.quillbar;
+        if (Quill && QuillBar) {
+        return (
       <div className="texteditor-inner-wrapper"
       onContextMenu={(e)=>this.rightClick(e)}>
       <QuillBar rightClick={(e) => this.rightClick(e)} handleChange={(e) => this.handleChange(e)} value={this.props.value}/>
@@ -106,7 +114,7 @@ class TextEditor extends React.Component {
       </Popover>
       </Overlay>
       </div>
-    );
+        );} else return (<div>THIS IS THE SERVER RENDERED ONE</div>);
   }
 }
 

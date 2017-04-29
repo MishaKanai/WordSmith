@@ -6,21 +6,21 @@ export class QuillBar extends React.Component {
   render() {
     var modules = {
       toolbar: [
-        [{ 'header': [1, 2, 3, false] }, {'font': [] }],
-        ['bold', 'italic', 'underline','strike', 'blockquote'],
-        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+        [{ 'size': [] }, {'font': [] }],
+        ['bold', 'italic', 'underline','strike'],
+        [{'indent': '-1'}, {'indent': '+1'}],
         ['link'],
         ['clean']
       ],
     }
 
     var formats = [
-      'header', 'font', 'size',
-      'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
+      'size', 'font',
+      'bold', 'italic', 'underline', 'strike',
+      'indent',
       'link'
     ]
-    
+
     return (
       <div>
       <ReactQuill theme="snow"
@@ -36,3 +36,4 @@ export class QuillBar extends React.Component {
   }
 
 }
+module.exports = QuillBar;

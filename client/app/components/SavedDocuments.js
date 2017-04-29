@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    getUserSettings,
     getUserDocuments,
     getCollections,
     postCollection,
@@ -13,7 +12,7 @@ import {
 } from '../server';
 
 import {Link, withRouter, Route} from 'react-router';
-import rasterizeHTML from 'rasterizehtml';
+//import rasterizeHTML from 'rasterizehtml';
 import NewDocForm from './NewDocForm'
 import NewCollectionModal from './NewCollectionModal'
 
@@ -22,13 +21,12 @@ class SavedDocumentsI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
             documents: [],
             collections: [],
-            theme: "WordSmith"
         }
-
-        this.getThemeColor = this.getThemeColor.bind(this)
+        if (typeof document !== 'undefined') {
+            this.rasterizeHTML = require('rasterizehtml');
+        }
     }
 
     componentDidMount() {
@@ -46,13 +44,14 @@ class SavedDocumentsI extends React.Component {
                 this.setState({documents: docs});
             });
         }
-        getUserSettings(this.props.userId, (settings) => this.setState({theme: settings.settings.theme}));
     }
 
     componentDidUpdate() {
-        this.state.documents.forEach((doc) => {
-            rasterizeHTML.drawHTML(doc.text, document.getElementById('canvas_' + doc._id));
-        });
+        const rasterizeHTML = this.rasterizeHTML;
+        if (rasterizeHTML)
+            this.state.documents.forEach((doc) => {
+                rasterizeHTML.drawHTML(doc.text, document.getElementById('canvas_' + doc._id));
+            });
     }
 
     deleteDocument(docId) {
@@ -108,7 +107,7 @@ class SavedDocumentsI extends React.Component {
             console.log('error: NO NESTED COLLECTIONS. aborting function call');
             return;
         }
-        postCollection(this.props.userId, collectionName,'', (coll) => {
+        postCollection(this.props.userId, collectionName, (coll) => {
             this.setState({
                 collections: this.state.collections.concat([coll])
             });
@@ -116,24 +115,7 @@ class SavedDocumentsI extends React.Component {
 
     }
 
-    getThemeColor(theme) {
-        if (theme === "Dark") {
-            return "#333366"
-        } else if (theme === "Light") {
-            return "#ffffcc"
-        } else if (theme === "Gold") {
-            return "#D4AF37"
-        } else {
-            return "#553555"
-        }
-    }
-
     render() {
-        var themeColor = this.getThemeColor(this.state.theme)
-
-        document.body.style.backgroundColor = themeColor
-        document.documentElement.style.backgroundColor = themeColor
-
         return (
             <div>
 
