@@ -8,10 +8,12 @@ import json
 
 def main (args):
     p = 'http://www.urbandictionary.com/'+ str(args)
-    word = get_word(p)
-    with open('urbanmeaning.json', 'w') as s:
-        json.dump(word, s)
-    print (word)
+    words = get_word(p) 
+    meaning = range(len(words))
+
+    for m, w in zip(meaning, words):
+        print 'Meaning {0}:  {1}'.format(m, w)
+        
 #Returns a list of meanings from given word
 def get_meaning(path):
     
