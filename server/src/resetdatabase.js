@@ -76,7 +76,7 @@ var initialData = {
             "timestamp": 1453668480066
         },
         "4": {
-            "_id": new ObjectID("000000000000000000000001"),
+            "_id": new ObjectID("000000000000000000000004"),
             "title": "song4",
             "text": "<p>This is <i>wysiwyg</i> <u>text</u> for <b>song 4</b></p>",
             "timestamp": 1453668480060

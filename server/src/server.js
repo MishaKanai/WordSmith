@@ -124,16 +124,35 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
+
+
+
     app.get('/user/:userid/documents', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
-        var documentOwner = req.params.userid;
+        var userId = req.params.userid;
 
-        if (sender === documentOwner) {
-            var user = readDocument('users', documentOwner);
-            var documents = user.documents.map(
-                (did) => readDocument('documents', did)
-            );
-            res.send(documents);
+        if (sender === userId) {
+
+            getUser(userId, (err, userData) => {
+                if (err)
+                    res.status(500).end();
+                else if (userData === null) {
+                    res.status(404).end();
+                } else {
+
+                    var query = {
+                        $or: userData.documents.map((id) => { return {_id: id}})
+                    };
+                    console.log(query);
+                    db.collection('documents').find(query).toArray(function(err, documents) {
+                        if (err)
+                            res.status(500);
+                        res.send(documents);
+                    });
+                }
+            });
+
+
         } else {
             //unauthorized
             res.status(401).end();
