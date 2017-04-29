@@ -96,19 +96,9 @@ def get_word(path):
     html = urlopen(path).read()
     soup = BeautifulSoup(html, "html5lib")
     words = soup.findAll("div", { "class" : "meaning" })
-    meaning_list = []
+    result = {x.get_text().strip() for x in words}
     
-    #This block analyzes each word in 'words' and cleans it
-    #returning a cleaned list of 'meanings'
-    i= 0
-
-    while i < len(words):
-        current_meaning = words[i].get_text().strip()
-        meaning = "Meaning " + str(i+1) + ": " + current_meaning
-        meaning_list.append(meaning)
-        i = i +1
-    return meaning_list
-   
+    return result
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1]))
