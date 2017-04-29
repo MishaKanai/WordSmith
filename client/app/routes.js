@@ -28,37 +28,36 @@ class WorkspacePage extends React.Component {
 }
 
 class SavedDocumentsPage extends React.Component {
-  render() {
-    return (
-      <div>
-      <br/>
-      <SavedDocuments userId={1} collId={null}/>
-      </div>
-    );
-  }
+    render() {
+        return (
+                <div>
+                <br/>
+                <SavedDocuments userId={"000000000000000000000001"} collId={null}/>
+            </div>
+        );
+    }
 
 }
 class CollectionsPage extends React.Component {
-  render() {
-    return (
-      <div>
-      <br/>
-      <SavedDocuments userId={1} collId={this.props.params.id}/>
-      </div>
-    );
-  }
-
+    render() {
+        return (
+                <div>
+                <br/>
+                <SavedDocuments userId={"000000000000000000000001"} collId={this.props.params.id}/>
+            </div>
+        );
+    }
 }
 
 class SettingsPage extends React.Component {
-  render() {
-    return (
-      <div>
-      <br/>
-      <Settings userId={this.props.params.id}/>
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div>
+            <br/>
+                <Settings userId={"000000000000000000000001"}/>
+            </div>
+        )
+    }
 }
 
 
@@ -74,7 +73,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.getThemeColor = this.getThemeColor.bind(this)
-  } 
+  }
 
   getThemeColor(theme) {
     if (theme === "Dark") {
@@ -89,36 +88,36 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    getUserSettings(1, (settings) => {
+    getUserSettings("000000000000000000000001", (settings) => {
       var themeColor = this.getThemeColor(settings.settings.theme)
       if (typeof document !== 'undefined') {
         document.body.style.backgroundColor = themeColor
         document.documentElement.style.backgroundColor = themeColor
-      } 
+      }
 
     });
   }
-  render() {
-    return (
-      <div>
-      <ErrorBanner />
-      <NavBar userId={1}/>
-      {this.props.children}
-      </div>
-    )
-  }
+
+    render() {
+        return (
+                <div>
+                <ErrorBanner />
+                <NavBar userId={"000000000000000000000001"}/>
+                {this.props.children}
+            </div>
+        )
+    }
 }
 
 
 const routes = (
-
-  <Route path="/" component={App}>
-  <IndexRoute component={SavedDocumentsPage} />
-  <Route path="workspace/:id" component={WorkspacePage} />
-  <Route path="settings/:id" component={SettingsPage} />
-  <Route path="collections/:id" component={CollectionsPage} />
-  <Route path="*" component={NotFoundPage}/>
-  </Route>
+        <Route path="/" component={App}>
+        <IndexRoute component={SavedDocumentsPage} />
+        <Route path="workspace/:id" component={WorkspacePage} />
+        <Route path="settings" component={SettingsPage} />
+        <Route path="collections/:id" component={CollectionsPage} />
+        <Route path="*" component={NotFoundPage}/>
+        </Route>
 );
 
 export default routes;
