@@ -192,7 +192,7 @@ MongoClient.connect(url, function(err, db) {
       //not found
       res.status(404).end();
     }
-
+});
 
 
   app.post('/documents', function(req, res) {
