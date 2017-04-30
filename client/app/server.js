@@ -112,7 +112,7 @@ export function putDocument(docId, title, text, timestamp, cb) {
     // document.timestamp = timestamp;
     // writeDocument('documents', document)
     // emulateServerReturn(document, cb);
-    sendXHR('PUT', '/documents/'+docId, {
+    sendXHR('PUT', '/document/'+docId, {
       title: title,
       text: text,
       timestamp: timestamp
@@ -134,13 +134,13 @@ export function putUserSettings(userId, settingsId, value, cb) {
 /* DELETE */
 
 export function deleteUserDocument(userId, docId, cb) {
-    sendXHR('DELETE', '/documents/'+docId, undefined, (xhr) => {
+    sendXHR('DELETE', '/document/'+docId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
 
 export function deleteCollectionDocument(userId, collectionId, docId, cb) {
-    sendXHR('DELETE', '/documents/'+docId, undefined, (xhr) => {
+    sendXHR('DELETE', '/document/'+docId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 /*

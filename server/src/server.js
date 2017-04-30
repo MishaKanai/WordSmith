@@ -200,6 +200,15 @@ MongoClient.connect(url, function(err, db) {
     }) 
   }
 
+  function addDocument(collection, data, cb) {
+    db.collection(collection).insertOne({ data }, function(err) {
+      if (err) {
+        cb(err)
+      }
+      cb(null)
+    })
+  }
+
   app.get('/user/:userid', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var userId = req.params.userid;
@@ -221,19 +230,35 @@ MongoClient.connect(url, function(err, db) {
 
   app.post('/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    //var userId = parseInt(req.body.userId, 10);
     try {
-      var user = readDocument('users', sender);
-      var doc = {
-        "title": req.body.title,
-        "text": req.body.text,
-        "timestamp": req.body.timestamp
-      };
-      doc = addDocument('documents', doc);
-
-      user.documents.push(doc._id);
-      writeDocument('users', user);
-      res.send(doc);
+      readDocument('users', sender, (err, user) => {
+        if (err) {
+          res.status(500).end()
+        } else if (user === null) {
+          res.status(404).end()
+        }
+        var doc = {
+          "title": req.body.title,
+          "text": req.body.text,
+          "timestamp": req.body.timestamp
+        };
+        addDocument('documents', doc, (err) => {
+          if (err) {
+            res.status(500).end()
+          }
+          var docId = new ObjectID(doc._id)
+          db.collection('users').update({
+            _id: new ObjectID(sender)
+          }, {
+            $addToSet: { 'documents' : docId }
+          }, function(err) {
+            if (err) {
+              res.status(500).end()
+            }
+            res.send(doc)
+          })
+        });
+      });
     } catch(e) {
       res.status(404).end();
     }
@@ -271,9 +296,9 @@ MongoClient.connect(url, function(err, db) {
     }
   });
 
-  app.post('/collections/:collId/documents', function(req, res) {
+  app.post('/collections/:collectionid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collId = req.params.collId;
+    var collectionid = req.params.collectionid;
     //var userId = parseInt(req.body.userId, 10);
     var user = readDocument('users', sender);
     var doc = {
@@ -282,7 +307,7 @@ MongoClient.connect(url, function(err, db) {
       "timestamp": req.body.timestamp
     };
     doc = addDocument('documents', doc);
-    var coll = readDocument('collections', collId);
+    var coll = readDocument('collections', collectionid);
     coll.documents.push(doc._id);
     writeDocument('collections', coll);
     res.send(doc);
@@ -310,27 +335,27 @@ MongoClient.connect(url, function(err, db) {
     }
   });
 
-  //DELETE   /user/:userId/collections/:collId
-  app.delete('/user/:userId/collections/:collId', function(req, res) {
+  //DELETE   /user/:userId/collections/:collectionid
+  app.delete('/user/:userId/collections/:collectionid', function(req, res) {
 
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collId = req.params.collId;
+    var collectionid = req.params.collectionid;
     //var userId = parseInt(req.body.userId, 10);
 
     var user = readDocument('users', sender);
-    if (user.collections.indexOf(collId) === -1) {
+    if (user.collections.indexOf(collectionid) === -1) {
       try {
-        readDocument('collections', collId);
+        readDocument('collections', collectionid);
         res.status(401).end();
       } catch (e) {
         res.status(404).end();
       }
     }
 
-    user.collections = user.collections.filter(val => val!== collId);
+    user.collections = user.collections.filter(val => val!== collectionid);
     writeDocument('users', user);
 
-    deleteDocument('collections', collId);
+    deleteDocument('collections', collectionid);
     var remainingDocs = user.collections.map(
       (cid) => readDocument('collections', cid)
     );
@@ -338,7 +363,7 @@ MongoClient.connect(url, function(err, db) {
   });
 
 
-  app.delete('/documents/:docId', function(req, res) {
+  app.delete('/document/:docId', function(req, res) {
 
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var docId = req.params.docId;
@@ -473,12 +498,12 @@ MongoClient.connect(url, function(err, db) {
     }
   });
 
-  app.put('/documents/:docId', validate({ body: DocumentSchema}), function(req, res) {
+  app.put('/document/:docId', validate({ body: DocumentSchema}), function(req, res) {
     //var sender = getUserIdFromAuth(req.get('Authorization'));
     var docId = req.params.docId;
     var body = req.body;
 
-    db.collections('documents').update({
+    db.collection('documents').update({
       _id: new ObjectID(docId)
     }, {
       $set: { 'title' : body.title,
