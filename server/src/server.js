@@ -439,7 +439,7 @@ MongoClient.connect(url, function(err, db) {
         if (settingsId === 'email') {
             db.collection('users').updateOne({ _id: new ObjectID(userId) },
                                              {
-                                                 $set: { 'email' : body.value }
+                                                 $set: { 'email' : value }
                                              }, function(err) {
                                                  if (err) {
                                                      return callback(err)
@@ -450,7 +450,7 @@ MongoClient.connect(url, function(err, db) {
         } else if (settingsId === 'displayName') {
             db.collection('users').updateOne({ _id: new ObjectID(userId) },
                                              {
-                                                 $set: { 'displayName' : body.value }
+                                                 $set: { 'displayName' : value }
                                              }, function(err) {
                                                  if (err) {
                                                      return callback(err)
@@ -461,7 +461,7 @@ MongoClient.connect(url, function(err, db) {
         } else if (settingsId === 'password') {
             db.collection('users').updateOne({ _id: new ObjectID(userId) },
                                              {
-                                                 $set: { 'password' : body.value }
+                                                 $set: { 'password' : value }
                                              }, function(err) {
                                                  if (err) {
                                                      return callback(err)
@@ -472,7 +472,7 @@ MongoClient.connect(url, function(err, db) {
         } else if (settingsId === 'theme') {
             db.collection('users').updateOne({ _id: new ObjectID(userId) },
                                              {
-                                                 $set: { 'settings.theme' : body.value }
+                                                 $set: { 'settings.theme' : value }
                                              }, function(err) {
                                                  if (err) {
                                                      return callback(err)
