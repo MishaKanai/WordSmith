@@ -104,9 +104,9 @@ MongoClient.connect(url, function(err, db) {
     var collectionOwner = req.params.userid;
     if(sender === collectionOwner){
       readDocument('users', collectionOwner, (err, userData) => {
-        if (err)
+        if (err) {
           res.status(500).end();
-        else if (userData === null) {
+        } else if (userData === null) {
           res.status(404).end();
         } else {
           var query = {
@@ -114,7 +114,7 @@ MongoClient.connect(url, function(err, db) {
           };
           db.collection('collections').find(query).toArray(function(err, collections) {
             if (err)
-              res.status(500);
+              res.status(500).end();
             res.send(collections);
           });
         }
@@ -127,17 +127,33 @@ MongoClient.connect(url, function(err, db) {
   app.get('/collection/:collectionid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var collectionid = req.params.collectionid;
-    var user = readDocument('users', sender);
-    if (user.collections.indexOf(collectionid) === -1) {
-      res.status(401).end();
-    }
-    else {
-      var collection = readDocument('collections', collectionid);
-      var documents = collection.documents.map(
-        (did) => readDocument('documents', did)
-      );
-      res.send(documents);
-    }
+    
+    readDocument('users', sender, (err, user) => {
+      if (err) {
+        res.status(500).end()
+      } else if (user === null) {
+        res.status(404).end()
+      }
+      var stringCollections = user.collections.map(function(id) { return id.toString() })
+      if (stringCollections.indexOf(collectionid) === -1) {
+        res.status(401).end();
+      } else {
+        readDocument('collections', collectionid, (err, collection) => {
+          if (err) {
+            res.status(500).end()
+          }
+          var query = {
+            $or: collection.documents.map((id) => {return {_id: id}})
+          }
+          db.collection('documents').find(query).toArray(function(err, documents) {
+            if (err) {
+              res.status(500).end()
+            }
+            res.send(documents)
+          })
+        });
+      }
+    });
   });
 
   app.get('/document/:docid', function(req, res) {
