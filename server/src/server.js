@@ -462,25 +462,26 @@ MongoClient.connect(url, function(err, db) {
     var docId = req.params.docId;
     var body = req.body;
 
-    var doc = readDocument('documents', docId);
-    
-    db.collection('documents').findOne({
+    db.collections('documents').update({
       _id: new ObjectID(docId)
-    }, function(err, doc) {
-      if (err) {
-        return callback(err);
-      } else if (doc === null) {
-        return callback(null, null);
-      } else {
-        callback(null, userData);
+    }, {
+      $set: { 'title' : body.title,
+        'text' : body.text,
+        'timestamp': body.timestamp
       }
+    }, function(err) {
+      if (err) {
+        res.status(500).end()
+      }
+      readDocument('documents', docId, (err, doc) => {
+        if (err) {
+          res.status(500).end()
+        } else if (doc === null) {
+          res.status(404).end()
+        }
+        res.send(doc)
+      })
     })
-    
-    doc.title = body.title;
-    doc.text = body.text;
-    doc.timestamp = body.timestamp;
-    writeDocument('documents', doc);
-    res.send(doc);
   });
 
   // universal routing and rendering
