@@ -111,34 +111,26 @@ MongoClient.connect(url, function(err, db) {
     app.get('/user/:userid/collections', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionOwner = req.params.userid;
-
-        //ALANS
-        db.collection('users').findOne({
-            _id: new ObjectID(collectionOwner)
-        }, function(err, result){
-            console.log(result)
-            if(sender === collectionOwner){
-                res.send(result.documents.map((cid) =>
-                                              db.collection('collections').findOne({
-                                                  _id:cid
-                                              })
-                                             ))
-            } else {
-                res.status(401).end();
-            }
-        });
-/*
-        if (sender === collectionOwner) {
-            var user = readDocument('users', collectionOwner);
-            var collections = user.collections.map(
-                (cid) => readDocument('collections', cid)
-            );
-            res.send(collections);
+        if(sender === collectionOwner){
+          getUser(collectionOwner, (err, userData) => {
+              if (err)
+                  res.status(500).end();
+              else if (userData === null) {
+                  res.status(404).end();
+              } else {
+                  var query = {
+                      $or: userData.collections.map((id) => { return {_id: id}})
+                  };
+                  db.collection('collections').find(query).toArray(function(err, collections) {
+                      if (err)
+                          res.status(500);
+                      res.send(collections);
+                  });
+              }
+          });
         } else {
-            //unauthorized
-            res.status(401).end();
+          res.status(401).end();
         }
-*/
     });
 
     app.get('/collection/:collectionid/documents', function(req, res) {
