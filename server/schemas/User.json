@@ -38,14 +38,6 @@
         "settings": {
             "id": "/properties/settings",
             "properties": {
-                "font": {
-                    "id": "/properties/settings/properties/font",
-                    "type": "string"
-                },
-                "fontSize": {
-                    "id": "/properties/settings/properties/fontSize",
-                    "type": "string"
-                },
                 "theme": {
                     "id": "/properties/settings/properties/theme",
                     "type": "string"

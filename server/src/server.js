@@ -124,8 +124,104 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
+    app.get('/collection/:collectionid/documents', function(req, res) {
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        var collectionid = req.params.collectionid;
+        var user = readDocument('users', sender);
+        if (user.collections.indexOf(collectionid) === -1) {
+            res.status(401).end();
+        }
+        else {
+            var collection = readDocument('collections', collectionid);
+            var documents = collection.documents.map(
+                (did) => readDocument('documents', did)
+            );
+            res.send(documents);
+        }
+    });
 
+    app.get('/document/:docid', function(req, res) {
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        var allDocs = [];
+        //resolve all documents owned by user
+        var user = readDocument('users', sender);
+        allDocs = allDocs.concat(user.documents);
+        var collDocs = user.collections.map(
+            (cid) => readDocument('collections', cid).documents
+        );
+        collDocs.forEach((docs) => allDocs = allDocs.concat(docs));
 
+        var docid = req.params.docid;
+        if (allDocs.indexOf(docid) !== -1) {
+            var doc = readDocument('documents', docid);
+            res.send(doc);
+        } else {
+            //figure out which error code to throw
+            var documents = getCollection('documents');
+            for (var dockey in documents) {
+                if (documents[dockey]._id === docid) {
+                    //resource exists: unauthorized.
+                    res.status(401).end();
+                    return;
+                }
+            }
+            //not found
+            res.status(404).end();
+        }
+    });
+
+    function getUser(userId, callback) {
+        db.collection('users').findOne({
+            _id: new ObjectID(userId)
+        }, function(err, userData) {
+            if (err) {
+                return callback(err);
+            } else if (userData === null) {
+                return callback(null, null);
+            } else {
+                callback(null, userData);
+            }
+        })
+    }
+
+    app.get('/user/:userid', function(req, res) {
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        var userId = req.params.userid;
+        if (sender === userId) {
+            getUser(userId, (err, userData) => {
+                if (err)
+                    res.status(500).end();
+                else if (userData === null) {
+                    res.status(404).end();
+                } else {
+                    res.send(userData);
+                }
+            });
+        } else {
+            //unauthorized
+            res.status(401).end();
+        }
+    });
+
+    app.post('/documents', function(req, res) {
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        //var userId = parseInt(req.body.userId, 10);
+        try {
+            var user = readDocument('users', sender);
+            var doc = {
+                "title": req.body.title,
+                "text": req.body.text,
+                "timestamp": req.body.timestamp
+            };
+            doc = addDocument('documents', doc);
+
+            user.documents.push(doc._id);
+            writeDocument('users', user);
+            res.send(doc);
+        } catch(e) {
+            res.status(404).end();
+        }
+    });
 
     app.get('/user/:userid/documents', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
@@ -203,61 +299,6 @@ MongoClient.connect(url, function(err, db) {
             //not found
             res.status(404).end();
         }
-    });
-
-    function getUser(userId, callback) {
-        db.collection('users').findOne({
-            _id: new ObjectID(userId)
-        }, function(err, userData) {
-            if (err) {
-                return callback(err);
-            } else if (userData === null) {
-                return callback(null, null);
-            } else {
-                callback(null, userData);
-            }
-        })
-    }
-
-    app.get('/user/:userid', function(req, res) {
-        var sender = getUserIdFromAuth(req.get('Authorization'));
-        var userId = req.params.userid;
-        console.log(sender);
-        if (sender === userId) {
-            getUser(userId, (err, userData) => {
-                if (err)
-                    res.status(500).end();
-                else if (userData === null) {
-                    res.status(404).end();
-                } else {
-                    res.send(userData);
-                }
-            });
-        } else {
-            //unauthorized
-            res.status(401).end();
-        }
-    });
-
-    app.post('/documents', function(req, res) {
-        var sender = getUserIdFromAuth(req.get('Authorization'));
-        //var userId = parseInt(req.body.userId, 10);
-        try {
-            var user = readDocument('users', sender);
-            var doc = {
-                "title": req.body.title,
-                "text": req.body.text,
-                "timestamp": req.body.timestamp
-            };
-            doc = addDocument('documents', doc);
-
-            user.documents.push(doc._id);
-            writeDocument('users', user);
-            res.send(doc);
-        } catch(e) {
-            res.status(404).end();
-        }
-
     });
 
     app.post('/collections/:collId/documents', function(req, res) {
@@ -385,20 +426,77 @@ MongoClient.connect(url, function(err, db) {
 
     });
 
+    function putUser(userId, settingsId, value, callback) {
+        if (settingsId === 'email') {
+            db.collection('users').updateOne({ _id: new ObjectID(userId) },
+                                             {
+                                                 $set: { 'email' : body.value }
+                                             }, function(err) {
+                                                 if (err) {
+                                                     return callback(err)
+                                                 }
+                                                 return callback(null)
+                                             }
+                                            )
+        } else if (settingsId === 'displayName') {
+            db.collection('users').updateOne({ _id: new ObjectID(userId) },
+                                             {
+                                                 $set: { 'displayName' : body.value }
+                                             }, function(err) {
+                                                 if (err) {
+                                                     return callback(err)
+                                                 }
+                                                 return callback(null)
+                                             }
+                                            )
+        } else if (settingsId === 'password') {
+            db.collection('users').updateOne({ _id: new ObjectID(userId) },
+                                             {
+                                                 $set: { 'password' : body.value }
+                                             }, function(err) {
+                                                 if (err) {
+                                                     return callback(err)
+                                                 }
+                                                 return callback(null)
+                                             }
+                                            )
+        } else if (settingsId === 'theme') {
+            db.collection('users').updateOne({ _id: new ObjectID(userId) },
+                                             {
+                                                 $set: { 'settings.theme' : body.value }
+                                             }, function(err) {
+                                                 if (err) {
+                                                     return callback(err)
+                                                 }
+                                                 return callback(null)
+                                             }
+                                            )
+        } else {
+            return callback(null)
+        }
+    }
+
     app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var userId = req.params.userid;
         var body = req.body;
 
         if (sender === userId) {
-            var user = readDocument('users', userId);
-	    if (body.settingsId === 'email' || body.settingsId === 'displayName' || body.settingsId === 'password') {
-	        user[body.settingsId] = body.value;
-	    } else {
-	        user.settings[body.settingsId] = body.value;
-	    }
-            writeDocument('users', user);
-            res.send(user);
+            putUser(userId, body.settingsId, body.value, (err) => {
+                if (err) {
+                    res.status(500).end()
+                } else {
+                    getUser(userId, (err, user) => {
+                        if (err) {
+                            res.status(500).end()
+                        } else if (user === null) {
+                            res.status(404).end()
+                        } else {
+                            res.send(user)
+                        }
+                    })
+                }
+            })
         } else {
             //unauthorized
             res.status(401).end();
@@ -467,5 +565,4 @@ MongoClient.connect(url, function(err, db) {
     app.listen(3000, function() {
         console.log('Listening on port 3000!');
     });
-
 });

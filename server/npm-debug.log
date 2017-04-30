@@ -1,34 +1,34 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'start' ]
-2 info using npm@3.10.10
-3 info using node@v6.10.1
+2 info using npm@4.1.2
+3 info using node@v7.7.1
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle startup-server@0.0.1~prestart: startup-server@0.0.1
 6 silly lifecycle startup-server@0.0.1~prestart: no script for prestart, continuing
 7 info lifecycle startup-server@0.0.1~start: startup-server@0.0.1
 8 verbose lifecycle startup-server@0.0.1~start: unsafe-perm in lifecycle true
-9 verbose lifecycle startup-server@0.0.1~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/mishakanai/cs326/WordSmith/server/node_modules/.bin:/opt/local/bin:/opt/local/sbin:~/.composer/vendor/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Users/mishakanai/ScalaCoursera/sbt/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/mysql/bin:/Users/mishakanai/apache-ant-1.9.7/bin
-10 verbose lifecycle startup-server@0.0.1~start: CWD: /Users/mishakanai/cs326/WordSmith/server
+9 verbose lifecycle startup-server@0.0.1~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/BluJay/Dev/Wordsmith-new/server/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+10 verbose lifecycle startup-server@0.0.1~start: CWD: /Users/BluJay/Dev/Wordsmith-new/server
 11 silly lifecycle startup-server@0.0.1~start: Args: [ '-c',
 11 silly lifecycle   'babel-node src/server.js --presets es2015,stage-2,react --content-base build/' ]
 12 silly lifecycle startup-server@0.0.1~start: Returned: code: 1  signal: null
 13 info lifecycle startup-server@0.0.1~start: Failed to exec start script
 14 verbose stack Error: startup-server@0.0.1 start: `babel-node src/server.js --presets es2015,stage-2,react --content-base build/`
 14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:279:16)
 14 verbose stack     at emitTwo (events.js:106:13)
-14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at EventEmitter.emit (events.js:194:7)
 14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:40:14)
 14 verbose stack     at emitTwo (events.js:106:13)
-14 verbose stack     at ChildProcess.emit (events.js:191:7)
-14 verbose stack     at maybeClose (internal/child_process.js:886:16)
+14 verbose stack     at ChildProcess.emit (events.js:194:7)
+14 verbose stack     at maybeClose (internal/child_process.js:899:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid startup-server@0.0.1
-16 verbose cwd /Users/mishakanai/cs326/WordSmith/server
-17 error Darwin 15.6.0
+16 verbose cwd /Users/BluJay/Dev/Wordsmith-new/server
+17 error Darwin 16.5.0
 18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "start"
-19 error node v6.10.1
-20 error npm  v3.10.10
+19 error node v7.7.1
+20 error npm  v4.1.2
 21 error code ELIFECYCLE
 22 error startup-server@0.0.1 start: `babel-node src/server.js --presets es2015,stage-2,react --content-base build/`
 22 error Exit status 1

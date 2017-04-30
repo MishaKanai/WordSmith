@@ -10,10 +10,6 @@
         "settings": {
             "id": "/properties/settings",
             "properties": {
-                "fontSize": {
-                    "id": "/properties/settings/properties/fontSize",
-                    "type": "integer"
-                },
                 "theme": {
                     "id": "/properties/settings/properties/theme",
                     "type": "string"

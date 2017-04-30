@@ -18,9 +18,7 @@ var initialData = {
             "displayName": "Kendrick Lamar",
             "password" : "thisIsARandomHashWhatAreTheOdds!?",
             "settings" : {
-                "theme" : "WordSmith",
-                "font" : "Courier-New",
-                "fontSize": 12
+                "theme" : "WordSmith"
             },
             "collections": [new ObjectID("000000000000000000000001"), new ObjectID("000000000000000000000002")],
             "documents": [new ObjectID("000000000000000000000004")]
@@ -32,9 +30,7 @@ var initialData = {
             "displayName": "Fiddy Cent",
             "password" : "thisIsAlsoRandomHashThisIsIncredible(:)",
             "settings" : {
-                "theme" : "Gold",
-                "font" : "Comic Sans",
-                "fontSize": 16
+                "theme" : "Gold"
             },
             "collections": [],
             "documents": [new ObjectID("000000000000000000000005")]
@@ -59,8 +55,7 @@ var initialData = {
             "text": loremipsum1,
             "timestamp": 1453668480000,
             "settings": {
-                "theme": "patriotic colors",
-                "fontSize": 15
+                "theme": "patriotic colors"
             }
         },
         "2": {
