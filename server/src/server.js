@@ -112,6 +112,21 @@ MongoClient.connect(url, function(err, db) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionOwner = req.params.userid;
 
+        db.collection('users').findOne({
+          _id: new ObjectID(collectionOwner)
+        }, function(err, result){
+          console.log(result)
+          if(sender === collectionOwner){
+            res.send(result.documents.map((cid) =>
+              db.collection('collections').findOne({
+                _id:cid
+              })
+            ))
+          } else {
+            res.status(401).end();
+          }
+        });
+        /*
         if (sender === collectionOwner) {
             var user = readDocument('users', collectionOwner);
             var collections = user.collections.map(
@@ -122,12 +137,29 @@ MongoClient.connect(url, function(err, db) {
             //unauthorized
             res.status(401).end();
         }
+        */
     });
 
     app.get('/user/:userid/documents', function(req, res) {
+
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var documentOwner = req.params.userid;
-
+        console.log("documentOwner: "+documentOwner)
+        db.collection('users').findOne({
+          _id: new ObjectID(documentOwner)
+        }, function(err, result){
+          console.log(result)
+          if(sender === documentOwner){
+            res.send(result.documents.map((did) =>
+              db.collection('documents').findOne({
+                _id:did
+              })
+            ))
+          } else {
+            res.status(401).end();
+          }
+        });
+        /*
         if (sender === documentOwner) {
             var user = readDocument('users', documentOwner);
             var documents = user.documents.map(
@@ -138,6 +170,8 @@ MongoClient.connect(url, function(err, db) {
             //unauthorized
             res.status(401).end();
         }
+        */
+
     });
 
     app.get('/collection/:collectionid/documents', function(req, res) {
