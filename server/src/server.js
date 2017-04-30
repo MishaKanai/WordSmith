@@ -264,52 +264,6 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.get('/collection/:collectionid/documents', function(req, res) {
-        var sender = getUserIdFromAuth(req.get('Authorization'));
-        var collectionid = req.params.collectionid;
-        var user = readDocument('users', sender);
-        if (user.collections.indexOf(collectionid) === -1) {
-            res.status(401).end();
-        }
-        else {
-            var collection = readDocument('collections', collectionid);
-            var documents = collection.documents.map(
-                (did) => readDocument('documents', did)
-            );
-            res.send(documents);
-        }
-    });
-
-    app.get('/document/:docid', function(req, res) {
-        var sender = getUserIdFromAuth(req.get('Authorization'));
-        var allDocs = [];
-        //resolve all documents owned by user
-        var user = readDocument('users', sender);
-        allDocs = allDocs.concat(user.documents);
-        var collDocs = user.collections.map(
-            (cid) => readDocument('collections', cid).documents
-        );
-        collDocs.forEach((docs) => allDocs = allDocs.concat(docs));
-
-        var docid = req.params.docid;
-        if (allDocs.indexOf(docid) !== -1) {
-            var doc = readDocument('documents', docid);
-            res.send(doc);
-        } else {
-            //figure out which error code to throw
-            var documents = getCollection('documents');
-            for (var dockey in documents) {
-                if (documents[dockey]._id === docid) {
-                    //resource exists: unauthorized.
-                    res.status(401).end();
-                    return;
-                }
-            }
-            //not found
-            res.status(404).end();
-        }
-    });
-
     app.post('/collections/:collId/documents', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collId = req.params.collId;
