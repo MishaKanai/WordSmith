@@ -175,6 +175,7 @@ class Workspace extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                     getRhymes={(word)=>this.getRhymes(word)}
                     getCategory={(x) => this.getCategory(x)}
+                    activeCat={this.state.category}
                     getWord={(x) => this.getWord(x)}
                 />
                 </div>

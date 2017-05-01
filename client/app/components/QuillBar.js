@@ -25,7 +25,6 @@ export class QuillBar extends React.Component {
       <div>
       <ReactQuill theme="snow"
       className="texteditor-textarea"
-      onContextMenu={(e)=>this.props.rightClick(e)}
       onChange={(e)=>this.props.handleChange(e)}
       value={this.props.value}
       modules={modules}
