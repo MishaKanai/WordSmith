@@ -13,7 +13,7 @@ if (document.getElementById('app') !== null) {
 }
 
 
-
+/*
 class ResetDatabase extends React.Component {
     render() {
         return (
@@ -29,4 +29,4 @@ class ResetDatabase extends React.Component {
 ReactDOM.render(
         <ResetDatabase />,
     document.getElementById('db-reset')
-);
+); */
