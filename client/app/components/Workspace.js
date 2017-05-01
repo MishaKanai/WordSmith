@@ -33,8 +33,24 @@ class Workspace extends React.Component {
             }.bind(this)
         });
     }
+
+    getUrban(word) {
+        $.ajax({
+            url: "/urbanapi/" + word,
+            dataType: 'json',
+            cache: true,
+            success: function(data) {
+                this.setState({info: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    }
+
     getSuggestions(word, category){
       var api = ""
+
       switch(category){
         case "rhyme":
           api = this.props.rhymeAPIprefix;
@@ -43,11 +59,12 @@ class Workspace extends React.Component {
           api = this.props.synonymAPIprefix;
           break;
         case "slang":
+          api = "/urbanapi/"
           break;
         case "definition":
           api = this.props.definitionAPIprefix
           break;
-        default:
+         default:
           break;
       }
       $.ajax({
@@ -92,7 +109,7 @@ class Workspace extends React.Component {
           break;
         case "slang":
           if(this.state.info.length != 0 && currentCat != "slang"){
-            this.getSuggestions(this.state.word, "slang")
+            this.getUrban(this.state.word, "slang")
           }
           break;
         }
@@ -174,11 +191,13 @@ class Workspace extends React.Component {
                     value={this.state.text}
                     onChange={(e) => this.handleChange(e)}
                     getRhymes={(word)=>this.getRhymes(word)}
+                    getUrban={(word)=>this.getUrban(word)}
                     getCategory={(x) => this.getCategory(x)}
                     activeCat={this.state.category}
                     getWord={(x) => this.getWord(x)}
                 />
-                </div>
+
+              </div>
                 <SuggestionsBar
                     word={this.state.word}
                     active={this.state.category}
