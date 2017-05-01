@@ -369,67 +369,39 @@ MongoClient.connect(url, function(err, db) {
 
   //Post New Collection
   app.post('/user/:userId/collections', function(req, res) {
-/**
     var sender = getUserIdFromAuth(req.get('Authorization'));
+    var collectionid = req.params.collectionid;
 
-     var userId = req.params.userId;
-    if (sender === userId) {
-      var user = readDocument('users', sender);
-      var coll = {
-        "name": req.body.name,
-        "documents": []
-      };
+            var collection = {
+              "name": req.body.name,
+              "documents": []
+            };
 
-      coll = addDocument('collections', coll);
-      user.collections.push(coll._id);
-      writeDocument('users', user);
-      res.send(coll);
-    } else {
-      res.status(401).end();
-    }
-**/
-
-   var sender = getUserIdFromAuth(req.get('Authorization'));
-   try {
-     readDocument('users', sender, (err, user) => {
-       if (err) {
-         res.status(500).end()
-       } else if (user === null) {
-         res.status(404).end()
-       }
-       var collection = {
-         "name": req.body.name,
-         "documents": []
-       };
-
-       addDocument('collections', collection, (err) => {
-         if (err) {
-           res.status(500).end()
-         }
-         var collectionId = new ObjectID(collection._id)
-         db.collection('users').update({
-           _id: new ObjectID(sender)
-         }, {
-           $addToSet: { 'collections' : collectionId }
-         }, function(err) {
-           if (err) {
-             res.status(500).end()
-           }
-           res.send(collection)
-         })
-       });
-     });
-   } catch(e) {
-     res.status(404).end();
-   }
+            db.collection('collections').insertOne(collection, function(err, result) {
+                if (err)
+                res.status(500).end();
+                collection._id = result.insertedId;
+                db.collection('users').updateOne(
+                    { _id: new ObjectID(sender) },
+                    {
+                        $addToSet: {
+                            collections: collection._id
+                        }
+                    }, function(err) {
+                        if (err) {
+                            res.status(500).end()
+                        }
+                        res.send(collection);
+                    })
+            });
 
   });
 
   //DELETE   /user/:userId/collections/:collectionid
   app.delete('/user/:userId/collections/:collectionid', function(req, res) {
-/**
+
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collectionId = new ObjectID(req.params.collectionId);
+    var collectionId = new ObjectID(req.params.collectionid);
     var userId = req.params.userId;
     db.collection('collections').findOne({
       _id: collectionId
@@ -449,21 +421,36 @@ MongoClient.connect(url, function(err, db) {
       if(err){
         return sendDatabaseError(res, err);
       }
-      db.collection('collection').deleteOne({
+      db.collection('collection').deleteMany({
         _id: collectionId
       }, function(err){
         if(err){
         return sendDatabaseError(res, err);
-        }
+      } else {
+        readDocument('collections', collectionid, (err, collection) => {
+          if (err) {
+            res.status(500).end()
+          }
+          var query = {
+            $or: collection.map((id) => {return {_id: id}})
+          }
+          db.collection('collection').find(query).toArray(function(err, col) {
+            if (err) {
+              res.status(500).end()
+            }
+            res.send(col)
+          })
+        });
+      }
         //Update Collection View
-        var remainingDocs = user.collections.map((cid) => readDocument('collections', cid));
+
         res.send(remainingDocs);
       });
     });
 
   });
 
-**/
+
     });
 
 
