@@ -4,6 +4,7 @@ import {SettingsElement} from './SettingsElement'
 import {SettingsListElements} from './SettingsListElements'
 import {SettingsUpdatePwModal} from './SettingsUpdatePwModal'
 import {getUserSettings, putUserSettings} from '../server'
+import getThemeColor from '../js/getThemeColor';
 
 export default class Settings extends React.Component {
   constructor(props) {
@@ -23,11 +24,20 @@ export default class Settings extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+
+
   handleChange(id, value) {
-    putUserSettings(this.props.userId, id, value, (settings) => {
-      this.setState({
-        userSettings: settings
-      })
+      putUserSettings(this.props.userId, id, value, (settings) => {
+          this.setState({
+              userSettings: settings
+          });
+          var themeColor = getThemeColor(settings.settings.theme)
+          if (typeof document !== 'undefined') {
+              document.body.style.backgroundColor = themeColor;
+              document.documentElement.style.backgroundColor = themeColor;
+          }
+
+
     })
   }
 

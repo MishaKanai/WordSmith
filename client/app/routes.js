@@ -12,6 +12,7 @@ import EditorToolbar from './components/EditorToolbar';
 import {resetDatabase} from './server';
 import ErrorBanner from './components/errorbanner';
 import NotFoundPage from './components/NotFoundPage';
+import getThemeColor from './js/getThemeColor';
 
 
 
@@ -72,24 +73,11 @@ class SettingsPage extends React.Component {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.getThemeColor = this.getThemeColor.bind(this)
-  }
-
-  getThemeColor(theme) {
-    if (theme === "Dark") {
-      return "#333366"
-    } else if (theme === "Light") {
-      return "#ffffcc"
-    } else if (theme === "Gold") {
-      return "#D4AF37"
-    } else {
-      return "#553555"
-    }
   }
 
   componentDidMount() {
     getUserSettings("000000000000000000000001", (settings) => {
-      var themeColor = this.getThemeColor(settings.settings.theme)
+      var themeColor = getThemeColor(settings.settings.theme)
       if (typeof document !== 'undefined') {
         document.body.style.backgroundColor = themeColor
         document.documentElement.style.backgroundColor = themeColor
