@@ -367,8 +367,10 @@ MongoClient.connect(url, function(err, db) {
 
   //Post New Collection
   app.post('/user/:userId/collections', function(req, res) {
+/**
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var userId = req.params.userId;
+
+     var userId = req.params.userId;
     if (sender === userId) {
       var user = readDocument('users', sender);
       var coll = {
@@ -383,34 +385,87 @@ MongoClient.connect(url, function(err, db) {
     } else {
       res.status(401).end();
     }
+**/
+
+   var sender = getUserIdFromAuth(req.get('Authorization'));
+   try {
+     readDocument('users', sender, (err, user) => {
+       if (err) {
+         res.status(500).end()
+       } else if (user === null) {
+         res.status(404).end()
+       }
+       var collection = {
+         "name": req.body.name,
+         "documents": []
+       };
+
+       addDocument('collections', collection, (err) => {
+         if (err) {
+           res.status(500).end()
+         }
+         var collectionId = new ObjectID(collection._id)
+         db.collection('users').update({
+           _id: new ObjectID(sender)
+         }, {
+           $addToSet: { 'collections' : collectionId }
+         }, function(err) {
+           if (err) {
+             res.status(500).end()
+           }
+           res.send(collection)
+         })
+       });
+     });
+   } catch(e) {
+     res.status(404).end();
+   }
+
   });
 
   //DELETE   /user/:userId/collections/:collectionid
   app.delete('/user/:userId/collections/:collectionid', function(req, res) {
-
+/**
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collectionid = req.params.collectionid;
-    //var userId = parseInt(req.body.userId, 10);
+    var collectionId = new ObjectID(req.params.collectionId);
+    var userId = req.params.userId;
+    db.collection('collections').findOne({
+      _id: collectionId
 
-    var user = readDocument('users', sender);
-    if (user.collections.indexOf(collectionid) === -1) {
-      try {
-        readDocument('collections', collectionid);
-        res.status(401).end();
-      } catch (e) {
-        res.status(404).end();
-      }
+    },function(err,collectionId){
+      if(err){
+        return sendDatabaseError(res, err);
+      } else if (collectionId === null) {
+      // cannot find collection- may not exist
+      return res.status(400).end();
     }
+    db.collection('collection').updateOne({},{
+      $pull:{
+        collection: collection._id
+      }
+    },function(err){
+      if(err){
+        return sendDatabaseError(res, err);
+      }
+      db.collection('collection').deleteOne({
+        _id: collectionId
+      }, function(err){
+        if(err){
+        return sendDatabaseError(res, err);
+        }
+        //Update Collection View
+        var remainingDocs = user.collections.map((cid) => readDocument('collections', cid));
+        res.send(remainingDocs);
+      });
+    });
 
-    user.collections = user.collections.filter(val => val!== collectionid);
-    writeDocument('users', user);
-
-    deleteDocument('collections', collectionid);
-    var remainingDocs = user.collections.map(
-      (cid) => readDocument('collections', cid)
-    );
-    res.send(remainingDocs);
   });
+
+**/
+    });
+
+
+
 
 
   app.delete('/document/:docId', function(req, res) {
