@@ -128,31 +128,32 @@ MongoClient.connect(url, function(err, db) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var collectionid = req.params.collectionid;
 
-    readDocument('users', sender, (err, user) => {
-      if (err) {
-        res.status(500).end()
-      } else if (user === null) {
-        res.status(404).end()
-      }
-      var stringCollections = user.collections.map(function(id) { return id.toString() })
-      if (stringCollections.indexOf(collectionid) === -1) {
-        res.status(401).end();
-      } else {
-        readDocument('collections', collectionid, (err, collection) => {
+      readDocument('users', sender, (err, user) => {
           if (err) {
-            res.status(500).end()
-          }
-          var query = {
-            $or: collection.documents.map((id) => {return {_id: id}})
-          }
-          db.collection('documents').find(query).toArray(function(err, documents) {
-            if (err) {
               res.status(500).end()
-            }
-            res.send(documents)
-          })
-        });
-      }
+          } else if (user === null) {
+              res.status(404).end()
+          } else {
+              var stringCollections = user.collections.map(function(id) { return id.toString() })
+              if (stringCollections.indexOf(collectionid) === -1) {
+                  res.status(401).end();
+              } else {
+                  readDocument('collections', collectionid, (err, collection) => {
+                      if (err) {
+                          res.status(500).end()
+                      }
+                      var query = {
+                          $or: collection.documents.map((id) => {return {_id: id}})
+                      }
+                      db.collection('documents').find(query).toArray(function(err, documents) {
+                          if (err) {
+                              res.status(500).end()
+                          }
+                          res.send(documents)
+                      })
+                  });
+              }
+          }
     });
   });
 
@@ -264,46 +265,46 @@ MongoClient.connect(url, function(err, db) {
     }
   });
 
-  app.post('/documents', function(req, res) {
-    var sender = getUserIdFromAuth(req.get('Authorization'));
-    try {
-      readDocument('users', sender, (err, user) => {
-        if (err) {
-          res.status(500).end()
-        } else if (user === null) {
-          res.status(404).end()
-        }
+    app.post('/documents', function(req, res) {
+
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        var collectionid = req.params.collectionid;
+
+        //add this later
+        //var time = new Date().getTime();
+
         var doc = {
-          "title": req.body.title,
-          "text": req.body.text,
-          "timestamp": req.body.timestamp
+            "title": req.body.title,
+            "text": req.body.text,
+            "timestamp": req.body.timestamp //replace with time
         };
-        addDocument('documents', doc, (err) => {
-          if (err) {
-            res.status(500).end()
-          }
-          var docId = new ObjectID(doc._id)
-          db.collection('users').update({
-            _id: new ObjectID(sender)
-          }, {
-            $addToSet: { 'documents' : docId }
-          }, function(err) {
-            if (err) {
-              res.status(500).end()
-            }
-            res.send(doc)
-          })
+
+        db.collection('documents').insertOne(doc, function(err, result) {
+            if (err)
+                res.status(500).end();
+
+            doc._id = result.insertedId;
+            db.collection('users').updateOne(
+                { _id: new ObjectID(sender) },
+                {
+                    $addToSet: {
+                        documents: doc._id
+                    }
+                }, function(err) {
+                    if (err) {
+                        res.status(500).end()
+                    }
+                    res.send(doc);
+                })
         });
-      });
-    } catch(e) {
-      res.status(404).end();
-    }
-  });
+    });
 
   app.get('/user/:userid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var userId = req.params.userid;
 
+      console.log(sender);
+      console.log(userId);
     if (sender === userId) {
 
       readDocument('users', userId, (err, userData) => {
@@ -350,17 +351,18 @@ MongoClient.connect(url, function(err, db) {
               res.status(500).end();
 
           doc._id = result.insertedId;
-          db.collection('collections').updateOne({ _id: new ObjectID(collectionid) },
-                                                 {
-                                                     $addToSet: {
-                                                         documents: doc._id
-                                                     }
-                                                 }, function(err) {
-                                                     if (err) {
-                                                         res.status(500).end()
-                                                     }
-                                                     res.send(doc);
-                                                 })
+          db.collection('collections').updateOne(
+              { _id: new ObjectID(collectionid) },
+              {
+                  $addToSet: {
+                      documents: doc._id
+                  }
+              }, function(err) {
+                  if (err) {
+                      res.status(500).end()
+                  }
+                  res.send(doc);
+              })
       });
   });
 
