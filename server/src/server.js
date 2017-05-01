@@ -334,20 +334,34 @@ MongoClient.connect(url, function(err, db) {
 
   app.post('/collections/:collectionid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collectionid = req.params.collectionid;
-    //var userId = parseInt(req.body.userId, 10);
-    var user = readDocument('users', sender);
-    var doc = {
-      "title": req.body.title,
-      "text": req.body.text,
-      "timestamp": req.body.timestamp
-    };
-    doc = addDocument('documents', doc);
-    var coll = readDocument('collections', collectionid);
-    coll.documents.push(doc._id);
-    writeDocument('collections', coll);
-    res.send(doc);
+      var collectionid = req.params.collectionid;
 
+      //add this later
+      //var time = new Date().getTime();
+
+      var doc = {
+          "title": req.body.title,
+          "text": req.body.text,
+          "timestamp": req.body.timestamp //replace with time
+      };
+
+      db.collection('documents').insertOne(doc, function(err, result) {
+          if (err)
+              res.status(500).end();
+
+          doc._id = result.insertedId;
+          db.collection('collections').updateOne({ _id: new ObjectID(collectionid) },
+                                                 {
+                                                     $addToSet: {
+                                                         documents: doc._id
+                                                     }
+                                                 }, function(err) {
+                                                     if (err) {
+                                                         res.status(500).end()
+                                                     }
+                                                     res.send(doc);
+                                                 })
+      });
   });
 
 
