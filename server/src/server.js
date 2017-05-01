@@ -127,7 +127,7 @@ MongoClient.connect(url, function(err, db) {
   app.get('/collection/:collectionid/documents', function(req, res) {
     var sender = getUserIdFromAuth(req.get('Authorization'));
     var collectionid = req.params.collectionid;
-    
+
     readDocument('users', sender, (err, user) => {
       if (err) {
         res.status(500).end()
@@ -156,48 +156,84 @@ MongoClient.connect(url, function(err, db) {
     });
   });
 
-  app.get('/document/:docid', function(req, res) {
-    var sender = getUserIdFromAuth(req.get('Authorization'));
-    var allDocs = [];
-    //resolve all documents owned by user
-    var user = readDocument('users', sender);
-    allDocs = allDocs.concat(user.documents);
-    var collDocs = user.collections.map(
-      (cid) => readDocument('collections', cid).documents
-    );
-    collDocs.forEach((docs) => allDocs = allDocs.concat(docs));
+    app.get('/document/:docid', function(req, res) {
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        var allDocs = [];
+        //resolve all documents owned by user
+        readDocument('users', sender, (err, userData) => {
+            if (err)
+                res.status(500).end();
+            else {
+                console.log(userData);
+                allDocs = allDocs.concat(userData.documents);
 
-    var docid = req.params.docid;
-    if (allDocs.indexOf(docid) !== -1) {
-      var doc = readDocument('documents', docid);
-      res.send(doc);
-    } else {
-      //figure out which error code to throw
-      var documents = getCollection('documents');
-      for (var dockey in documents) {
-        if (documents[dockey]._id === docid) {
-          //resource exists: unauthorized.
-          res.status(401).end();
-          return;
-        }
-      }
-      //not found
-      res.status(404).end();
-    }
-  });
+                //query to get resolved collection documents
+                var query = {
+                    $or: userData.collections.map((id) => {return {_id: id}})
+                }
+                //find all documents owned under collections.
+                db.collection('collections').find(query).toArray((err, collections) => {
+                    if (err)
+                        res.status(500).end();
+                    else {
+                        //append collection documents to list of all documents
+                        collections.forEach((coll) => allDocs = allDocs.concat(coll.documents));
+                        var docid = req.params.docid;
+                        console.log(allDocs);
+                        console.log(docid);
+                        //since indexOf does not work on objects:
+                        var indexOfDoc = -1;
+                        allDocs.forEach((objID) => {
+                            if (objID.valueOf() == docid.valueOf())
+                                indexOfDoc++;
+                        });
+
+                        if (indexOfDoc !== -1) {
+                            //if document is found, return it!
+                            var doc = readDocument('documents', docid.valueOf(), (err, doc) => {
+                                if (!err) {
+                                    res.send(doc);
+                                }
+                                else
+                                    res.status(500).end();
+                            });
+                        } else {
+                            //figure out which error code to throw
+                            var found = false;
+                            var cursor = db.collection('documents').find();
+                            cursor.each(function(err, doc) {
+                                if (!err && doc !== null && doc._id.valueOf() == docid.valueOf()) {
+                                    //resource exists: unauthorized
+                                    res.status(401).end();
+                                    found = true;
+                                } else if (err) {
+                                    res.status(500).end();
+                                } else if (!doc) {
+                                    //not found
+                                    res.status(404).end();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+
+    });
 
   function readDocument(collection, id, cb) {
     db.collection(collection).findOne({
       _id: new ObjectID(id)
     }, function(err, data) {
       if (err) {
-        return cb(err);
+        cb(err);
       } else if (data === null) {
-        return cb(null, null);
+        cb(null, null);
       } else {
         cb(null, data);
       }
-    }) 
+    })
   }
 
   function addDocument(collection, data, cb) {
