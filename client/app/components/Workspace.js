@@ -40,7 +40,7 @@ class Workspace extends React.Component {
             dataType: 'json',
             cache: true,
             success: function(data) {
-                this.setState({info: data});
+                this.setState({info: Object.values(data).map((x) => {words:x})});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -51,6 +51,8 @@ class Workspace extends React.Component {
     getSuggestions(word, category){
       var api = ""
 
+      var slangCheck = false;
+
       switch(category){
         case "rhyme":
           api = this.props.rhymeAPIprefix;
@@ -59,7 +61,7 @@ class Workspace extends React.Component {
           api = this.props.synonymAPIprefix;
           break;
         case "slang":
-          api = "/urbanapi/"
+          slangCheck = true;
           break;
         case "definition":
           api = this.props.definitionAPIprefix
@@ -67,6 +69,10 @@ class Workspace extends React.Component {
          default:
           break;
       }
+
+      if(slangCheck){
+        this.getUrban(word)
+      }else{
       $.ajax({
           url: api + word,
           dataType: 'json',
@@ -88,6 +94,7 @@ class Workspace extends React.Component {
           }.bind(this)
       });
     }
+  }
     getCategory(cat) {
       var currentCat = this.state.category
       this.setState({category:cat})
