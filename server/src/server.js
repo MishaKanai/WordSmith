@@ -378,129 +378,116 @@ MongoClient.connect(url, function(err, db) {
             };
 
             db.collection('collections').insertOne(collection, function(err, result) {
-                if (err)
-                res.status(500).end();
-                collection._id = result.insertedId;
-                db.collection('users').updateOne(
-                    { _id: new ObjectID(sender) },
-                    {
-                        $addToSet: {
-                            collections: collection._id
-                        }
-                    }, function(err) {
-                        if (err) {
-                            res.status(500).end()
-                        }
-                        res.send(collection);
-                    })
+                if (err) {
+                    res.status(500).end();
+                } else {
+                    collection._id = result.insertedId;
+                    db.collection('users').updateOne(
+                        { _id: new ObjectID(sender) },
+                        {
+                            $addToSet: {
+                                collections: collection._id
+                            }
+                        }, function(err) {
+                            if (err) {
+                                res.status(500).end()
+                            }
+                            res.send(collection);
+                        })
+                }
             });
 
   });
 
   //DELETE   /user/:userId/collections/:collectionid
-  app.delete('/user/:userId/collections/:collectionid', function(req, res) {
+    app.delete('/user/:userid/collections/:collectionid', function(req, res) {
 
-    var sender = getUserIdFromAuth(req.get('Authorization'));
-    var collectionId = new ObjectID(req.params.collectionid);
-    var userId = req.params.userId;
-    db.collection('collections').findOne({
-      _id: collectionId
+        var sender = getUserIdFromAuth(req.get('Authorization'));
+        var collectionOwner = req.params.userid;
+        var collectionId = new ObjectID(req.params.collectionid);
+        if(sender === collectionOwner){
 
-    },function(err,collectionId){
-      if(err){
-        return sendDatabaseError(res, err);
-      } else if (collectionId === null) {
-      // cannot find collection- may not exist
-      return res.status(400).end();
-    }
-    db.collection('collection').updateOne({},{
-      $pull:{
-        collection: collection._id
-      }
-    },function(err){
-      if(err){
-        return sendDatabaseError(res, err);
-      }
-      db.collection('collection').deleteMany({
-        _id: collectionId
-      }, function(err){
-        if(err){
-        return sendDatabaseError(res, err);
-      } else {
-        readDocument('collections', collectionid, (err, collection) => {
-          if (err) {
-            res.status(500).end()
-          }
-          var query = {
-            $or: collection.map((id) => {return {_id: id}})
-          }
-          db.collection('collection').find(query).toArray(function(err, col) {
-            if (err) {
-              res.status(500).end()
-            }
-            res.send(col)
-          })
-        });
-      }
-        //Update Collection View
+            readDocument('users', collectionOwner, (err, userData) => {
+                if (err) {
+                    res.status(500).end();
+                } else if (userData === null) {
+                    res.status(404).end();
+                } else {
+                    db.collection('collections').findOne({
+                        _id: collectionId
+                    }, function (err, collectionData) {
+                        if (err) {
+                            res.status(500).end();
+                        } else if (collectionData === null){
+                            //not found
+                            res.status(404).end();
+                        } else {
+                            //collection exists:
+                            //check if user OWNS the collection
 
-        res.send(remainingDocs);
-      });
-    });
+                            //since indexOf does not work on objects:
+                            console.log("userdatacollections:::", userData.collections);
 
-  });
+                            var userCollIx = -1;
+                            userData.collections.forEach((objID) => {
+                                if (objID.str == collectionId.str)
+                                    userCollIx++;
+                            });
 
+                            if (userCollIx === -1) {
+                                console.log("404here");
+                                //user does NOT own the collection
+                                res.status(401).end();
+                            } else {
+                                //user owns the collection, and collection is found.
+                                //ALL CLEAR TO DELETE
 
-    });
+                                db.collection('collections').deleteOne(
+                                    { _id : collectionId },
+                                    function(err, results) {
+                                        if (err || results === null) {
+                                            //should not be null-
+                                            //we already verified presence of the collection
+                                            res.status(500).end();
+                                        }else {
+                                            var docQuery = {
+                                                $or: collectionData.documents.map(
+                                                    (id) => { return {_id: id} }
+                                                )
+                                            };
+                                            db.collection('documents').deleteMany(
+                                                docQuery,
+                                                function(err, numberdeleted) {
+                                                    if (err)
+                                                        res.send(500);
+                                                    else {
+                                                        //SEND BACK COLLECTIONS
+                                                        var query = {
+                                                            $or: userData.collections.map((id) => { return {_id: id}})
+                                                        };
+                                                        db.collection('collections').find(query).toArray(function(err, collections) {
+                                                            if (err)
+                                                                res.status(500).end();
+                                                            res.send(collections);
+                                                        });
+                                                    }
 
+                                                }
+                                            );
+                                        }
+                                    }
+                                );
 
+                            }
+                        }
 
-
-
-  app.delete('/document/:docId', function(req, res) {
-
-    var sender = getUserIdFromAuth(req.get('Authorization'));
-    var docId = req.params.docId;
-    //var userId = parseInt(req.body.userId, 10);
-
-    var user = readDocument('users', sender);
-    if (user.documents.indexOf(docId) === -1) {
-      var userCollections = user.collections.map(
-        (cid) => readDocument('collections', cid)
-      );
-      var collDocuments = userCollections.map((coll) => coll.documents).reduce(
-        (a, b) => a.concat(b)
-      );
-      if (collDocuments.indexOf(docId) !== -1) {
-        userCollections.forEach((coll) => {
-          var docIndex = coll.documents.indexOf(docId);
-          if (docIndex !== -1) {
-            coll.documents.splice(docIndex, 1);
-            writeDocument('collections', coll);
-            res.send(coll.documents.map(
-              (did) => readDocument('documents', did)
-            ));
-          }
-        });
-      } else {
-        try {
-          readDocument('documents', docId);
-          res.status(401).end();
-        } catch (e) {
-          res.status(404).end();
+                    })
+                }
+            });
+        } else {
+            res.status(401).end();
         }
-      }
-    } else {
-      user.documents = user.documents.filter(val => val!== docId);
-      writeDocument('users', user);
-
-      deleteDocument('documents', docId);
-      var remainingDocs = user.documents.map(
-        (did) => readDocument('documents', did)
-      );
-      res.send(remainingDocs);
-    }
-  });
+    });
 
   app.get('/document/:docid/settings', function(req, res){
     var sender = getUserIdFromAuth(req.get('Authorization'));
