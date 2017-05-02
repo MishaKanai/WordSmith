@@ -200,6 +200,7 @@ class Workspace extends React.Component {
                     getRhymes={(word)=>this.getRhymes(word)}
                     getUrban={(word)=>this.getUrban(word)}
                     getCategory={(x) => this.getCategory(x)}
+                    activeCat={this.state.category}
                     getWord={(x) => this.getWord(x)}
                 />
 
