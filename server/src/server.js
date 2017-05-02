@@ -342,17 +342,21 @@ MongoClient.connect(url, function(err, db) {
                 else if (userData === null) {
                     res.status(404).end();
                 } else {
-                    var query = {
-                        $or: userData.documents.map((id) => { return {_id: id}})
-                    };
-                    console.log(query);
-                    db.collection('documents').find(query).toArray(function(err, documents) {
-                        if (err) {
-                            console.log(err);
-                            res.status(500);
-                        }
-                        res.send(documents);
-                    });
+                    if (userData.documents.length > 0) {
+                        var query = {
+                            $or: userData.documents.map((id) => { return {_id: id}})
+                        };
+                        console.log(query);
+                        db.collection('documents').find(query).toArray(function(err, documents) {
+                            if (err) {
+                                console.log(err);
+                                res.status(500);
+                            }
+                            res.send(documents);
+                        });
+                    } else {
+                        res.send([]);
+                    }
                 }
             });
 
