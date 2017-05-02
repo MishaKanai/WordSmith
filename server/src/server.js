@@ -164,9 +164,10 @@ MongoClient.connect(url, function(err, db) {
                     readDocument('collections', collectionid, (err, collection) => {
                         if (err) {
                             console.log("error2", err);
-                            res.status(500).end()
-                        }
-                        if (collection.documents.length > 0) {
+                            res.status(500).end();
+                        } else if (collection === null) {
+                            res.status(404).end();
+                        } else if (collection.documents.length > 0) {
                             var query = {
                                 $or: collection.documents.map((id) => {return {_id: id}})
                             }
@@ -616,30 +617,34 @@ MongoClient.connect(url, function(err, db) {
                                             //we already verified presence of the collection
                                             res.status(500).end();
                                         }else {
-                                            var docQuery = {
-                                                $or: collectionData.documents.map(
-                                                    (id) => { return {_id: id} }
-                                                )
-                                            };
-                                            db.collection('documents').deleteMany(
-                                                docQuery,
-                                                function(err, numberdeleted) {
-                                                    if (err)
-                                                        res.send(500);
-                                                    else {
-                                                        //SEND BACK COLLECTIONS
-                                                        var query = {
-                                                            $or: userData.collections.map((id) => { return {_id: id}})
-                                                        };
-                                                        db.collection('collections').find(query).toArray(function(err, collections) {
-                                                            if (err)
-                                                                res.status(500).end();
-                                                            res.send(collections);
-                                                        });
-                                                    }
+                                            if (collectionData.documents.length > 0) {
+                                                var docQuery = {
+                                                    $or: collectionData.documents.map(
+                                                        (id) => { return {_id: id} }
+                                                    )
+                                                };
+                                                db.collection('documents').deleteMany(
+                                                    docQuery,
+                                                    function(err, numberdeleted) {
+                                                        if (err)
+                                                            res.status(500).end();
+                                                        else {
+                                                            //SEND BACK COLLECTIONS
+                                                            var query = {
+                                                                $or: userData.collections.map((id) => { return {_id: id}})
+                                                            };
+                                                            db.collection('collections').find(query).toArray(function(err, collections) {
+                                                                if (err)
+                                                                    res.status(500).end();
+                                                                res.send(collections);
+                                                            });
+                                                        }
 
-                                                }
-                                            );
+                                                    }
+                                                );
+                                            } else {
+                                                res.send([]);
+                                            }
                                         }
                                     }
                                 );
