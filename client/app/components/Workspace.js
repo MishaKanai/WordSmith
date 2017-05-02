@@ -40,7 +40,13 @@ class Workspace extends React.Component {
             dataType: 'json',
             cache: true,
             success: function(data) {
-                this.setState({info: Object.values(data).map((x) => {words:x})});
+                console.log(data);
+                //this.setState({info: data});
+                this.setState({
+                    info: Object.values(data).map(
+                        (x) => { return { "word" : x } }
+                    )
+                });
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());

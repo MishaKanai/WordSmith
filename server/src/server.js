@@ -14,6 +14,8 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 
+var PythonShell = require('python-shell');
+
 //mongo express middleware
 var mongo_express = require('mongo-express/lib/middleware');
 // Import the default Mongo Express configuration
@@ -101,12 +103,22 @@ MongoClient.connect(url, function(err, db) {
 
     app.get('/urbanapi/:word', function(req,res){
         var word = req.params.word;
-        var spawn = require("child_process").spawn;
-        var process = spawn('python',["./py/urban.py", word]);
 
-        process.stdout.on('data', function (data){
-            res.send(data)
+        var options = {
+            pythonPath: 'py/venv/bin/python',
+            args: [word]
+        };
+        PythonShell.run('py/urban.py', options , function (err, results) {
+            if (err) {
+                console.log(err);
+                res.status(500).end();
+            }
+            else {
+                console.log(results[0]);
+                res.send(results[0]);
+            }
         });
+
     });
 
     app.get('/user/:userid/collections', function(req, res) {

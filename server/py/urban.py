@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup
 from urllib import urlopen
 import os
@@ -10,7 +9,8 @@ import ast
 def main (args):
     p = 'http://www.urbandictionary.com/'+ str(args)
     words = get_word(p)
-    words = ast.literal_eval(json.dumps(words))
+    words = json.dumps(ast.literal_eval(json.dumps(words)))
+
     print(words)
     sys.stdout.flush()
     #print str(words)
