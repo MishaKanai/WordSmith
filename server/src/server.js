@@ -99,6 +99,16 @@ MongoClient.connect(url, function(err, db) {
         res.send();
     });
 
+    app.get('/urbanapi/:word', function(req,res){
+        var word = req.params.word;
+        var spawn = require("child_process").spawn;
+        var process = spawn('python',["./py/urban.py", word]);
+
+        process.stdout.on('data', function (data){
+            res.send(data)
+        });
+    });
+
     app.get('/user/:userid/collections', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionOwner = req.params.userid;
