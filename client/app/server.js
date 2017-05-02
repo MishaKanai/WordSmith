@@ -1,11 +1,11 @@
 export function getCollections(userId, cb) {
-    sendXHR('GET', '/user/'+userId+'/collections', undefined, (xhr) => {
+    sendXHR('GET', 'user/'+userId+'/collections', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
 
 export function getUserDocuments(userId, cb) {
-    sendXHR('GET', '/user/'+userId+'/documents', undefined, (xhr) => {
+    sendXHR('GET', 'user/'+userId+'/documents', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
@@ -18,19 +18,20 @@ export function getMostRecentUserDocument(userId) {
 }*/
 
 export function getCollectionDocuments(collectionId, cb) {
-    sendXHR('GET', '/collection/'+collectionId+'/documents', undefined, (xhr) => {
+    sendXHR('GET', 'collection/'+collectionId+'/documents', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
 
 export function getDocument(docId, cb) {
-    sendXHR('GET', '/document/'+docId, undefined, (xhr) => {
+    sendXHR('GET', 'document/'+docId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
+
 }
 
 export function getUserSettings(userId, cb) {
-    sendXHR('GET', '/user/'+userId, undefined, (xhr) => {
+    sendXHR('GET', 'user/'+userId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
@@ -44,7 +45,7 @@ export function getDocumentSettings(userId, docId, cb) {
     // else
     //     settings = readDocument('users', userId).settings;
     // emulateServerReturn(settings, cb);
-    sendXHR('GET', '/document/'+docId+'/settings', undefined, (xhr) => {
+    sendXHR('GET', 'document/'+docId+'/settings', undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
@@ -65,7 +66,7 @@ export function postUser(username, email, displayName, password, cb) {
         "collections": [],
         "documents": []
     };
-    sendXHR('POST', '/users', newUser, (xhr) => {
+    sendXHR('POST', 'users', newUser, (xhr) => {
       // Return the new status update.
       cb(JSON.parse(xhr.responseText));
     })
@@ -74,7 +75,7 @@ export function postUser(username, email, displayName, password, cb) {
 }
 
 export function postDocumentToUser(userId, title, text, timestamp, cb) {
-  sendXHR('POST', '/documents', {
+  sendXHR('POST', 'documents', {
       userId: userId,
       title: title,
       text: text,
@@ -86,7 +87,7 @@ export function postDocumentToUser(userId, title, text, timestamp, cb) {
 
 
 export function postDocumentToCollection(collId, title, text, timestamp, cb) {
-  sendXHR('POST', '/collections/'+collId+'/documents', {
+  sendXHR('POST', 'collections/'+collId+'/documents', {
       title: title,
       text: text,
       timestamp: timestamp
@@ -96,7 +97,7 @@ export function postDocumentToCollection(collId, title, text, timestamp, cb) {
 }
 
 export function postCollection(userId, collectionName, cb) {
- sendXHR('POST', '/user/'+userId+'/collections', {
+ sendXHR('POST', 'user/'+userId+'/collections', {
      name: collectionName
    }, (xhr) => {
      cb(JSON.parse(xhr.responseText));
@@ -112,7 +113,7 @@ export function putDocument(docId, title, text, timestamp, cb) {
     // document.timestamp = timestamp;
     // writeDocument('documents', document)
     // emulateServerReturn(document, cb);
-    sendXHR('PUT', '/document/'+docId, {
+    sendXHR('PUT', 'document/'+docId, {
       title: title,
       text: text,
       timestamp: timestamp
@@ -122,7 +123,7 @@ export function putDocument(docId, title, text, timestamp, cb) {
 }
 
 export function putUserSettings(userId, settingsId, value, cb) {
-    sendXHR('PUT', '/user/'+userId, {
+    sendXHR('PUT', 'user/'+userId, {
         settingsId: settingsId,
         value: value
     }, (xhr) => {
@@ -134,13 +135,13 @@ export function putUserSettings(userId, settingsId, value, cb) {
 /* DELETE */
 
 export function deleteUserDocument(userId, docId, cb) {
-    sendXHR('DELETE', '/document/'+docId, undefined, (xhr) => {
+    sendXHR('DELETE', 'document/'+docId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 }
 
 export function deleteCollectionDocument(userId, collectionId, docId, cb) {
-    sendXHR('DELETE', '/document/'+docId, undefined, (xhr) => {
+    sendXHR('DELETE', 'document/'+docId, undefined, (xhr) => {
         cb(JSON.parse(xhr.responseText));
     });
 /*
@@ -172,7 +173,7 @@ var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9';
  */
 function sendXHR(verb, resource, body, cb) {
   var xhr = new XMLHttpRequest();
-  xhr.open(verb, resource);
+  xhr.open(verb, '/wordsmith/'+resource);
   xhr.setRequestHeader('Authorization', 'Bearer ' + token);
 
   // The below comment tells ESLint that WordSmithError is a global.

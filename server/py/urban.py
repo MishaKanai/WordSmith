@@ -7,7 +7,7 @@ import ast
 
 
 def main (args):
-    p = 'http://www.urbandictionary.com/'+ str(args)
+    p = 'https://www.urbandictionary.com/'+ str(args)
     words = get_word(p)
     words = json.dumps(ast.literal_eval(json.dumps(words)))
 

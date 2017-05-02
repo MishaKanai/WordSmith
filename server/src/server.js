@@ -93,7 +93,7 @@ MongoClient.connect(url, function(err, db) {
 
     //stolen from workshop 9
     // Reset database.
-    app.post('/resetdb', function(req, res) {
+    app.post('//resetdb', function(req, res) {
         console.log("Resetting database...");
         // This is a debug route, so don't do any validation.
         database.resetDatabase();
@@ -101,7 +101,10 @@ MongoClient.connect(url, function(err, db) {
         res.send();
     });
 
-    app.get('/urbanapi/:word', function(req,res){
+    app.get('//test', function(req, res) {
+	res.send('yo');
+    });
+    app.get('//urbanapi/:word', function(req,res){
         var word = req.params.word;
 
         var options = {
@@ -114,14 +117,13 @@ MongoClient.connect(url, function(err, db) {
                 res.status(500).end();
             }
             else {
-                console.log(results[0]);
                 res.send(results[0]);
             }
         });
 
     });
 
-    app.get('/user/:userid/collections', function(req, res) {
+    app.get('//user/:userid/collections', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionOwner = req.params.userid;
         if(sender === collectionOwner){
@@ -146,13 +148,12 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.get('/collection/:collectionid/documents', function(req, res) {
+    app.get('//collection/:collectionid/documents', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionid = req.params.collectionid;
 
         readDocument('users', sender, (err, user) => {
             if (err) {
-                console.log("error1", err);
                 res.status(500).end()
             } else if (user === null) {
                 res.status(404).end()
@@ -163,7 +164,6 @@ MongoClient.connect(url, function(err, db) {
                 } else {
                     readDocument('collections', collectionid, (err, collection) => {
                         if (err) {
-                            console.log("error2", err);
                             res.status(500).end();
                         } else if (collection === null) {
                             res.status(404).end();
@@ -173,7 +173,6 @@ MongoClient.connect(url, function(err, db) {
                             }
                             db.collection('documents').find(query).toArray(function(err, documents) {
                                 if (err) {
-                                    console.log("error3", err);
                                     res.status(500).end()
                                 }
                                 res.send(documents)
@@ -187,7 +186,7 @@ MongoClient.connect(url, function(err, db) {
         });
     });
 
-    app.get('/document/:docid', function(req, res) {
+    app.get('//document/:docid', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var allDocs = [];
         //resolve all documents owned by user
@@ -195,7 +194,6 @@ MongoClient.connect(url, function(err, db) {
             if (err)
                 res.status(500).end();
             else {
-                console.log(userData);
                 allDocs = allDocs.concat(userData.documents);
 
                 //query to get resolved collection documents
@@ -210,8 +208,6 @@ MongoClient.connect(url, function(err, db) {
                         //append collection documents to list of all documents
                         collections.forEach((coll) => allDocs = allDocs.concat(coll.documents));
                         var docid = req.params.docid;
-                        console.log(allDocs);
-                        console.log(docid);
                         //since indexOf does not work on objects:
                         var userOwnsDoc = false;
                         allDocs.forEach((objID) => {
@@ -276,7 +272,7 @@ MongoClient.connect(url, function(err, db) {
         })
     }
 
-    app.get('/user/:userid', function(req, res) {
+    app.get('//user/:userid', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var userId = req.params.userid;
         if (sender === userId) {
@@ -295,7 +291,7 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.post('/documents', function(req, res) {
+    app.post('//documents', function(req, res) {
 
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionid = req.params.collectionid;
@@ -329,12 +325,10 @@ MongoClient.connect(url, function(err, db) {
         });
     });
 
-    app.get('/user/:userid/documents', function(req, res) {
+    app.get('//user/:userid/documents', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var userId = req.params.userid;
 
-        console.log(sender);
-        console.log(userId);
         if (sender === userId) {
 
             readDocument('users', userId, (err, userData) => {
@@ -347,10 +341,8 @@ MongoClient.connect(url, function(err, db) {
                         var query = {
                             $or: userData.documents.map((id) => { return {_id: id}})
                         };
-                        console.log(query);
                         db.collection('documents').find(query).toArray(function(err, documents) {
                             if (err) {
-                                console.log(err);
                                 res.status(500);
                             }
                             res.send(documents);
@@ -368,7 +360,7 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.post('/collections/:collectionid/documents', function(req, res) {
+    app.post('//collections/:collectionid/documents', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionid = req.params.collectionid;
 
@@ -394,7 +386,6 @@ MongoClient.connect(url, function(err, db) {
                     }
                 }, function(err) {
                     if (err) {
-                        console.log("error", err);
                         res.status(500).end()
                     }
                     res.send(doc);
@@ -404,7 +395,7 @@ MongoClient.connect(url, function(err, db) {
 
 
     //Post New Collection
-    app.post('/user/:userId/collections', function(req, res) {
+    app.post('//user/:userId/collections', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionid = req.params.collectionid;
 
@@ -435,7 +426,7 @@ MongoClient.connect(url, function(err, db) {
 
     });
 
-    app.delete('/document/:docid', function(req, res) {
+    app.delete('//document/:docid', function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var docId = new ObjectID(req.params.docid);
         var allDocs = [];
@@ -450,7 +441,6 @@ MongoClient.connect(url, function(err, db) {
                         indexOfDoc++;
                 });
                 if (indexOfDoc !== -1) { //document FOUND: owned by user.
-                    console.log("A");
                     db.collection('documents').deleteOne(
                         { _id : docId },
                         function(err, results) {
@@ -482,7 +472,7 @@ MongoClient.connect(url, function(err, db) {
                                                     var query = {
                                                         $or: userData.documents.map((id) => { return {_id: id}})
                                                     };
-                                                    console.log(query);
+
                                                     db.collection('documents').find(query).toArray(function(err, documents) {
                                                         if (err)
                                                             res.status(500);
@@ -517,7 +507,6 @@ MongoClient.connect(url, function(err, db) {
                                     }
                                 }));
                             });
-                            console.log(collDocs);
 
                             //since indexOf does not work on objects:
                             indexOfDoc = -1;
@@ -535,8 +524,6 @@ MongoClient.connect(url, function(err, db) {
                                             res.status(500).end();
                                         else {
                                             //SEND RESOLVED USER DOCUMENTS
-                                            console.log(collDocs[indexOfDoc].docID);
-                                            console.log(typeof collDocs[indexOfDoc].docID);
                                             db.collection('collections').findOne({
                                                 _id: collDocs[indexOfDoc].collID
                                             }, function(err, collData) {
@@ -548,7 +535,7 @@ MongoClient.connect(url, function(err, db) {
                                                     var query = {
                                                         $or: collData.documents.map((id) => { return {_id: id}})
                                                     };
-                                                    console.log(query);
+
                                                     db.collection('documents').find(query).toArray(function(err, documents) {
                                                         if (err)
                                                             res.status(500);
@@ -572,7 +559,7 @@ MongoClient.connect(url, function(err, db) {
     });
 
     //DELETE   /user/:userId/collections/:collectionid
-    app.delete('/user/:userid/collections/:collectionid', function(req, res) {
+    app.delete('//user/:userid/collections/:collectionid', function(req, res) {
 
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var collectionOwner = req.params.userid;
@@ -660,7 +647,7 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.get('/document/:docid/settings', function(req, res){
+    app.get('//document/:docid/settings', function(req, res){
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var docid = req.params.docid;
         var doc = readDocument('documents', docid);
@@ -723,7 +710,7 @@ MongoClient.connect(url, function(err, db) {
         }
     }
 
-    app.put('/user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
+    app.put('//user/:userid', validate({ body: UserSettingsSchema }), function(req, res) {
         var sender = getUserIdFromAuth(req.get('Authorization'));
         var userId = req.params.userid;
         var body = req.body;
@@ -750,7 +737,7 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.put('/document/:docId', validate({ body: DocumentSchema}), function(req, res) {
+    app.put('//document/:docId', validate({ body: DocumentSchema}), function(req, res) {
         //var sender = getUserIdFromAuth(req.get('Authorization'));
         var docId = req.params.docId;
         var body = req.body;
@@ -779,6 +766,7 @@ MongoClient.connect(url, function(err, db) {
 
     // universal routing and rendering
     app.get('*', (req, res) => {
+
         match(
             { routes, location: req.url },
             (err, redirectLocation, renderProps) => {
@@ -823,7 +811,7 @@ MongoClient.connect(url, function(err, db) {
         }
     });
 
-    app.listen(3000, function() {
-        console.log('Listening on port 3000!');
+    app.listen(8081, function() {
+        console.log('Listening on port 8081!');
     });
 });

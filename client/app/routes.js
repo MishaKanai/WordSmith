@@ -22,7 +22,7 @@ class WorkspacePage extends React.Component {
       <div>
       <EditorToolbar />
 
-      <Workspace title='Document1' rhymeAPIprefix='http://rhymebrain.com/talk?function=getRhymes&word=' synonymAPIprefix = 'http://api.datamuse.com/words?ml=' definitionAPIprefix = 'http://api.datamuse.com/words?md=d&&sp=' docId={this.props.params.id} />
+      <Workspace title='Document1' rhymeAPIprefix='https://api.datamuse.com/words?rel_rhy=' synonymAPIprefix = 'https://api.datamuse.com/words?ml=' definitionAPIprefix = 'https://api.datamuse.com/words?md=d&&sp=' docId={this.props.params.id} />
       </div>
     );
   }
@@ -99,7 +99,7 @@ class App extends React.Component {
 
 
 const routes = (
-        <Route path="/" component={App}>
+        <Route path="/wordsmith" component={App}>
         <IndexRoute component={SavedDocumentsPage} />
         <Route path="workspace/:id" component={WorkspacePage} />
         <Route path="settings" component={SettingsPage} />

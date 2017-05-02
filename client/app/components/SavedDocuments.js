@@ -83,7 +83,7 @@ class SavedDocumentsI extends React.Component {
                         documents: state.documents.concat([doc])
                     }
                 });
-                this.props.router.push('/workspace/' + doc._id);
+                this.props.router.push('/wordsmith/workspace/' + doc._id);
             });
         } else {
             //user view
@@ -96,7 +96,7 @@ class SavedDocumentsI extends React.Component {
                     }
                 });
                 console.log(doc._id);
-                this.props.router.push('/workspace/' + doc._id);
+                this.props.router.push('/wordsmith/workspace/' + doc._id);
             });
         }
 
@@ -134,7 +134,7 @@ class SavedDocumentsI extends React.Component {
                     <ul className="document-list">
                         {this.state.documents.map((doc, i) => <div className="item  col-xs-4 col-lg-4" key={i}>
                             <div className="thumbnail">
-                                <Link to={"/workspace/" + doc._id}>
+                                <Link to={"/wordsmith/workspace/" + doc._id}>
                                     <canvas id={'canvas_' + doc._id} key ={999 + doc._id} className="group list-group-image"></canvas>
                                     <div className="caption">
                                         <h4 className="group inner list-group-item-heading">
@@ -170,7 +170,7 @@ class SavedDocumentsI extends React.Component {
                                 <div className="thumbnail">
                                     {this.state.collections.map((coll, i) => <div className="collection-thumbnail">
 
-                                        <Link to={"/collections/" + coll._id} key={i}>
+                                        <Link to={"/wordsmith/collections/" + coll._id} key={i}>
                                             <div className="caption">
                                                 <h4 className="group inner list-group-item-heading">
                                                     <span className="glyphicon glyphicon-folder-open" id="saved-docs-glyphicon"></span>

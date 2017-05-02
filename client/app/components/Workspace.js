@@ -36,7 +36,7 @@ class Workspace extends React.Component {
 
     getUrban(word) {
         $.ajax({
-            url: "/urbanapi/" + word,
+            url: "/wordsmith/urbanapi/" + word,
             dataType: 'json',
             cache: true,
             success: function(data) {

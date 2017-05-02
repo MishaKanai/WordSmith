@@ -28,14 +28,14 @@ export default class NavBar extends React.Component {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-                <Link to={"/"}><div className="navbar-brand">WordSmith</div></Link>
+                <Link to={"/wordsmith/"}><div className="navbar-brand">WordSmith</div></Link>
         </div>
 
 
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-nav">
             <li className="divider-vertical"></li>
-                <li><Link to={"/"}><div>My Docs <span className="sr-only">(current)</span></div></Link></li>
+                <li><Link to={"/wordsmith/"}><div>My Docs <span className="sr-only">(current)</span></div></Link></li>
                 {/*<li className="divider-vertical"></li>*/}
                 </ul>
                 {/*
@@ -55,12 +55,12 @@ export default class NavBar extends React.Component {
                         </form>
                */ }
           <ul className="nav navbar-nav navbar-right">
-                <li><Link to={"/"}><div>Home</div></Link></li>
+                <li><Link to={"/wordsmith/"}><div>Home</div></Link></li>
             <li className="divider-vertical"></li>
             <li className="dropdown">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.userName}<span className="caret"></span></a>
               <ul className="dropdown-menu">
-                <li><Link to={`/settings`}>Settings</Link></li>
+                <li><Link to={`/wordsmith/settings`}>Settings</Link></li>
                 <li role="separator" className="divider"></li>
                 <li><a href="#">Log Out</a></li>
               </ul>
